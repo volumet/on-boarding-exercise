@@ -87,6 +87,8 @@ under the License.
    | Unless otherwise specified (by system property or command-line switch), the first proxy
    | specification in this list marked as active will be used.
    |-->
+  
+  <!--
   <proxies>
     <proxy>
         <id>elca-proxy</id>
@@ -106,7 +108,8 @@ under the License.
         <nonProxyHosts>*.elca.vn|*.elca.ch|leaffy|localhost|10.10.101.190|*.elca.com.vn|*.elcadev.local|10.10.4.82|*elcanet.local</nonProxyHosts>
     </proxy>
   </proxies>
-
+  |-->
+  
   <!-- servers
    | This is a list of authentication profiles, keyed by the server-id used within the system.
    | Authentication profiles can be used whenever maven must make a connection to a remote server.
