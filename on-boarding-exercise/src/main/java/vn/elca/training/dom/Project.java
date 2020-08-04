@@ -42,19 +42,31 @@ public class Project {
         return id;
     }
 
+    public void setId(Long id) {
+        this.id = id;
+    }
+
     public String getName() {
         return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 
     public Date getFinishingDate() {
         return finishingDate;
     }
 
-	public Set<Task> getTasks() {
-		return tasks;
-	}
+    public void setFinishingDate(Date finishingDate) {
+        this.finishingDate = finishingDate;
+    }
 
-	public void setTasks(Set<Task> tasks) {
-		this.tasks = tasks;
-	}
+    public Set<Task> getTasks() {
+        return tasks;
+    }
+
+    public void setTasks(Set<Task> tasks) {
+        this.tasks = tasks;
+    }
 }

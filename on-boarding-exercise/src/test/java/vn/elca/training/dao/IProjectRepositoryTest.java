@@ -26,7 +26,7 @@ public class IProjectRepositoryTest {
     @PersistenceContext
     private EntityManager em;
     @Autowired
-    private IProjectRepository projectRepository;
+    private ProjectRepository projectRepository;
 
     @Test
     public void testCountAll() {

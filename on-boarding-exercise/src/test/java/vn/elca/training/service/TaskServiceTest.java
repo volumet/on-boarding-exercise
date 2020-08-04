@@ -18,8 +18,8 @@ import org.springframework.test.context.transaction.TransactionConfiguration;
 import com.mysema.query.jpa.impl.JPAQuery;
 
 import vn.elca.training.ApplicationLauncher;
-import vn.elca.training.dao.IProjectRepository;
-import vn.elca.training.dao.ITaskRepository;
+import vn.elca.training.dao.ProjectRepository;
+import vn.elca.training.dao.TaskRepository;
 import vn.elca.training.dom.Project;
 import vn.elca.training.dom.QTask;
 import vn.elca.training.dom.QTaskAudit;
@@ -40,11 +40,11 @@ public class TaskServiceTest {
 	@PersistenceContext
 	private EntityManager em;
 	@Autowired
-	private IProjectRepository projectRepository;
+	private ProjectRepository projectRepository;
 	@Autowired
-	private ITaskRepository taskRepository;
+	private TaskRepository taskRepository;
 	@Autowired
-	private ITaskService taskService;
+	private TaskService taskService;
 
 	private void createProjectAndTaskData(int nbProjects, int nbTasks) {
 		// create 'nbProjects' Projects, each project has 'nbTasks' tasks.

@@ -20,9 +20,9 @@ public class Task implements Serializable {
     @GeneratedValue
     private Long id;
     @Column(nullable = false)
-    protected String name;
+    private String name;
     @Column
-    protected Date deadline;
+    private Date deadline;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn

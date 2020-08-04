@@ -11,18 +11,18 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import vn.elca.training.dom.Project;
-import vn.elca.training.service.IProjectService;
+import vn.elca.training.service.ProjectService;
 
 @Controller
 public class ApplicationController {
-    
-    private IProjectService projectService;
+
+    private ProjectService projectService;
     
     @Value("${total.number.of.projects}")
     private String message;
 
     @RequestMapping("/")
-    ModelAndView main() {
+    public ModelAndView main() {
         Map<String, Object> model = new HashMap<String, Object>() {
             private static final long serialVersionUID = -6883088231537577238L;
             {
@@ -35,7 +35,7 @@ public class ApplicationController {
 
     @RequestMapping("/query")
     @ResponseBody
-    List<Project> query() {
+    public List<Project> query() {
         return projectService.findAll();
     }
 }
