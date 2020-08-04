@@ -1,5 +1,5 @@
 /*
- * TaskAuditService
+ * ITaskAuditService
  * 
  * Project: Training
  * 
@@ -15,16 +15,7 @@
 
 package vn.elca.training.service;
 
-import javax.transaction.Transactional;
-
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-
-import vn.elca.training.dao.ITaskAuditRepository;
 import vn.elca.training.dom.Task;
-import vn.elca.training.dom.TaskAudit;
 import vn.elca.training.dom.TaskAudit.AuditType;
 import vn.elca.training.dom.TaskAudit.Status;
 
@@ -32,24 +23,6 @@ import vn.elca.training.dom.TaskAudit.Status;
  * @author vlp
  *
  */
-@Service
-@Transactional
-public class AuditService implements IAuditService {
-    private Log logger = LogFactory.getLog(getClass());
-
-    @Autowired
-    private ITaskAuditRepository taskAuditRepository;
-
-    @Override
-    public void saveAuditDataForTask(Task task, AuditType auditType, Status status, String message) {
-        try {
-            TaskAudit taskAudit = new TaskAudit(task, auditType, status, message);
-            taskAuditRepository.save(taskAudit);
-        } catch (Exception e) {
-            // it's OK to log exception here because this is only audit data, it contains information for tracing error
-            // not business.
-            logger.error("Can't " + auditType.name().toLowerCase() + " audit data for Task with Name " + task.getName(),
-                e);
-        }
-    }
+public interface AuditService {
+    void saveAuditDataForTask(Task task, AuditType auditType, Status status, String message);
 }

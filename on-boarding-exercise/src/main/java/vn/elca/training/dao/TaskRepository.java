@@ -20,6 +20,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.querydsl.QueryDslPredicateExecutor;
 import org.springframework.stereotype.Repository;
 
+import vn.elca.training.dao.custom.TaskRepositoryCustom;
 import vn.elca.training.dom.Task;
 
 /**
@@ -27,6 +28,6 @@ import vn.elca.training.dom.Task;
  *
  */
 @Repository
-public interface ITaskRepository extends JpaRepository<Task, Long>, QueryDslPredicateExecutor<Task> {
+public interface TaskRepository extends JpaRepository<Task, Long>, QueryDslPredicateExecutor<Task>, TaskRepositoryCustom {
 
 }

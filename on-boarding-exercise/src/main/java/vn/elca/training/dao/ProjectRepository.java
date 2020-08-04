@@ -7,5 +7,5 @@ import org.springframework.stereotype.Repository;
 import vn.elca.training.dom.Project;
 
 @Repository
-public interface IProjectRepository extends JpaRepository<Project, Long>, QueryDslPredicateExecutor<Project> {
+public interface ProjectRepository extends JpaRepository<Project, Long>, QueryDslPredicateExecutor<Project> {
 }

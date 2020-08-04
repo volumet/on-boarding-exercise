@@ -25,4 +25,4 @@ import vn.elca.training.dom.TaskAudit;
  *
  */
 @Repository
-public interface ITaskAuditRepository extends JpaRepository<TaskAudit, Long> {}
+public interface TaskAuditRepository extends JpaRepository<TaskAudit, Long> {}
