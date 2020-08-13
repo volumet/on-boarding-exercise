@@ -1,16 +1,17 @@
 package vn.elca.training.dao.custom;
 
 import com.mysema.query.jpa.impl.JPAQuery;
-import vn.elca.training.dom.Project;
 import vn.elca.training.dom.QProject;
 import vn.elca.training.dom.QTask;
+import vn.elca.training.dom.Project;
 import vn.elca.training.dom.Task;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import java.util.List;
 
-public class TaskRepositoryImpl implements TaskRepositoryCustom {
+// Rename this class so that Spring can scan and wire this component correctly
+public class RenameThisClass implements TaskRepositoryCustom {
     @PersistenceContext
     private EntityManager entityManager;
 

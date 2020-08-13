@@ -23,10 +23,6 @@ import java.util.List;
 import java.util.Set;
 import java.util.UUID;
 
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
-
-import com.mysema.query.jpa.impl.JPAQuery;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,8 +31,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import vn.elca.training.dao.TaskRepository;
 import vn.elca.training.dom.Project;
-import vn.elca.training.dom.QProject;
-import vn.elca.training.dom.QTask;
 import vn.elca.training.dom.Task;
 import vn.elca.training.dom.TaskAudit.AuditType;
 import vn.elca.training.dom.TaskAudit.Status;
