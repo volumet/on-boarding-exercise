@@ -12,12 +12,12 @@ import org.springframework.context.annotation.PropertySource;
 import org.springframework.context.support.PropertySourcesPlaceholderConfigurer;
 import org.springframework.context.support.ResourceBundleMessageSource;
 
-import vn.elca.training.service.IProjectService;
+import vn.elca.training.service.ProjectService;
 import vn.elca.training.web.ApplicationController;
 
 @Configuration
 @EnableAutoConfiguration
-@ComponentScan(basePackageClasses = { ApplicationLauncher.class, ApplicationController.class, IProjectService.class })
+@ComponentScan(basePackageClasses = { ApplicationLauncher.class, ApplicationController.class, ProjectService.class})
 @PropertySource({ "classpath:/application.properties", "classpath:/message.properties" })
 public class ApplicationLauncher {
     public static void main(String[] args) {

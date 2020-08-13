@@ -36,6 +36,6 @@ public interface TaskService {
 
 	void updateDeadline(Long taskId, Date deadline) throws DeadlineGreaterThanProjectFinishingDateException;
 
-    void createTaskForProject(String taskName, Date deadline, Project project) throws DeadlineGreaterThanProjectFinishingDateException;
+    void createTaskForProject(String taskName, Date deadline, Project project);
 
 }
