@@ -1,4 +1,4 @@
-package vn.elca.training.dao;
+package vn.elca.training.repository;
 
 import java.util.Date;
 
@@ -14,8 +14,8 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.transaction.TransactionConfiguration;
 
 import vn.elca.training.ApplicationLauncher;
-import vn.elca.training.dom.Project;
-import vn.elca.training.dom.QProject;
+import vn.elca.training.model.entity.Project;
+import vn.elca.training.model.QProject;
 
 import com.mysema.query.jpa.impl.JPAQuery;
 

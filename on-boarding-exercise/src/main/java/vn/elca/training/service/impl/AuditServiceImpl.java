@@ -22,11 +22,11 @@ import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import vn.elca.training.dao.TaskAuditRepository;
-import vn.elca.training.dom.Task;
-import vn.elca.training.dom.TaskAudit;
-import vn.elca.training.dom.TaskAudit.AuditType;
-import vn.elca.training.dom.TaskAudit.Status;
+import vn.elca.training.repository.TaskAuditRepository;
+import vn.elca.training.model.entity.Task;
+import vn.elca.training.model.entity.TaskAudit;
+import vn.elca.training.model.entity.TaskAudit.AuditType;
+import vn.elca.training.model.entity.TaskAudit.Status;
 import vn.elca.training.service.AuditService;
 
 /**

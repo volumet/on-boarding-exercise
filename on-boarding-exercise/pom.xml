@@ -8,10 +8,6 @@
   <version>0.0.1-SNAPSHOT</version>
   <packaging>war</packaging>
 
-  <properties>
-    <eclipse.workspace>../eclispe-workspace</eclipse.workspace>
-  </properties>
-
   <!-- Inherit defaults from Spring Boot -->
   <parent>
     <groupId>org.springframework.boot</groupId>

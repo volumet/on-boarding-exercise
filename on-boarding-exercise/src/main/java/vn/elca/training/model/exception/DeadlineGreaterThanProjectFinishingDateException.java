@@ -14,7 +14,7 @@
  * agreement you entered into with ELCA.
  */
 
-package vn.elca.training.exception;
+package vn.elca.training.model.exception;
 
 /**
  * @author vlp

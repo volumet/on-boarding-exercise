@@ -20,8 +20,8 @@ import java.util.Date;
 import java.util.List;
 import java.util.Set;
 
-import vn.elca.training.dom.Project;
-import vn.elca.training.exception.DeadlineGreaterThanProjectFinishingDateException;
+import vn.elca.training.model.entity.Project;
+import vn.elca.training.model.exception.DeadlineGreaterThanProjectFinishingDateException;
 
 /**
  * @author vlp

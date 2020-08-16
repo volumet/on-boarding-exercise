@@ -1,10 +1,10 @@
-package vn.elca.training.dao.custom;
+package vn.elca.training.repository.custom;
 
 import com.mysema.query.jpa.impl.JPAQuery;
-import vn.elca.training.dom.QProject;
-import vn.elca.training.dom.QTask;
-import vn.elca.training.dom.Project;
-import vn.elca.training.dom.Task;
+import vn.elca.training.model.QProject;
+import vn.elca.training.model.QTask;
+import vn.elca.training.model.entity.Project;
+import vn.elca.training.model.entity.Task;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;

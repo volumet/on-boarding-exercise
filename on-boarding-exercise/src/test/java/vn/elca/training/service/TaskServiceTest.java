@@ -18,14 +18,14 @@ import org.springframework.test.context.transaction.TransactionConfiguration;
 import com.mysema.query.jpa.impl.JPAQuery;
 
 import vn.elca.training.ApplicationLauncher;
-import vn.elca.training.dao.ProjectRepository;
-import vn.elca.training.dao.TaskRepository;
-import vn.elca.training.dom.Project;
-import vn.elca.training.dom.QTask;
-import vn.elca.training.dom.QTaskAudit;
-import vn.elca.training.dom.Task;
-import vn.elca.training.dom.TaskAudit.AuditType;
-import vn.elca.training.exception.DeadlineGreaterThanProjectFinishingDateException;
+import vn.elca.training.repository.ProjectRepository;
+import vn.elca.training.repository.TaskRepository;
+import vn.elca.training.model.entity.Project;
+import vn.elca.training.model.QTask;
+import vn.elca.training.model.QTaskAudit;
+import vn.elca.training.model.entity.Task;
+import vn.elca.training.model.entity.TaskAudit.AuditType;
+import vn.elca.training.model.exception.DeadlineGreaterThanProjectFinishingDateException;
 
 /**
  * @author vlp

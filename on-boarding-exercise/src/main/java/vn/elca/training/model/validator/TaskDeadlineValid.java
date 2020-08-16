@@ -13,7 +13,7 @@
  * agreement you entered into with ELCA.
  */
 
-package vn.elca.training.dom.validator;
+package vn.elca.training.model.validator;
 
 import java.lang.annotation.Documented;
 import java.lang.annotation.ElementType;

@@ -1,7 +1,7 @@
-package vn.elca.training.dao.custom;
+package vn.elca.training.repository.custom;
 
-import vn.elca.training.dom.Project;
-import vn.elca.training.dom.Task;
+import vn.elca.training.model.entity.Project;
+import vn.elca.training.model.entity.Task;
 
 import java.util.List;
 

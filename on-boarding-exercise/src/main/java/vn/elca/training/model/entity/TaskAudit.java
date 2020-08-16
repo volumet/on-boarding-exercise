@@ -13,7 +13,7 @@
  * agreement you entered into with ELCA.
  */
 
-package vn.elca.training.dom;
+package vn.elca.training.model.entity;
 
 import java.util.Date;
 

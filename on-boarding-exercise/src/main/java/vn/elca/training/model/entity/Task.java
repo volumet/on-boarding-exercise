@@ -1,4 +1,4 @@
-package vn.elca.training.dom;
+package vn.elca.training.model.entity;
 
 import java.io.Serializable;
 import java.util.Date;
@@ -11,7 +11,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 
-import vn.elca.training.exception.DeadlineGreaterThanProjectFinishingDateException;
+import vn.elca.training.model.exception.DeadlineGreaterThanProjectFinishingDateException;
 
 @Entity
 // @TaskDeadlineValid
