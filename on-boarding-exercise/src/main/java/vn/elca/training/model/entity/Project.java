@@ -11,6 +11,10 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 
+/**
+ * @author vlp
+ *
+ */
 @Entity
 public class Project {
     @Id

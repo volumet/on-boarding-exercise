@@ -3,9 +3,13 @@ package vn.elca.training.util;
 import vn.elca.training.model.dto.ProjectDto;
 import vn.elca.training.model.entity.Project;
 
+/**
+ * @author gtn
+ *
+ */
 public class Mapper {
     public Mapper() {
-        // Utility class
+        // Mapper utility class
     }
 
     public static ProjectDto projectToProjectDto(Project entity) {

@@ -8,6 +8,10 @@ import vn.elca.training.repository.ProjectRepository;
 import vn.elca.training.model.entity.Project;
 import vn.elca.training.service.ProjectService;
 
+/**
+ * @author vlp
+ *
+ */
 @Service
 public class ProjectServiceImpl implements ProjectService {
 

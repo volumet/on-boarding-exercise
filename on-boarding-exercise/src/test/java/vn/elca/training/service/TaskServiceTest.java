@@ -2,38 +2,36 @@ package vn.elca.training.service;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Set;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
+import com.querydsl.jpa.impl.JPAQuery;
 import org.junit.Assert;
 import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.SpringApplicationConfiguration;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
-import org.springframework.test.context.transaction.TransactionConfiguration;
+import org.springframework.test.context.ContextConfiguration;
 
-import com.mysema.query.jpa.impl.JPAQuery;
-
-import vn.elca.training.ApplicationLauncher;
+import org.springframework.test.context.junit4.SpringRunner;
+import vn.elca.training.ApplicationWebConfig;
+import vn.elca.training.model.entity.Project;
+import vn.elca.training.model.entity.QTask;
+import vn.elca.training.model.entity.QTaskAudit;
+import vn.elca.training.model.entity.Task;
+import vn.elca.training.model.entity.TaskAudit;
+import vn.elca.training.model.exception.DeadlineGreaterThanProjectFinishingDateException;
 import vn.elca.training.repository.ProjectRepository;
 import vn.elca.training.repository.TaskRepository;
-import vn.elca.training.model.entity.Project;
-import vn.elca.training.model.QTask;
-import vn.elca.training.model.QTaskAudit;
-import vn.elca.training.model.entity.Task;
-import vn.elca.training.model.entity.TaskAudit.AuditType;
-import vn.elca.training.model.exception.DeadlineGreaterThanProjectFinishingDateException;
 
 /**
  * @author vlp
  *
  */
-@RunWith(SpringJUnit4ClassRunner.class)
-@SpringApplicationConfiguration(classes = ApplicationLauncher.class)
-@TransactionConfiguration
+@ContextConfiguration(classes = {ApplicationWebConfig.class})
+@RunWith(value=SpringRunner.class)
 // please remove this annotation to do the Hibernate exercise
 @Ignore
 public class TaskServiceTest {
@@ -50,8 +48,8 @@ public class TaskServiceTest {
 		// create 'nbProjects' Projects, each project has 'nbTasks' tasks.
 		for (int i = 1; i <= nbProjects; i++) {
 			Date finishingDate = new Date();
-            finishingDate = new Date(finishingDate.getYear() + 1, finishingDate.getMonth(), finishingDate.getDate());
-            Project project = new Project(String.format("Project %s", i), finishingDate);
+			finishingDate = new Date(finishingDate.getYear() + 1, finishingDate.getMonth(), finishingDate.getDate());
+			Project project = new Project(String.format("Project %s", i), finishingDate);
 			project = projectRepository.save(project);
 			for (int j = 0; j < nbTasks; j++) {
 				taskRepository.save(new Task(project, String.format("Task %s", j)));
@@ -60,61 +58,67 @@ public class TaskServiceTest {
 	}
 
 	@Test
-    public void testListNumberOfTasks() {
+	public void testListNumberOfTasks() {
 		createProjectAndTaskData(1, 3);
-        List<Project> projectsByTaskName = taskService.findProjectsByTaskName("Task 1");
-        Assert.assertTrue(taskService.listNumberOfTasks(projectsByTaskName).size() > 0);
+		List<Project> projectsByTaskName = taskService.findProjectsByTaskName("Task 1");
+		Assert.assertTrue(taskService.listNumberOfTasks(projectsByTaskName).size() > 0);
 	}
 
 	@Test
-    public void testShowProjectNameOfTopTenNewTasks() {
-        createProjectAndTaskData(100, 1);
+	public void testShowProjectNameOfTopTenNewTasks() {
+		createProjectAndTaskData(100, 1);
 		System.out.println(">>>>>>> Start Test case >>>>>");
-        Assert.assertTrue(taskService.showProjectNameOfTopTenNewTasks().size() > 0);
+		Set<Object> names = taskService.showProjectNameOfTopTenNewTasks();
+		Assert.assertTrue(names.size() > 0);
 	}
 
-    @SuppressWarnings("deprecation")
-    @Test
-    public void testUpdateDeadline() {
+	@SuppressWarnings("deprecation")
+	@Test
+	public void testUpdateDeadline() {
 		createProjectAndTaskData(1, 5);
-		Task task = new JPAQuery(em).from(QTask.task).limit(1).singleResult(QTask.task);
+		final Long projectId = 1L;
+		final Task task = taskRepository.findOne(projectId);
+		final Date finishingDate = task.getDeadline();
 		try {
-            // test update the deadline with a new invalid deadline
-            Date newDeadline = new Date(task.getDeadline().getYear() + 2,
-                task.getDeadline().getMonth(), task.getDeadline().getDate());
-            taskService.updateDeadline(task.getId(), newDeadline);
-        } catch (DeadlineGreaterThanProjectFinishingDateException e) {
-            em.clear();
-			Task task1 = new JPAQuery(em).from(QTask.task).where(QTask.task.id.eq(task.getId()))
-				.singleResult(QTask.task);
-			Assert.assertEquals("Deadline should not be changed here", task.getDeadline(), task1.getDeadline());
+			// test update the deadline with a new invalid deadline
+			Date newDeadline = new Date(task.getDeadline().getYear() + 2,
+					task.getDeadline().getMonth(), task.getDeadline().getDate());
+			taskService.updateDeadline(projectId, newDeadline);
+		} catch (DeadlineGreaterThanProjectFinishingDateException e) {
+			em.clear();
+			Task task1 = taskRepository.findOne(projectId);
+			Assert.assertEquals("Deadline should not be changed here", finishingDate, task1.getDeadline());
 		}
 	}
-	
+
 	@Test
-    public void testCreateTaskForProject() {
-        try {
-            Date curDate = new Date();
-            @SuppressWarnings("deprecation")
-            Date dateBefore = new Date(curDate.getYear(), curDate.getMonth(), curDate.getDate());
-            Project project = projectRepository.saveAndFlush(new Project("Project 1", dateBefore));
-            taskService.createTaskForProject("Task test CreateTaskFromProject", new Date(), project);
-        } catch (Exception e) {
-            // just swallow it here because we are testing the case the task is inserted with invalid deadline.
-        }
-        Assert.assertNull("Task should not be saved to DB because its deadline is invalid.",
-            new JPAQuery(em).from(QTask.task).where(QTask.task.name.eq("Task test CreateTaskFromProject"))
-                .singleResult(QTask.task));
-        Assert.assertNotNull("Task audit data should be saved into DB for admin to trace back later.",
-            new JPAQuery(em).from(QTaskAudit.taskAudit)
-                .where(QTaskAudit.taskAudit.taskName.eq("Task test CreateTaskFromProject")
-                    .and(QTaskAudit.taskAudit.auditType.eq(AuditType.INSERT)))
-            .singleResult(QTaskAudit.taskAudit));
-        Assert.assertNull(
-            "Task audit data for the update case should not be saved because we threw exception before it.",
-            new JPAQuery(em).from(QTaskAudit.taskAudit)
-                .where(QTaskAudit.taskAudit.taskName.eq("Task test CreateTaskFromProject")
-                .and(QTaskAudit.taskAudit.auditType.eq(AuditType.UPDATE)))
-            .singleResult(QTaskAudit.taskAudit));
+	public void testCreateTaskForProject() {
+		try {
+			Date curDate = new Date();
+			@SuppressWarnings("deprecation")
+			Date dateBefore = new Date(curDate.getYear(), curDate.getMonth(), curDate.getDate());
+			Project project = projectRepository.saveAndFlush(new Project("Project 1", dateBefore));
+			taskService.createTaskForProject("Task test CreateTaskFromProject", new Date(), project);
+		} catch (Exception e) {
+			// just swallow it here because we are testing the case the task is inserted with invalid deadline.
+		}
+		Assert.assertNull("Task should not be saved to DB because its deadline is invalid.",
+				new JPAQuery<Task>(em)
+						.from(QTask.task)
+						.where(QTask.task.name.eq("Task test CreateTaskFromProject"))
+						.fetchFirst());
+		Assert.assertNotNull("Task audit data should be saved into DB for admin to trace back later.",
+				new JPAQuery<Task>(em)
+						.from(QTaskAudit.taskAudit)
+						.where(QTaskAudit.taskAudit.taskName.eq("Task test CreateTaskFromProject")
+								.and(QTaskAudit.taskAudit.auditType.eq(TaskAudit.AuditType.INSERT)))
+						.fetchFirst());
+		Assert.assertNull(
+				"Task audit data for the update case should not be saved because we threw exception before it.",
+				new JPAQuery<Task>(em)
+						.from(QTaskAudit.taskAudit)
+						.where(QTaskAudit.taskAudit.taskName.eq("Task test CreateTaskFromProject")
+								.and(QTaskAudit.taskAudit.auditType.eq(TaskAudit.AuditType.UPDATE)))
+						.fetchFirst());
 	}
 }

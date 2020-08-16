@@ -13,6 +13,10 @@ import javax.persistence.ManyToOne;
 
 import vn.elca.training.model.exception.DeadlineGreaterThanProjectFinishingDateException;
 
+/**
+ * @author vlp
+ *
+ */
 @Entity
 // @TaskDeadlineValid
 public class Task implements Serializable {

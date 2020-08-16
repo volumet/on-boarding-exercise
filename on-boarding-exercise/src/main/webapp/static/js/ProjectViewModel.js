@@ -8,7 +8,7 @@ function ProjectViewModel() {
 	self.query = function() {
 		$.ajax({
 			method : "POST",
-			url : "/query",
+			url : "/project/query",
 			data : {
 				name : self.prjName
 			}

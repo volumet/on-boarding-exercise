@@ -5,24 +5,21 @@ import java.util.Date;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
+import com.querydsl.jpa.impl.JPAQuery;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.SpringApplicationConfiguration;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
-import org.springframework.test.context.transaction.TransactionConfiguration;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit4.SpringRunner;
 
-import vn.elca.training.ApplicationLauncher;
+import vn.elca.training.ApplicationWebConfig;
 import vn.elca.training.model.entity.Project;
-import vn.elca.training.model.QProject;
+import vn.elca.training.model.entity.QProject;
 
-import com.mysema.query.jpa.impl.JPAQuery;
-
-@RunWith(SpringJUnit4ClassRunner.class)
-@SpringApplicationConfiguration(classes = ApplicationLauncher.class)
-@TransactionConfiguration
-public class IProjectRepositoryTest {
+@ContextConfiguration(classes = {ApplicationWebConfig.class})
+@RunWith(value=SpringRunner.class)
+public class ProjectRepositoryTest {
     @PersistenceContext
     private EntityManager em;
     @Autowired
@@ -41,8 +38,10 @@ public class IProjectRepositoryTest {
     public void testFindOneWithQueryDSL() {
         final String PROJECT_NAME = "KSTA";
         projectRepository.save(new Project(PROJECT_NAME, new Date()));
-        Project project = new JPAQuery(em).from(QProject.project).where(QProject.project.name.eq(PROJECT_NAME))
-                .singleResult(QProject.project);
+        Project project = new JPAQuery<Project>(em)
+                .from(QProject.project)
+                .where(QProject.project.name.eq(PROJECT_NAME))
+                .fetchFirst();
         Assert.assertEquals(PROJECT_NAME, project.getName());
     }
 }

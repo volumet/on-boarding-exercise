@@ -2,6 +2,10 @@ package vn.elca.training.model.dto;
 
 import java.util.Date;
 
+/**
+ * @author gtn
+ *
+ */
 public class ProjectDto {
     private Long id;
     private String name;
