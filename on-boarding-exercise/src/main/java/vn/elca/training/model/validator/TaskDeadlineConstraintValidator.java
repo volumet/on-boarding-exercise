@@ -33,7 +33,7 @@ public class TaskDeadlineConstraintValidator implements ConstraintValidator<Task
      */
     @Override
     public boolean isValid(Task value, ConstraintValidatorContext context) {
-        return (value.getProject().getFinishingDate().compareTo(value.getDeadline()) >= 0);
+        return value.getProject().getFinishingDate().isAfter(value.getDeadline());
     }
 
 }

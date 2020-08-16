@@ -16,8 +16,8 @@
 
 package vn.elca.training.service.impl;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -77,7 +77,7 @@ public class TaskServiceImpl implements TaskService {
 	}
 
 	@Override
-	public void updateDeadline(Long taskId, Date deadline) throws DeadlineGreaterThanProjectFinishingDateException {
+	public void updateDeadline(Long taskId, LocalDate deadline) throws DeadlineGreaterThanProjectFinishingDateException {
 		Task task = taskRepository.findOne(taskId);
 		task.setDeadline(deadline);
 		task.validateDeadline();
@@ -85,7 +85,7 @@ public class TaskServiceImpl implements TaskService {
 	}
 
 	@Override
-	public void createTaskForProject(String taskName, Date deadline, Project project) {
+	public void createTaskForProject(String taskName, LocalDate deadline, Project project) {
 		Task task = new Task(project, taskName);
 		task.setDeadline(deadline);
 		AuditType auditType = AuditType.INSERT;

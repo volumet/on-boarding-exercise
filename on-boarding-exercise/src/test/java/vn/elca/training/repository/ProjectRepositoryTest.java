@@ -1,5 +1,6 @@
 package vn.elca.training.repository;
 
+import java.time.LocalDate;
 import java.util.Date;
 
 import javax.persistence.EntityManager;
@@ -27,17 +28,17 @@ public class ProjectRepositoryTest {
 
     @Test
     public void testCountAll() {
-        projectRepository.save(new Project("KSTA", new Date()));
-        projectRepository.save(new Project("LAGAPEO", new Date()));
-        projectRepository.save(new Project("ZHQUEST", new Date()));
-        projectRepository.save(new Project("SECUTIX", new Date()));
+        projectRepository.save(new Project("KSTA", LocalDate.now()));
+        projectRepository.save(new Project("LAGAPEO", LocalDate.now()));
+        projectRepository.save(new Project("ZHQUEST", LocalDate.now()));
+        projectRepository.save(new Project("SECUTIX", LocalDate.now()));
         Assert.assertEquals(4, projectRepository.count());
     }
 
     @Test
     public void testFindOneWithQueryDSL() {
         final String PROJECT_NAME = "KSTA";
-        projectRepository.save(new Project(PROJECT_NAME, new Date()));
+        projectRepository.save(new Project(PROJECT_NAME, LocalDate.now()));
         Project project = new JPAQuery<Project>(em)
                 .from(QProject.project)
                 .where(QProject.project.name.eq(PROJECT_NAME))

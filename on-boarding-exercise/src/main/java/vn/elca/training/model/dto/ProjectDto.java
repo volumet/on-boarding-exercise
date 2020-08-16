@@ -1,6 +1,6 @@
 package vn.elca.training.model.dto;
 
-import java.util.Date;
+import java.time.LocalDate;
 
 /**
  * @author gtn
@@ -9,7 +9,7 @@ import java.util.Date;
 public class ProjectDto {
     private Long id;
     private String name;
-    private Date finishingDate;
+    private LocalDate finishingDate;
 
     public Long getId() {
         return id;
@@ -27,11 +27,11 @@ public class ProjectDto {
         this.name = name;
     }
 
-    public Date getFinishingDate() {
+    public LocalDate getFinishingDate() {
         return finishingDate;
     }
 
-    public void setFinishingDate(Date finishingDate) {
+    public void setFinishingDate(LocalDate finishingDate) {
         this.finishingDate = finishingDate;
     }
 }

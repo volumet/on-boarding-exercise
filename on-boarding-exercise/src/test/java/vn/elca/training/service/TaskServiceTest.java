@@ -1,6 +1,6 @@
 package vn.elca.training.service;
 
-import java.util.Date;
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Set;
 
@@ -47,8 +47,7 @@ public class TaskServiceTest {
 	private void createProjectAndTaskData(int nbProjects, int nbTasks) {
 		// create 'nbProjects' Projects, each project has 'nbTasks' tasks.
 		for (int i = 1; i <= nbProjects; i++) {
-			Date finishingDate = new Date();
-			finishingDate = new Date(finishingDate.getYear() + 1, finishingDate.getMonth(), finishingDate.getDate());
+			LocalDate finishingDate = LocalDate.now().plusYears(1);
 			Project project = new Project(String.format("Project %s", i), finishingDate);
 			project = projectRepository.save(project);
 			for (int j = 0; j < nbTasks; j++) {
@@ -78,11 +77,10 @@ public class TaskServiceTest {
 		createProjectAndTaskData(1, 5);
 		final Long projectId = 1L;
 		final Task task = taskRepository.findOne(projectId);
-		final Date finishingDate = task.getDeadline();
+		final LocalDate finishingDate = task.getDeadline();
 		try {
 			// test update the deadline with a new invalid deadline
-			Date newDeadline = new Date(task.getDeadline().getYear() + 2,
-					task.getDeadline().getMonth(), task.getDeadline().getDate());
+			LocalDate newDeadline = finishingDate.plusYears(2);
 			taskService.updateDeadline(projectId, newDeadline);
 		} catch (DeadlineGreaterThanProjectFinishingDateException e) {
 			em.clear();
@@ -94,11 +92,10 @@ public class TaskServiceTest {
 	@Test
 	public void testCreateTaskForProject() {
 		try {
-			Date curDate = new Date();
-			@SuppressWarnings("deprecation")
-			Date dateBefore = new Date(curDate.getYear(), curDate.getMonth(), curDate.getDate());
+			LocalDate curDate = LocalDate.now();
+			LocalDate dateBefore = curDate.minusDays(1);
 			Project project = projectRepository.saveAndFlush(new Project("Project 1", dateBefore));
-			taskService.createTaskForProject("Task test CreateTaskFromProject", new Date(), project);
+			taskService.createTaskForProject("Task test CreateTaskFromProject", curDate, project);
 		} catch (Exception e) {
 			// just swallow it here because we are testing the case the task is inserted with invalid deadline.
 		}

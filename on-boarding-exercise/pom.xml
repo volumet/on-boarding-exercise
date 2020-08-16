@@ -91,6 +91,12 @@
             <artifactId>tomcat-embed-jasper</artifactId>
         </dependency>
 
+        <dependency>
+            <groupId>org.hibernate</groupId>
+            <artifactId>hibernate-java8</artifactId>
+            <version>5.0.5.Final</version>
+        </dependency>
+
     </dependencies>
 
     <!-- Package as an executable jar -->

@@ -1,7 +1,7 @@
 package vn.elca.training.model.entity;
 
 import java.io.Serializable;
-import java.util.Date;
+import java.time.LocalDate;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -12,6 +12,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 
 import vn.elca.training.model.exception.DeadlineGreaterThanProjectFinishingDateException;
+import vn.elca.training.model.validator.TaskDeadlineValid;
 
 /**
  * @author vlp
@@ -26,7 +27,7 @@ public class Task implements Serializable {
     @Column(nullable = false)
     private String name;
     @Column
-    private Date deadline;
+    private LocalDate deadline;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn
@@ -35,7 +36,7 @@ public class Task implements Serializable {
     public Task(Project project, String name) {
         this.project = project;
         this.name = name;
-        this.deadline = new Date();
+        this.deadline = LocalDate.now();
     }
 
     public Task() {}
@@ -70,11 +71,11 @@ public class Task implements Serializable {
         this.name = name;
     }
 
-    public Date getDeadline() {
+    public LocalDate getDeadline() {
         return deadline;
     }
 
-    public void setDeadline(Date deadline) {
+    public void setDeadline(LocalDate deadline) {
         this.deadline = deadline;
     }
 }
