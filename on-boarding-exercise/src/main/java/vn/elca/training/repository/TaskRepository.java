@@ -14,14 +14,14 @@
  * agreement you entered into with ELCA.
  */
 
-package vn.elca.training.dao;
+package vn.elca.training.repository;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.querydsl.QueryDslPredicateExecutor;
 import org.springframework.stereotype.Repository;
 
-import vn.elca.training.dao.custom.TaskRepositoryCustom;
-import vn.elca.training.dom.Task;
+import vn.elca.training.repository.custom.TaskRepositoryCustom;
+import vn.elca.training.model.entity.Task;
 
 /**
  * @author vlp

@@ -13,12 +13,12 @@
  * agreement you entered into with ELCA.
  */
 
-package vn.elca.training.dom.validator;
+package vn.elca.training.model.validator;
 
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
 
-import vn.elca.training.dom.Task;
+import vn.elca.training.model.entity.Task;
 
 /**
  * @author vlp
@@ -33,7 +33,7 @@ public class TaskDeadlineConstraintValidator implements ConstraintValidator<Task
      */
     @Override
     public boolean isValid(Task value, ConstraintValidatorContext context) {
-        return (value.getProject().getFinishingDate().compareTo(value.getDeadline()) >= 0);
+        return value.getProject().getFinishingDate().isAfter(value.getDeadline());
     }
 
 }

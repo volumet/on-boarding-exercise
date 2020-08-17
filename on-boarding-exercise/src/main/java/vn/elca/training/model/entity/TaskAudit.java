@@ -13,9 +13,9 @@
  * agreement you entered into with ELCA.
  */
 
-package vn.elca.training.dom;
+package vn.elca.training.model.entity;
 
-import java.util.Date;
+import java.time.LocalDate;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -43,7 +43,7 @@ public class TaskAudit {
     private String taskName;
     @Column(nullable = false)
     @NotNull
-    private Date taskDeadline;
+    private LocalDate taskDeadline;
     @Column
     private long projectId;
     @Column(length = 1000)
@@ -101,11 +101,11 @@ public class TaskAudit {
         this.taskName = taskName;
     }
 
-    public Date getTaskDeadline() {
+    public LocalDate getTaskDeadline() {
         return taskDeadline;
     }
 
-    public void setTaskDeadline(Date deadline) {
+    public void setTaskDeadline(LocalDate deadline) {
         this.taskDeadline = deadline;
     }
 

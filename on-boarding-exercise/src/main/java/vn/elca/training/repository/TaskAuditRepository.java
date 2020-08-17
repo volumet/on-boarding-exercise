@@ -13,12 +13,12 @@
  * agreement you entered into with ELCA.
  */
 
-package vn.elca.training.dao;
+package vn.elca.training.repository;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
-import vn.elca.training.dom.TaskAudit;
+import vn.elca.training.model.entity.TaskAudit;
 
 /**
  * @author vlp

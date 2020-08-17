@@ -16,8 +16,8 @@
 
 package vn.elca.training.service.impl;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -29,12 +29,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import vn.elca.training.dao.TaskRepository;
-import vn.elca.training.dom.Project;
-import vn.elca.training.dom.Task;
-import vn.elca.training.dom.TaskAudit.AuditType;
-import vn.elca.training.dom.TaskAudit.Status;
-import vn.elca.training.exception.DeadlineGreaterThanProjectFinishingDateException;
+import vn.elca.training.repository.TaskRepository;
+import vn.elca.training.model.entity.Project;
+import vn.elca.training.model.entity.Task;
+import vn.elca.training.model.entity.TaskAudit.AuditType;
+import vn.elca.training.model.entity.TaskAudit.Status;
+import vn.elca.training.model.exception.DeadlineGreaterThanProjectFinishingDateException;
 import vn.elca.training.service.AuditService;
 import vn.elca.training.service.TaskService;
 
@@ -77,7 +77,7 @@ public class TaskServiceImpl implements TaskService {
 	}
 
 	@Override
-	public void updateDeadline(Long taskId, Date deadline) throws DeadlineGreaterThanProjectFinishingDateException {
+	public void updateDeadline(Long taskId, LocalDate deadline) throws DeadlineGreaterThanProjectFinishingDateException {
 		Task task = taskRepository.findOne(taskId);
 		task.setDeadline(deadline);
 		task.validateDeadline();
@@ -85,8 +85,7 @@ public class TaskServiceImpl implements TaskService {
 	}
 
 	@Override
-	public void createTaskForProject(String taskName, Date deadline, Project project)
-			throws DeadlineGreaterThanProjectFinishingDateException {
+	public void createTaskForProject(String taskName, LocalDate deadline, Project project) {
 		Task task = new Task(project, taskName);
 		task.setDeadline(deadline);
 		AuditType auditType = AuditType.INSERT;
