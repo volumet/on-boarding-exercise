@@ -2,7 +2,6 @@ package vn.elca.training.service;
 
 import java.time.LocalDate;
 import java.util.List;
-import java.util.Set;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -67,7 +66,7 @@ public class TaskServiceTest {
 	public void testShowProjectNameOfTopTenNewTasks() {
 		createProjectAndTaskData(100, 1);
 		System.out.println(">>>>>>> Start Test case >>>>>");
-		Set<Object> names = taskService.showProjectNameOfTopTenNewTasks();
+		List<String> names = taskService.listProjectNameOfRecentTasks();
 		Assert.assertTrue(names.size() > 0);
 	}
 

@@ -12,5 +12,5 @@ import java.util.List;
 public interface TaskRepositoryCustom {
     List<Project> findProjectsByTaskName(String taskName);
 
-    List<Task> showProjectNameOfTopTenNewTasks();
+    List<Task> listRecentTasks(int limit);
 }
