@@ -18,9 +18,7 @@ package vn.elca.training.service.impl;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 import java.util.UUID;
 
 import org.apache.commons.logging.Log;
@@ -46,6 +44,7 @@ import vn.elca.training.service.TaskService;
 @Transactional
 public class TaskServiceImpl implements TaskService {
 	private Log logger = LogFactory.getLog(getClass());
+	private static final int FETCH_LIMIT = 10;
 
 	@Autowired
 	private TaskRepository taskRepository;
@@ -67,9 +66,9 @@ public class TaskServiceImpl implements TaskService {
 	}
 
 	@Override
-	public Set<Object> showProjectNameOfTopTenNewTasks() {
-		Set<Object> projectNames = new HashSet<>();
-		List<Task> tasks = taskRepository.showProjectNameOfTopTenNewTasks();
+	public List<String> listProjectNameOfRecentTasks() {
+		List<String> projectNames = new ArrayList<>(FETCH_LIMIT);
+		List<Task> tasks = taskRepository.listRecentTasks(FETCH_LIMIT);
 		for (Task task : tasks) {
 			projectNames.add(task.getProject().getName());
 		}

@@ -18,7 +18,6 @@ package vn.elca.training.service;
 
 import java.time.LocalDate;
 import java.util.List;
-import java.util.Set;
 
 import vn.elca.training.model.entity.Project;
 import vn.elca.training.model.exception.DeadlineGreaterThanProjectFinishingDateException;
@@ -32,7 +31,7 @@ public interface TaskService {
 
     List<String> listNumberOfTasks(List<Project> projects);
 
-    Set<Object> showProjectNameOfTopTenNewTasks();
+    List<String> listProjectNameOfRecentTasks();
 
 	void updateDeadline(Long taskId, LocalDate deadline) throws DeadlineGreaterThanProjectFinishingDateException;
 
