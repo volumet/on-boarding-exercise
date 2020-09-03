@@ -3,13 +3,7 @@ package vn.elca.training.model.entity;
 import java.io.Serializable;
 import java.time.LocalDate;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
+import javax.persistence.*;
 
 import vn.elca.training.model.exception.DeadlineGreaterThanProjectFinishingDateException;
 import vn.elca.training.model.validator.TaskDeadlineValid;
@@ -22,7 +16,7 @@ import vn.elca.training.model.validator.TaskDeadlineValid;
 // @TaskDeadlineValid
 public class Task implements Serializable {
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     @Column(nullable = false)
     private String name;

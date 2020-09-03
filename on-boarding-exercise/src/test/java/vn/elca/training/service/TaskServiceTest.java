@@ -24,6 +24,7 @@ import vn.elca.training.model.entity.TaskAudit;
 import vn.elca.training.model.exception.DeadlineGreaterThanProjectFinishingDateException;
 import vn.elca.training.repository.ProjectRepository;
 import vn.elca.training.repository.TaskRepository;
+import vn.elca.training.service.exception.CustomEntityNotFoundException;
 
 /**
  * @author vlp
@@ -74,16 +75,18 @@ public class TaskServiceTest {
 	@Test
 	public void testUpdateDeadline() {
 		createProjectAndTaskData(1, 5);
-		final Long projectId = 1L;
-		final Task task = taskRepository.findOne(projectId);
+		final Long taskId = 1L;
+		final Task task = taskRepository.findById(taskId)
+				.orElseThrow(() -> new CustomEntityNotFoundException(taskId, Task.class));
 		final LocalDate finishingDate = task.getDeadline();
 		try {
 			// test update the deadline with a new invalid deadline
 			LocalDate newDeadline = finishingDate.plusYears(2);
-			taskService.updateDeadline(projectId, newDeadline);
+			taskService.updateDeadline(taskId, newDeadline);
 		} catch (DeadlineGreaterThanProjectFinishingDateException e) {
 			em.clear();
-			Task task1 = taskRepository.findOne(projectId);
+			Task task1 = taskRepository.findById(taskId)
+					.orElseThrow(() -> new CustomEntityNotFoundException(taskId, Task.class));
 			Assert.assertEquals("Deadline should not be changed here", finishingDate, task1.getDeadline());
 		}
 	}

@@ -1,32 +1,27 @@
 package vn.elca.training.model.entity;
 
+import javax.persistence.*;
 import java.time.LocalDate;
 import java.util.HashSet;
 import java.util.Set;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.OneToMany;
-
 /**
  * @author vlp
- *
  */
 @Entity
 public class Project {
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
     @Column(nullable = false)
     private String name;
+
     @Column
     private LocalDate finishingDate;
 
-	@OneToMany(mappedBy = "project", fetch = FetchType.LAZY)
-	private Set<Task> tasks = new HashSet<>();
+    @OneToMany(mappedBy = "project", fetch = FetchType.LAZY)
+    private Set<Task> tasks = new HashSet<>();
 
     public Project() {
     }

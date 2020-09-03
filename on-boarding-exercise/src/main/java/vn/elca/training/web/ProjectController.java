@@ -24,7 +24,6 @@ public class ProjectController {
     private ProjectService projectService;
 
     @PostMapping("/query")
-    @ResponseBody
     public List<ProjectDto> query() {
         return projectService.findAll()
                 .stream()

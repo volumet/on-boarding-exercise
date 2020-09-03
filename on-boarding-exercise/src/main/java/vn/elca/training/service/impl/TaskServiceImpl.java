@@ -16,25 +16,25 @@
 
 package vn.elca.training.service.impl;
 
-import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.UUID;
-
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
-import vn.elca.training.repository.TaskRepository;
 import vn.elca.training.model.entity.Project;
 import vn.elca.training.model.entity.Task;
 import vn.elca.training.model.entity.TaskAudit.AuditType;
 import vn.elca.training.model.entity.TaskAudit.Status;
 import vn.elca.training.model.exception.DeadlineGreaterThanProjectFinishingDateException;
+import vn.elca.training.repository.TaskRepository;
 import vn.elca.training.service.AuditService;
 import vn.elca.training.service.TaskService;
+import vn.elca.training.service.exception.CustomEntityNotFoundException;
+
+import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.UUID;
 
 /**
  * @author vlp
@@ -77,7 +77,8 @@ public class TaskServiceImpl implements TaskService {
 
 	@Override
 	public void updateDeadline(Long taskId, LocalDate deadline) throws DeadlineGreaterThanProjectFinishingDateException {
-		Task task = taskRepository.findOne(taskId);
+		Task task = taskRepository.findById(taskId)
+				.orElseThrow(() -> new CustomEntityNotFoundException(taskId, Task.class));
 		task.setDeadline(deadline);
 		task.validateDeadline();
 		taskRepository.save(task);
