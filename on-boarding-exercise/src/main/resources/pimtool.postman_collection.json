@@ -1,0 +1,29 @@
+{
+	"info": {
+		"_postman_id": "ea11d852-ef81-4f99-8209-785d4ebd96b1",
+		"name": "pimtool",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "pimtool",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"url": {
+					"raw": "localhost:8080/project/query",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"project",
+						"query"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"protocolProfileBehavior": {}
+}
