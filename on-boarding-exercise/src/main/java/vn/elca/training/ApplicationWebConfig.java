@@ -27,11 +27,7 @@ public class ApplicationWebConfig extends SpringBootServletInitializer {
     }
 
     @Bean
-    ServletRegistrationBean h2servletRegistration() {
-        // access to h2 console by
-        // this link: http://localhost:8080/h2console
-        // JDBC URL: jdbc:h2:mem:onboardingexercise
-        // other fields left as default, this configuration will access on memory schema
+    public ServletRegistrationBean h2servletRegistration() {
         ServletRegistrationBean registrationBean = new ServletRegistrationBean(new WebServlet());
         registrationBean.addUrlMappings("/h2console/*");
         return registrationBean;
