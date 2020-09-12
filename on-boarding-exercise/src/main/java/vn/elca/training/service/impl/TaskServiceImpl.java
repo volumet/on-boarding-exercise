@@ -29,11 +29,11 @@ import vn.elca.training.model.exception.DeadlineGreaterThanProjectFinishingDateE
 import vn.elca.training.repository.TaskRepository;
 import vn.elca.training.service.AuditService;
 import vn.elca.training.service.TaskService;
-import vn.elca.training.service.exception.CustomEntityNotFoundException;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 /**
@@ -77,11 +77,21 @@ public class TaskServiceImpl implements TaskService {
 
 	@Override
 	public void updateDeadline(Long taskId, LocalDate deadline) throws DeadlineGreaterThanProjectFinishingDateException {
-		Task task = taskRepository.findById(taskId)
-				.orElseThrow(() -> new CustomEntityNotFoundException(taskId, Task.class));
-		task.setDeadline(deadline);
-		task.validateDeadline();
-		taskRepository.save(task);
+		Optional<Task> optional = taskRepository.findById(taskId);
+		if (optional.isPresent()) {
+			Task task = optional.get();
+			task.setDeadline(deadline);
+			validateDeadline(task);
+			taskRepository.save(task);
+		}
+		// Should throw exception if not found
+	}
+
+	private void validateDeadline(Task task) throws DeadlineGreaterThanProjectFinishingDateException {
+		if (task.getProject() != null
+				&& task.getProject().getFinishingDate().isBefore(task.getDeadline())) {
+			throw new DeadlineGreaterThanProjectFinishingDateException();
+		}
 	}
 
 	@Override
@@ -90,7 +100,7 @@ public class TaskServiceImpl implements TaskService {
 		task.setDeadline(deadline);
 		AuditType auditType = AuditType.INSERT;
 		try {
-			task = taskRepository.saveAndFlush(task);
+			task = taskRepository.save(task);
 			auditService.saveAuditDataForTask(task, auditType, Status.SUCCESS, "Task was saved successfully.");
 		} catch (Exception e) {
 			String errorMessage = String.format("An exception (Error-ID = %s) happened when saving/updating task: %s",

@@ -17,7 +17,11 @@ package vn.elca.training.model.entity;
 
 import java.time.LocalDate;
 
-import javax.persistence.*;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
 import javax.validation.constraints.NotNull;
 
 /**
@@ -29,29 +33,34 @@ public class TaskAudit {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
     @Column(nullable = false)
     @NotNull
     private AuditType auditType;
+
     @Column(nullable = false)
     @NotNull
     private Status status;
+
     @Column(nullable = false)
     @NotNull
     private String taskName;
+
     @Column(nullable = false)
     @NotNull
     private LocalDate taskDeadline;
+
     @Column
     private long projectId;
+
     @Column(length = 1000)
     private String message;
 
-
-    public static enum AuditType {
+    public enum AuditType {
         INSERT, UPDATE, DELETE;
     }
 
-    public static enum Status {
+    public enum Status {
         SUCCESS, FAILED;
     }
 

@@ -32,7 +32,7 @@ public class ProjectRepositoryTest {
         projectRepository.save(new Project("LAGAPEO", LocalDate.now()));
         projectRepository.save(new Project("ZHQUEST", LocalDate.now()));
         projectRepository.save(new Project("SECUTIX", LocalDate.now()));
-        Assert.assertEquals(4, projectRepository.count());
+        Assert.assertEquals(9, projectRepository.count());
     }
 
     @Test

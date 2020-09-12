@@ -3,9 +3,16 @@ package vn.elca.training.model.entity;
 import java.io.Serializable;
 import java.time.LocalDate;
 
-import javax.persistence.*;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 
-import vn.elca.training.model.exception.DeadlineGreaterThanProjectFinishingDateException;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import vn.elca.training.model.validator.TaskDeadlineValid;
 
 /**
@@ -13,19 +20,26 @@ import vn.elca.training.model.validator.TaskDeadlineValid;
  *
  */
 @Entity
-// @TaskDeadlineValid
+//@TaskDeadlineValid
 public class Task implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
     @Column(nullable = false)
     private String name;
+
     @Column
     private LocalDate deadline;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn
+    @JsonIgnore
     private Project project;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn
+    private User user;
 
     public Task(Project project, String name) {
         this.project = project;
@@ -34,12 +48,6 @@ public class Task implements Serializable {
     }
 
     public Task() {}
-
-    public void validateDeadline() throws DeadlineGreaterThanProjectFinishingDateException {
-        if (project.getFinishingDate().compareTo(deadline) < 0) {
-            throw new DeadlineGreaterThanProjectFinishingDateException();
-        }
-    }
 
     public Project getProject() {
         return project;
@@ -71,5 +79,13 @@ public class Task implements Serializable {
 
     public void setDeadline(LocalDate deadline) {
         this.deadline = deadline;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
     }
 }

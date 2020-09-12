@@ -1,6 +1,12 @@
 package vn.elca.training.model.entity;
 
-import javax.persistence.*;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import java.time.LocalDate;
 import java.util.HashSet;
 import java.util.Set;
@@ -19,6 +25,9 @@ public class Project {
 
     @Column
     private LocalDate finishingDate;
+
+    @Column
+    private String customer;
 
     @OneToMany(mappedBy = "project", fetch = FetchType.LAZY)
     private Set<Task> tasks = new HashSet<>();
@@ -59,6 +68,14 @@ public class Project {
 
     public void setFinishingDate(LocalDate finishingDate) {
         this.finishingDate = finishingDate;
+    }
+
+    public String getCustomer() {
+        return customer;
+    }
+
+    public void setCustomer(String customer) {
+        this.customer = customer;
     }
 
     public Set<Task> getTasks() {
