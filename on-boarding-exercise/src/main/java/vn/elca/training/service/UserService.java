@@ -10,6 +10,10 @@ import java.util.List;
  */
 public interface UserService {
     User findOne(Long id);
+
     User findOne(String username);
+
     User addTasksToUser(List<Long> taskIds, String username);
+
+    User update(User user);
 }
