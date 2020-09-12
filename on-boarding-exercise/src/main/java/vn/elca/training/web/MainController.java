@@ -11,7 +11,7 @@ import vn.elca.training.service.ProjectService;
  *
  */
 @RestController
-public class ApplicationController {
+public class MainController extends AbstractApplicationController {
 
     private ProjectService projectService;
 

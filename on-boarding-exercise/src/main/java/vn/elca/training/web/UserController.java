@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 import vn.elca.training.model.dto.UserDto;
 import vn.elca.training.model.entity.User;
 import vn.elca.training.service.UserService;
-import vn.elca.training.util.Mapper;
+import vn.elca.training.util.ApplicationMapper;
 
 import java.util.List;
 
@@ -23,7 +23,7 @@ import java.util.List;
  */
 @RestController
 @RequestMapping("/users")
-public class UserController {
+public class UserController extends AbstractApplicationController {
 
     @Autowired
     UserService userService;
@@ -36,7 +36,7 @@ public class UserController {
     @GetMapping("/{username}")
     public UserDto findOne(@PathVariable String username) {
         User user = userService.findOne(username);
-        return Mapper.userToUserDto(user);
+        return mapper.userToUserDto(user);
     }
 
     @PostMapping("/{username}/addTasks")
@@ -48,7 +48,7 @@ public class UserController {
         }
 
         User user = userService.addTasksToUser(taskIds, username);
-        return Mapper.userToUserDto(user);
+        return mapper.userToUserDto(user);
     }
 
     @PutMapping({"/update"})

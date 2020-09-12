@@ -6,7 +6,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import vn.elca.training.model.dto.ProjectDto;
 import vn.elca.training.service.ProjectService;
-import vn.elca.training.util.Mapper;
+import vn.elca.training.util.ApplicationMapper;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -17,7 +17,7 @@ import java.util.stream.Collectors;
  */
 @RestController
 @RequestMapping("/projects")
-public class ProjectController {
+public class ProjectController extends AbstractApplicationController {
 
     @Autowired
     private ProjectService projectService;
@@ -26,7 +26,7 @@ public class ProjectController {
     public List<ProjectDto> search() {
         return projectService.findAll()
                 .stream()
-                .map(Mapper::projectToProjectDto)
+                .map(mapper::projectToProjectDto)
                 .collect(Collectors.toList());
     }
 }

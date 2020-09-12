@@ -1,5 +1,6 @@
 package vn.elca.training.util;
 
+import org.springframework.stereotype.Component;
 import vn.elca.training.model.dto.ProjectDto;
 import vn.elca.training.model.dto.TaskDto;
 import vn.elca.training.model.dto.UserDto;
@@ -12,12 +13,13 @@ import java.util.stream.Collectors;
 /**
  * @author gtn
  */
-public class Mapper {
-    public Mapper() {
+@Component
+public class ApplicationMapper {
+    public ApplicationMapper() {
         // Mapper utility class
     }
 
-    public static ProjectDto projectToProjectDto(Project entity) {
+    public ProjectDto projectToProjectDto(Project entity) {
         ProjectDto dto = new ProjectDto();
         dto.setId(entity.getId());
         dto.setName(entity.getName());
@@ -26,7 +28,7 @@ public class Mapper {
         return dto;
     }
 
-    public static TaskDto taskToTaskDto(Task task) {
+    public TaskDto taskToTaskDto(Task task) {
         TaskDto dto = new TaskDto();
         dto.setId(task.getId());
         dto.setTaskName(task.getName());
@@ -38,11 +40,11 @@ public class Mapper {
         return dto;
     }
 
-    public static UserDto userToUserDto(User user) {
+    public UserDto userToUserDto(User user) {
         UserDto dto = new UserDto();
         dto.setId(user.getId());
         dto.setUsername(user.getUsername());
-        dto.setTasks(user.getTasks().stream().map(Mapper::taskToTaskDto).collect(Collectors.toList()));
+        dto.setTasks(user.getTasks().stream().map(this::taskToTaskDto).collect(Collectors.toList()));
 
         return dto;
     }
