@@ -1,7 +1,6 @@
 package vn.elca.training.service.impl;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Primary;
+import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Service;
 import vn.elca.training.model.entity.Project;
 import vn.elca.training.repository.ProjectRepository;
@@ -14,6 +13,7 @@ import java.util.List;
  *
  */
 @Service
+@Profile("!dummy | dev")
 public class ProjectServiceImpl implements ProjectService {
 
     private ProjectRepository projectRepository;
