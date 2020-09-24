@@ -1,6 +1,7 @@
 package vn.elca.training.service;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.EntityManager;
@@ -68,6 +69,19 @@ public class TaskServiceTest {
 		System.out.println(">>>>>>> Start Test case >>>>>");
 		List<String> names = taskService.listProjectNameOfRecentTasks();
 		Assert.assertTrue(names.size() > 0);
+	}
+
+	@Test
+	public void testListTasksByIds() {
+		createProjectAndTaskData(100, 1);
+		int size = 10;
+		List<Long> ids = new ArrayList<>(size);
+		for (long i = 0; i < size; i ++) {
+			ids.add(i);
+		}
+		System.out.println(">>>>>>> Start Test case >>>>>");
+		List<Task> tasks = taskService.listTasksById(ids);
+		Assert.assertTrue(tasks.size() > 0);
 	}
 
 	@Test

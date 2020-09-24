@@ -76,6 +76,21 @@ public class TaskServiceImpl implements TaskService {
 	}
 
 	@Override
+	public List<Task> listTasksById(List<Long> ids) {
+		List<Task> tasks = new ArrayList<>(ids.size());
+		for (Long id : ids) {
+			tasks.add(getTaskById(id));
+		}
+		return tasks;
+	}
+
+	@Override
+	public Task getTaskById(Long id) {
+		return taskRepository.findById(id).orElse(null);
+		// Should throw exception if not found
+	}
+
+	@Override
 	public void updateDeadline(Long taskId, LocalDate deadline) throws DeadlineGreaterThanProjectFinishingDateException {
 		Optional<Task> optional = taskRepository.findById(taskId);
 		if (optional.isPresent()) {
