@@ -11,5 +11,5 @@ import vn.elca.training.model.entity.Project;
  *
  */
 @Repository
-public interface ProjectRepository extends JpaRepository<Project, Long>, QuerydslPredicateExecutor<Project> {
+public interface ProjectRepository extends JpaRepository<Project, Long>, QuerydslPredicateExecutor<Project>, ProjectRepositoryCustom {
 }

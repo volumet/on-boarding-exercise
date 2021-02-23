@@ -1,88 +1,75 @@
 package vn.elca.training.model.entity;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.OneToMany;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.RequiredArgsConstructor;
+import lombok.Setter;
+import org.hibernate.annotations.NotFound;
+import org.hibernate.annotations.NotFoundAction;
+
+import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import java.time.LocalDate;
-import java.util.HashSet;
 import java.util.Set;
 
 /**
  * @author vlp
  */
-@Entity
+@Entity(name = "PROJECT")
+@Getter
+@Setter
+@NoArgsConstructor
 public class Project {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "ID")
     private Long id;
 
-    @Column(nullable = false)
+    @Column(name = "PROJECT_NUMBER")
+    @NotNull
+    private Long projectNumber;
+
+    @Column(name = "NAME")
+    @NotNull
     private String name;
 
-    @Column
-    private LocalDate finishingDate;
-
-    @Column
+    @Column(name = "CUSTOMER")
+    @NotNull
     private String customer;
 
-    @OneToMany(mappedBy = "project", fetch = FetchType.LAZY)
-    private Set<Task> tasks = new HashSet<>();
+    @Column(name = "STATUS")
+    @NotNull
+    private String status;
 
-    public Project() {
+    @Column(name = "START_DATE")
+    @NotNull
+    private LocalDate startDate;
+
+    @Column(name = "END_DATE")
+    private LocalDate endDate;
+
+    @Column(name = "VERSION")
+    @NotNull
+    @Version
+    private Long version;
+
+    @ManyToMany(mappedBy = "projects", fetch = FetchType.LAZY)
+    @NotFound(action = NotFoundAction.IGNORE)
+    private Set<Employee> employees;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "GROUP_ID")
+    Group group;
+
+    public void setEmployees(Set<Employee> employees) {
+        this.employees = employees;
+        for (Employee employee : employees) {
+            employee.getProjects().add(this);
+        }
     }
 
-    public Project(String name, LocalDate finishingDate) {
-        this.name = name;
-        this.finishingDate = finishingDate;
-    }
-
-    public Project(Long id, String name, LocalDate finishingDate) {
-        this.id = id;
-        this.name = name;
-        this.finishingDate = finishingDate;
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public LocalDate getFinishingDate() {
-        return finishingDate;
-    }
-
-    public void setFinishingDate(LocalDate finishingDate) {
-        this.finishingDate = finishingDate;
-    }
-
-    public String getCustomer() {
-        return customer;
-    }
-
-    public void setCustomer(String customer) {
-        this.customer = customer;
-    }
-
-    public Set<Task> getTasks() {
-        return tasks;
-    }
-
-    public void setTasks(Set<Task> tasks) {
-        this.tasks = tasks;
+    public void setGroup(Group group) {
+        this.group = group;
+        group.getProjects().add(this);
     }
 }

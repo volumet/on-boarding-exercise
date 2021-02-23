@@ -22,12 +22,12 @@ class Navigation extends React.Component {
                                         <Translate content="navigation.title"/>
                                     </p>
                                 </Nav.Link>
-                                <Nav.Link>
+                                <Nav.Link href="/new">
                                     <p className="text-semi-bold">
                                         <Translate content="navigation.new"/>
                                     </p>
                                 </Nav.Link>
-                                <Nav.Link><Translate content="navigation.project"/></Nav.Link>
+                                <Nav.Link href="/project"><Translate content="navigation.project"/></Nav.Link>
                                 <Nav.Link><Translate content="navigation.customer"/></Nav.Link>
                                 <Nav.Link><Translate content="navigation.supplier"/></Nav.Link>
                             </Col>

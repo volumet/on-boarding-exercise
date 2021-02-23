@@ -22,6 +22,6 @@ public class MainController extends AbstractApplicationController {
 
     @GetMapping("/main")
     public String main() {
-        return title + ". " + String.format(message, projectService.count());
+        return null;
     }
 }

@@ -4,6 +4,7 @@ import org.apache.commons.io.IOUtils;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.io.Resource;
+import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
 import org.springframework.web.servlet.resource.PathResourceResolver;
@@ -24,8 +25,13 @@ public class ApplicationWebMvcConfig extends WebMvcConfigurerAdapter {
 
     private final String baseHref;
 
-    public ApplicationWebMvcConfig(@Value("${server.contextPath}") final String baseHref) {
+    public ApplicationWebMvcConfig(@Value("${server.servlet.context-path}") final String baseHref) {
         this.baseHref = baseHref;
+    }
+
+    @Override
+    public void addCorsMappings(CorsRegistry registry) {
+        registry.addMapping("/**").allowedOrigins("*");
     }
 
     @Override

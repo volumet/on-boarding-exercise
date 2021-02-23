@@ -1,6 +1,6 @@
 import React from 'react';
 import Translate from 'react-translate-component';
-import {Container, Row, Col, Nav} from 'react-bootstrap';
+import {Col, Container, Row} from 'react-bootstrap';
 import '../Style/Header.css';
 import logo from '../Images/logo_elca.png';
 import counterpart from 'counterpart';
