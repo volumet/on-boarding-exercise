@@ -1,0 +1,23 @@
+.button-group {
+    display: flex;
+    padding: 10px 0 10px 0;
+    border-top: 1px solid gainsboro;
+    justify-content: flex-end;
+
+}
+
+.footer-button-a {
+    margin-top: 25px;
+    margin-right: 20px;
+    background-color: lightgrey !important;
+    color: black !important;
+    border-color: black !important;
+    width: 150px;
+}
+
+.footer-button-b {
+    margin-top: 25px;
+    margin-left: 20px;
+    width: 150px;
+}
+

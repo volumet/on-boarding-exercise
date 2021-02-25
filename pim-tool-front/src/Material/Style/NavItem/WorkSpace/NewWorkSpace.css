@@ -1,0 +1,14 @@
+.form {
+    margin-top: 25px;
+}
+
+.error {
+    border: 1px solid #eb516d !important;
+}
+
+.label {
+    size: 14pt;
+    font-family: 'Segoe UI', Serif;
+    font-weight: 600;
+    color: #666666;
+}

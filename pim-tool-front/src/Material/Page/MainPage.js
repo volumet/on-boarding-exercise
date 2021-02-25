@@ -1,6 +1,6 @@
 import React from 'react';
 import {Container, Row, Col} from 'react-bootstrap';
-import {BrowserRouter, Route} from 'react-router-dom';
+import {BrowserRouter, Route, Switch} from 'react-router-dom';
 import Header from './Header';
 import Navigation from './Navigation';
 import ErrorScreen from './ErrorScreen';
@@ -19,24 +19,27 @@ class MainPage extends React.Component {
                         </Col>
                     </Row>
                     <BrowserRouter>
-                        <Row>
-                            <Col xl={1}/>
-                            <Col xl={2}>
-                                <Route path="/" component={Navigation}/>
-                            </Col>
-                            <Col xl={9}>
-                                <Route exact path="/" component={ProjectList}/>
-                                {/*<Route path="/project_list" component={} />*/}
-                                <Route path="/new" component={() => <NewProject title={"newProject"}/>} />
-                                <Route path="/edit" component={(props) => <NewProject {...props} title={"editProject"} />} />
-                                <Route path="/project" component={ProjectTest} />
-                                {/*<Route path="/customer" component={} />*/}
-                                {/*<Route path="/supplier" component={} />*/}
-                            </Col>
-                            <Col>
-                                <Route path="/error" component={ErrorScreen}/>
-                            </Col>
-                        </Row>
+                        <Switch>
+                            <Route exact path="/error" component={ErrorScreen}/>
+                            <Route path="/">
+                                <Row>
+                                    <Col xl={1}/>
+                                    <Col xl={2}>
+                                        <Navigation/>
+                                    </Col>
+                                    <Col xl={9}>
+                                        <Route exact path="/" component={ProjectList}/>
+                                        {/*<Route path="/project_list" component={} />*/}
+                                        <Route exact path="/new" component={() => <NewProject title={"newProject"}/>}/>
+                                        <Route exact path="/edit"
+                                               component={(props) => <NewProject {...props} title={"editProject"}/>}/>
+                                        <Route exact path="/project" component={ProjectTest}/>
+                                        {/*<Route path="/customer" component={} />*/}
+                                        {/*<Route path="/supplier" component={} />*/}
+                                    </Col>
+                                </Row>
+                            </Route>
+                        </Switch>
                     </BrowserRouter>
                 </Container>
             </div>
