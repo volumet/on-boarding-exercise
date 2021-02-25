@@ -5,6 +5,7 @@ import org.springframework.context.annotation.Primary;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import vn.elca.training.model.dto.DeleteProjectMapDto;
 import vn.elca.training.model.dto.ProjectReqDto;
 import vn.elca.training.model.entity.Employee;
 import vn.elca.training.model.entity.Group;
@@ -19,6 +20,7 @@ import vn.elca.training.service.ProjectService;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 
 /**
  * @author vlp
@@ -70,6 +72,7 @@ public class ProjectServiceImpl extends AbstractService implements ProjectServic
 
     public void validateEmployeeExist(ProjectReqDto projectReqDto) {
         //All employee visas exist
+        // TODO replace with count query
         validator.validateTrue(
                 (employeeRepository
                         .searchEmployeeByVisa(projectReqDto.getEmployeeVisa()).size()
@@ -104,9 +107,9 @@ public class ProjectServiceImpl extends AbstractService implements ProjectServic
         validateStartDateBeforeEndDate(projectReqDto);
 
         Project project = mapper.projectReqDtoToProject(projectReqDto);
-        Group group = groupRepository.getGroupById(projectReqDto.getGroupId());
+        Group group = groupRepository.getOne(projectReqDto.getGroupId());
         project.setGroup(group);
-        List<Employee> employees = employeeRepository.searchEmployeeByVisa(projectReqDto.getEmployeeVisa());
+        List<Employee> employees = employeeRepository.findEmployeeByVisaIn(projectReqDto.getEmployeeVisa());
         project.setEmployees(new HashSet<>(employees));
         projectRepository.save(project);
     }
@@ -120,22 +123,58 @@ public class ProjectServiceImpl extends AbstractService implements ProjectServic
 
 
         Project dummyProject = mapper.projectReqDtoToProject(projectReqDto);
+        //TODO return Optional<Project> instead of List
         List<Project> projectFound = projectRepository.getProjectByNumber(dummyProject.getProjectNumber());
-        Project project = null;
-        project = projectFound.get(0);
+        Project project  = projectFound.get(0);
 
-        project.setName(projectReqDto.getProjectName());
-        project.setCustomer(projectReqDto.getCustomer());
-        project.setStatus(projectReqDto.getStatus());
-        project.setStartDate(projectReqDto.getStartDate());
-        project.setEndDate(projectReqDto.getEndDate());
+//        project.setName(projectReqDto.getProjectName());
+//        project.setCustomer(projectReqDto.getCustomer());
+//        project.setStatus(projectReqDto.getStatus());
+//        project.setStartDate(projectReqDto.getStartDate());
+//        project.setEndDate(projectReqDto.getEndDate());
+        mapper.projectReqDtoToProjectForEdit(project, projectReqDto);
 
-        Group group = groupRepository.getGroupById(projectReqDto.getGroupId());
+        Group group = groupRepository.getOne(projectReqDto.getGroupId());
         project.setGroup(group);
 
-        List<Employee> employees = employeeRepository.searchEmployeeByVisa(projectReqDto.getEmployeeVisa());
+        List<Employee> employees = employeeRepository.findEmployeeByVisaIn(projectReqDto.getEmployeeVisa());
         project.setEmployees(new HashSet<>(employees));
 
         projectRepository.save(project);
     }
+
+    @Override
+    public void deleteOneProject(ProjectReqDto projectReqDto) {
+        validateProjectNumExist(projectReqDto);
+
+        Project dummyProject = mapper.projectReqDtoToProject(projectReqDto);
+        List<Project> projectFound = projectRepository.getProjectByNumber(dummyProject.getProjectNumber());
+        Project project  = projectFound.get(0);
+        projectRepository.deleteOneProject(project);
+    }
+
+    public void validateProjectNumExistForMultiProjects(Long projectNum) {
+        //Project number edited exist
+        validator.validateTrue(projectRepository.getProjectBySingleNumber(projectNum) != null,
+                ProjectServiceErrorMessage.PROJECT_NUMBER_MUST_BE_EXIST);
+    }
+
+    @Override
+    public void deleteMultipleProjects(DeleteProjectMapDto deleteProjectMapDto) {
+        List<Long> listProjectNumber = new ArrayList<>();
+        for (Map.Entry<Long, Boolean> project : deleteProjectMapDto.getListProjectNum().entrySet()) {
+            if (project.getValue()) {
+                listProjectNumber.add(project.getKey());
+            }
+        }
+        for (Long projectNum : listProjectNumber) {
+            validateProjectNumExistForMultiProjects(projectNum);
+        }
+        for (Long projectNum : listProjectNumber) {
+            projectRepository.deleteOneProject(projectRepository
+                    .getProjectBySingleNumber(projectNum));
+        }
+    }
+
+
 }

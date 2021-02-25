@@ -26,7 +26,7 @@ public class ApplicationMapper {
         dto.setProjectNumber(entity.getProjectNumber());
         dto.setName(entity.getName());
         dto.setCustomer(entity.getCustomer());
-        dto.setStatus(entity.getStatus());
+        dto.setStatus(convertToLongStatus(entity.getStatus()));
         dto.setStartDate(entity.getStartDate());
 
         return dto;
@@ -52,15 +52,51 @@ public class ApplicationMapper {
         return dto;
     }
 
+    public String convertToShortStatus(String status) {
+        switch(status) {
+            case "New":
+                return "NEW";
+            case "Planned":
+                return "PLA";
+            case "In Progress":
+                return "INP";
+            case "Finished":
+                return "FIN";
+        }
+        return null;
+    }
+
+    public String convertToLongStatus(String status) {
+        switch(status) {
+            case "NEW":
+                return "New";
+            case "PLA":
+                return "Planned";
+            case "INP":
+                return "In Progress";
+            case "FIN":
+                return "Finished";
+        }
+        return null;
+    }
+
     public Project projectReqDtoToProject(ProjectReqDto entity) {
         Project project = new Project();
         project.setProjectNumber(entity.getProjectNumber());
         project.setName(entity.getProjectName());
         project.setCustomer(entity.getCustomer());
-        project.setStatus(entity.getStatus());
+        project.setStatus(convertToShortStatus(entity.getStatus()));
         project.setStartDate(entity.getStartDate());
         project.setEndDate(entity.getEndDate());
 
         return project;
+    }
+
+    public void projectReqDtoToProjectForEdit(Project project, ProjectReqDto entity) {
+        project.setName(entity.getProjectName());
+        project.setCustomer(entity.getCustomer());
+        project.setStatus(convertToShortStatus(entity.getStatus()));
+        project.setStartDate(entity.getStartDate());
+        project.setEndDate(entity.getEndDate());
     }
 }
