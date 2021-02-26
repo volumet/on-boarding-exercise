@@ -1,0 +1,20 @@
+.delete-line {
+    border: none;
+    background-color: #FFFFFF;
+    color: coral;
+    font-size: 13pt;
+}
+
+.delete-group {
+    display: flex;
+    justify-content: flex-end;
+    width: 900px;
+}
+
+.delete-button {
+    color: coral;
+}
+
+.delete-group-smaller:hover {
+    background-color: #FFFFFF !important;
+}

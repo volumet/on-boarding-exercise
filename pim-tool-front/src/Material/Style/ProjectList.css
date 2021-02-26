@@ -1,0 +1,89 @@
+.check-box {
+    width: 15px;
+    height: 15px;
+}
+
+th {
+    height: 32px;
+}
+
+.reset {
+    border: none;
+    background-color: white;
+    color: #2F85FA;
+    height: 38px;
+    width: 100px;
+    margin-left: 25px;
+}
+
+.search {
+    background-color: #007bff;
+    border-color: #007bff;
+    height: 38px;
+    width: 100px;
+    border-radius: 5px;
+    color: #FFFFFF;
+    margin-left: 25px;
+    margin-right: 25px;
+}
+
+.delete-button {
+    color: coral;
+}
+
+.dropdown-button {
+    width: 120px;
+    margin-right: 25px;
+}
+
+.table-text-left {
+    text-align: left;
+}
+
+.table-text-right {
+    text-align: right;
+}
+
+.table-text-center {
+    text-align: center;
+}
+
+.table-button-right {
+    text-align: center;
+}
+
+.table-number {
+    width: 60px;
+}
+
+.table-name {
+    width: 200px;
+}
+
+.table-status {
+    width: 120px;
+}
+
+.table-customer {
+    width: 140px;
+}
+
+.table-date {
+    width: 120px;
+}
+
+.table-delete {
+    width: 50px;
+}
+
+.table-check {
+    width: 50px;
+}
+
+.form-me {
+    display: flex;
+}
+
+.table-row {
+    height: 70px;
+}
