@@ -5,8 +5,12 @@ import TotalSelectedProject from "./NavItem/TotalSelectedProject";
 import {Link} from "react-router-dom";
 import DropdownItem from "react-bootstrap/DropdownItem";
 import Translate from "react-translate-component";
+import DeleteIcon from '@material-ui/icons/Delete';
+import IconButton from '@material-ui/core/IconButton';
 import counterpart from "counterpart";
 import en from "../lang/en";
+import "../Style/ProjectList.css"
+import {classes} from "istanbul-lib-coverage";
 
 counterpart.registerTranslations('en', en);
 
@@ -29,7 +33,6 @@ export default class ProjectList extends React.Component {
             sessionStorage.setItem('filterBar', '');
 
         if (sessionStorage.getItem('filterStatus') === null)
-            // sessionStorage.setItem('filterStatus', 'New');
             sessionStorage.setItem('filterStatus', '');
 
 
@@ -39,7 +42,6 @@ export default class ProjectList extends React.Component {
                 this.setState({projects: response.data});
             })
             .catch(error => {
-                console.log(error);
                 window.location = '/error';
             });
 
@@ -61,8 +63,6 @@ export default class ProjectList extends React.Component {
     }
 
     deleteHandler = (event, projectNumber) => {
-        console.log(projectNumber)
-
         let url = 'http://localhost:8080/projects/delete';
         axios.post(url, {
             project_num: projectNumber,
@@ -76,11 +76,9 @@ export default class ProjectList extends React.Component {
         }, null)
             .then(
                 response => {
-                    console.log(response.data);
                     window.location = "/";
                 })
             .catch(error => {
-                console.log(Object.assign({}, error.response.data))
                 window.location = "/error";
             });
     }
@@ -89,19 +87,18 @@ export default class ProjectList extends React.Component {
         let newProject = 'New';
         if (project.status === newProject) {
             return (
-                <div>
-                    <Button as="input" type="reset" value="Delete" className="footer-button-a"
-                            onClick={(event) => {
-                                this.deleteHandler(event, project.projectNumber)
-                            }}/>
-                </div>
+                    <IconButton aria-label="delete" className={classes.margin}
+                                onClick={(event) => {
+                                    this.deleteHandler(event, project.projectNumber)
+                                }}>
+                        <DeleteIcon fontSize="inherit" className="delete-button"/>
+                    </IconButton>
             );
         }
 
     }
 
     selectHandler = event => {
-        console.log('called')
         let isChecked = event.target.checked;
         let item = event.target.value;
         let operand; //+1 if checked and -1 if unchecked
@@ -115,7 +112,6 @@ export default class ProjectList extends React.Component {
             operand = 0;
             isChecked = false;
         }
-
         this.setState({
             checkItems: this.state.checkItems.set(item, isChecked),
             selectedRows: this.state.selectedRows + operand
@@ -126,15 +122,21 @@ export default class ProjectList extends React.Component {
         return status !== 'New';
     }
 
+    checkControl(projectNumber) {
+        return this.state.checkItems.get(projectNumber.toString()) === true;
+    }
+
     projectMapper(project) {
         return (
-            <tr key={project.id}>
-                <td>
+            <tr key={project.id} className="table-row">
+                <td className="table-button-right">
                     <Form.Check onChange={this.selectHandler}
                                 value={project.projectNumber}
-                                disabled={this.disableControl(project.status)}/>
+                                checked={this.checkControl(project.projectNumber)}
+                                disabled={this.disableControl(project.status)}
+                                className="check-box"/>
                 </td>
-                <td>
+                <td className="table-text-right">
                     <Link to={{
                         pathname: '/edit',
                         state: {
@@ -144,11 +146,11 @@ export default class ProjectList extends React.Component {
                         {project.projectNumber}
                     </Link>
                 </td>
-                <td>{project.name}</td>
-                <td>{project.status}</td>
-                <td>{project.customer}</td>
-                <td>{project.startDate}</td>
-                <td>
+                <td className="table-text-left">{project.name}</td>
+                <td className="table-text-left">{project.status}</td>
+                <td className="table-text-left">{project.customer}</td>
+                <td className="table-text-center">{project.startDate}</td>
+                <td className="table-button-right">
                     {this.deleteLayout(project)}
                 </td>
             </tr>
@@ -206,7 +208,7 @@ export default class ProjectList extends React.Component {
         return (
             <div className="main">
                 <Container fluid>
-                    <Form className="form" onSubmit={this.handleSubmit}>
+                    <Form className="form form-me" onSubmit={this.handleSubmit}>
                         <Row>
                             <Col xl={12}>
                                 <Form.Group as={Row} controlId="formPlaintextEmail">
@@ -225,6 +227,7 @@ export default class ProjectList extends React.Component {
                                             onSelect={event => this.handleChangeStatusBar(event)}
                                             id="dropdown-button-drop-down"
                                             drop="down"
+                                            className="dropdown-button"
                                             title={this.state.filterStatus}>
                                             <DropdownItem eventKey="All"><Translate
                                                 content="projectList.status_all"/></DropdownItem>
@@ -240,11 +243,13 @@ export default class ProjectList extends React.Component {
                                     </Col>
                                     <Col sm="2">
                                         <Translate component="button" as="input" type="submit"
-                                                   content={"projectList.search"}/>
+                                                   content={"projectList.search"}
+                                                   className="search"/>
                                     </Col>
                                     <Col sm="1">
                                         <Translate component="button" as="input" type="reset"
-                                                   content={"projectList.reset"} onClick={this.handleReset}/>
+                                                   content={"projectList.reset"} onClick={this.handleReset}
+                                                   className="reset"/>
                                     </Col>
                                 </Form.Group>
                             </Col>
@@ -253,25 +258,20 @@ export default class ProjectList extends React.Component {
                     <Table bordered responsive>
                         <thead>
                         <tr>
-                            <th></th>
-                            <th><Translate content="projectList.number"/></th>
-                            <th><Translate content="projectList.name"/></th>
-                            <th><Translate content="projectList.status"/></th>
-                            <th><Translate content="projectList.customer"/></th>
-                            <th><Translate content="projectList.start_date"/></th>
-                            <th><Translate content="projectList.delete"/></th>
+                            <th className="table-check"></th>
+                            <th className="table-text-right table-number"><Translate content="projectList.number"/></th>
+                            <th className="table-text-left table-name"><Translate content="projectList.name"/></th>
+                            <th className="table-text-left table-status"><Translate content="projectList.status"/></th>
+                            <th className="table-text-left table-customer"><Translate content="projectList.customer"/></th>
+                            <th className="table-text-center table-date"><Translate content="projectList.start_date"/></th>
+                            <th className="table-text-center table-delete"><Translate content="projectList.delete"/></th>
                         </tr>
                         </thead>
                         <tbody>
-                        {/*{this.state.projects.map(project => this.projectMapper(project))}*/}
-
-                        {/*{this.state.projects.filter(project => project.projectNumber*/}
-                        {/*    .toString()*/}
-                        {/*    .includes(this.state.filter))*/}
-                        {/*    .map(project => this.projectMapper(project))}*/}
 
                         {filteredProjects
                             .sort((project_a, project_b) => (project_a.projectNumber > project_b.projectNumber) ? 1 : -1)
+                            .slice(0, 300)
                             .map(project => this.projectMapper(project))}
                         </tbody>
                     </Table>

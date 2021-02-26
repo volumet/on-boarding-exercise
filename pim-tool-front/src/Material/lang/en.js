@@ -40,7 +40,7 @@ export default {
         editProject: 'Edit Project Information'
     },
     formError : {
-        mandatory: 'Missing Mandatory Fields'
+        mandatory: 'Missing Mandatory Fields (*)'
     },
     backEndFieldError : {
         projectNumberMustNotBeDuplicate: 'Project Number Must Not Be Duplicate',
@@ -65,5 +65,15 @@ export default {
     },
     totalSelectedProject : {
         deleteLine : 'delete selected items'
+    },
+    fieldError : {
+        project_num_key : 'Project number ',
+        project_name_key : 'Project name ',
+        customer_key : 'Customer ',
+        group_key : 'Group ',
+        member_key : 'Member ',
+        start_date_key : 'Start date ',
+        end_date_key : 'End date ',
+        error_line : 'must be full filled'
     }
 }

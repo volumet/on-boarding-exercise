@@ -17,19 +17,19 @@ class Navigation extends React.Component {
                     <Nav className="navigation">
                         <Row>
                             <Col xl={12}>
-                                <Nav.Link href="/">
-                                    <p className="text-semi-bold first-element">
+                                <Nav.Link href="/" disabled="true">
+                                    <p className="text-semi-bold first-element second-element">
                                         <Translate content="navigation.title"/>
                                     </p>
                                 </Nav.Link>
-                                <Nav.Link href="/new">
-                                    <p className="text-semi-bold">
+                                <Nav.Link disabled="true">
+                                    <p className="text-semi-bold second-element">
                                         <Translate content="navigation.new"/>
                                     </p>
                                 </Nav.Link>
-                                <Nav.Link href="/project"><Translate content="navigation.project"/></Nav.Link>
-                                <Nav.Link><Translate content="navigation.customer"/></Nav.Link>
-                                <Nav.Link><Translate content="navigation.supplier"/></Nav.Link>
+                                <Nav.Link href="/new"><Translate content="navigation.project" className="normal-color" /></Nav.Link>
+                                <Nav.Link disabled="true"><Translate content="navigation.customer" className="normal-color" /></Nav.Link>
+                                <Nav.Link disabled="true"><Translate content="navigation.supplier" className="normal-color" /></Nav.Link>
                             </Col>
                         </Row>
                     </Nav>

@@ -12,3 +12,8 @@
     font-weight: 600;
     color: #666666;
 }
+
+.required {
+    margin-left: 2px;
+    color: #FF0000;
+}

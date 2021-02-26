@@ -6,6 +6,7 @@ import Footer from "./Footer";
 import axios from 'axios';
 import Translate from "react-translate-component";
 import FormError from "./FormError";
+import "../../Style/NavItem/NewProject.css"
 
 class NewProject extends React.Component {
     constructor(props) {
@@ -15,16 +16,17 @@ class NewProject extends React.Component {
             project_name: '',
             customer: '',
             group: '',
-            group_title: <Translate content="newWorkSpace.default_group_title" /> ,
+            group_title: <Translate content="newWorkSpace.default_group_title"/>,
             member: [],
             status: 'New',
-            status_title: <Translate content="newWorkSpace.status_new" /> ,
+            status_title: <Translate content="newWorkSpace.status_new"/>,
             start_date: '',
             end_date: '',
             form_valid: true,
             proNumEmptyErr: false,
             proNameEmptyErr: false,
             customerEmptyErr: false,
+            groupEmptyErr: false,
             memberEmptyErr: false,
             startDateEmptyErr: false,
             endDateEmptyErr: false,
@@ -50,19 +52,19 @@ class NewProject extends React.Component {
             this.state.project_name === '' ||
             this.state.customer === '' ||
             this.state.group === '' ||
-            this.state.member.length === 0 ||
             this.state.group === '' ||
             this.state.status === '' ||
             this.state.start_date === '' ||
             this.state.end_date === '') {
 
-            let proNumEmpErr, proNameEmpErr, cusEmpErr, memberEmpErr, startDateEmpErr, endDateEmpErr = false;
+            let proNumEmpErr, proNameEmpErr, cusEmpErr, groupEmpErr, startDateEmpErr,
+                endDateEmpErr = false;
 
 
             proNumEmpErr = this.state.project_num === '';
             proNameEmpErr = this.state.project_name === '';
             cusEmpErr = this.state.customer === '';
-            memberEmpErr = this.state.member.length === 0;
+            groupEmpErr = this.state.group === '';
             startDateEmpErr = this.state.start_date === '';
             endDateEmpErr = this.state.end_date === '';
 
@@ -71,42 +73,41 @@ class NewProject extends React.Component {
                 proNumEmptyErr: proNumEmpErr,
                 proNameEmptyErr: proNameEmpErr,
                 customerEmptyErr: cusEmpErr,
-                memberEmptyErr: memberEmpErr,
+                groupEmptyErr: groupEmpErr,
                 startDateEmptyErr: startDateEmpErr,
                 endDateEmptyErr: endDateEmpErr
             })
         } else {
-        let postUrl = 'new'
-        if (this.props.title === "editProject") {
-            postUrl = 'edit';
-        }
-        let url = 'http://localhost:8080/projects/' + postUrl;
-        axios.post(url, {
-            project_num: this.state.project_num,
-            project_name: this.state.project_name,
-            customer: this.state.customer,
-            group: this.state.group,
-            member: this.state.member,
-            status: this.state.status,
-            start_date: this.state.start_date,
-            end_date: this.state.end_date
-        }, null)
-            .then(
-                response => {
-                    window.location = "/";
+            let postUrl = 'new'
+            if (this.props.title === "editProject") {
+                postUrl = 'edit';
+            }
+            let url = 'http://localhost:8080/projects/' + postUrl;
+            axios.put(url, {
+                project_num: this.state.project_num,
+                project_name: this.state.project_name,
+                customer: this.state.customer,
+                group: this.state.group,
+                member: this.state.member,
+                status: this.state.status,
+                start_date: this.state.start_date,
+                end_date: this.state.end_date
+            }, null)
+                .then(
+                    response => {
+                        window.location = "/";
+                    })
+                .catch(error => {
+                    let result = Object.assign({}, error.response.data);
+                    this.setState({
+                        errorCode: result.errorCode,
+                        errorMessageKey: result.errorMessageKey
+                    })
+                });
 
-                })
-            .catch(error => {
-                let result = Object.assign({}, error.response.data);
-                this.setState({
-                    errorCode: result.errorCode,
-                    errorMessageKey: result.errorMessageKey
-                })
-            });
-
-        this.setState({
-            form_valid: true
-        })
+            this.setState({
+                form_valid: true
+            })
         }
     }
 
@@ -138,10 +139,6 @@ class NewProject extends React.Component {
     render() {
         let proNum;
 
-        // if (this.state.errorCode !== 200) {
-        //
-        // }
-
         if (this.props.location) {
             proNum = this.props.location.state.proNum;
         }
@@ -151,7 +148,7 @@ class NewProject extends React.Component {
                     <FormError valid={this.state.form_valid}/>
                     <Row>
                         <Col>
-                            <Title name=<Translate content={"newProject." + this.props.title}/>/>
+                            <Title name=<Translate content={"newProject." + this.props.title} className="label"/>/>
                         </Col>
                     </Row>
 
@@ -171,6 +168,7 @@ class NewProject extends React.Component {
                                     proNumEmptyErr={this.state.proNumEmptyErr}
                                     proNameEmptyErr={this.state.proNameEmptyErr}
                                     customerEmptyErr={this.state.customerEmptyErr}
+                                    groupEmptyErr={this.state.groupEmptyErr}
                                     memberEmptyErr={this.state.memberEmptyErr}
                                     startDateEmptyErr={this.state.startDateEmptyErr}
                                     endDateEmptyErr={this.state.endDateEmptyErr}

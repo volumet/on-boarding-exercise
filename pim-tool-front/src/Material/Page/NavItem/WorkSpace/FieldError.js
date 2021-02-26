@@ -1,11 +1,16 @@
 import React from 'react';
+import Translate from "react-translate-component";
+import "../../../Style/NavItem/WorkSpace/FieldError.css"
 
 class FieldError extends React.Component {
 
     render() {
         if (this.props.error) {
             return (
-                <p>{this.props.field} must be full filled!</p>
+                <p className="error-message">
+                    <Translate content={"fieldError." + this.props.field} />
+                    <Translate content="fieldError.error_line" />
+                </p>
             );
         }
         else

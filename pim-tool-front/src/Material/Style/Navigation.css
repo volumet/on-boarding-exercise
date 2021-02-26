@@ -8,10 +8,19 @@
     font-size: 14pt;
     font-weight: 600;
     color: #2f85fa;
+    font-family: "Segoe UI", Serif;
+}
+
+.normal-color {
+    color: #666666;
 }
 
 .first-element {
     margin-top: 15px;
+}
+
+.second-element {
+    font-size: 18pt;
 }
 
 .navbar {

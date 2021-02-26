@@ -20,8 +20,6 @@ class NewWorkSpace extends React.Component {
         this.state = {
             employees: [],
             group: [],
-            // project_num_title: '',
-            // disable: false
         }
     }
 
@@ -63,10 +61,11 @@ class NewWorkSpace extends React.Component {
         return (
             <React.Fragment>
                 <Form.Group as={Row} controlId="formPlaintextEmail">
-                    <Form.Label column sm="2">
+                    <Form.Label column sm="3" className="label">
                         <Translate content="newWorkSpace.projectNum"/>
+                        <span className="required">*</span>
                     </Form.Label>
-                    <Col sm="10">
+                    <Col sm="9">
                         <Form.Control
                             name="project_num"
                             className={this.props.proNumEmptyErr
@@ -76,7 +75,7 @@ class NewWorkSpace extends React.Component {
                             value={this.state.project_num_title}
                             disabled={this.state.disable}
                             onChange={event => this.props.changeHandler(event)}/>
-                        <FieldError error={this.props.proNumEmptyErr} field="Project number"/>
+                        <FieldError error={this.props.proNumEmptyErr} field="project_num_key"/>
                         <BackEndFieldError errorMessageKey={this.props.errorMessageKey}
                                            preferedKey='CreateProject.Error.Msg.projectNumberMustNotBeDuplicate'/>
                         <BackEndFieldError errorMessageKey={this.props.errorMessageKey}
@@ -85,36 +84,39 @@ class NewWorkSpace extends React.Component {
                 </Form.Group>
 
                 <Form.Group as={Row} controlId="formPlaintextPassword">
-                    <Form.Label column sm="2">
+                    <Form.Label column sm="3" className="label">
                         <Translate content="newWorkSpace.projectName"/>
+                        <span className="required">*</span>
                     </Form.Label>
-                    <Col sm="10">
+                    <Col sm="9">
                         <Form.Control name="project_name"
                                       className={this.props.proNameEmptyErr ? "error" : ""}
                                       type="text"
                                       onChange={event => this.props.changeHandler(event)}/>
-                        <FieldError error={this.props.proNameEmptyErr} field="Project name"/>
+                        <FieldError error={this.props.proNameEmptyErr} field="project_name_key"/>
                     </Col>
                 </Form.Group>
 
                 <Form.Group as={Row} controlId="formPlaintextPassword">
-                    <Form.Label column sm="2">
+                    <Form.Label column sm="3" className="label">
                         <Translate content="newWorkSpace.customer"/>
+                        <span className="required">*</span>
                     </Form.Label>
-                    <Col sm="10">
+                    <Col sm="9">
                         <Form.Control name="customer"
                                       className={this.props.customerEmptyErr ? "error" : ""}
                                       type="text"
                                       onChange={event => this.props.changeHandler(event)}/>
-                        <FieldError error={this.props.customerEmptyErr} field="Customer"/>
+                        <FieldError error={this.props.customerEmptyErr} field="customer_key"/>
                     </Col>
                 </Form.Group>
 
                 <Form.Group as={Row} controlId="formPlaintextPassword">
-                    <Form.Label column sm="2">
+                    <Form.Label column sm="3" className="label">
                         <Translate content="newWorkSpace.group"/>
+                        <span className="required">*</span>
                     </Form.Label>
-                    <Col sm="10">
+                    <Col sm="9">
                         <DropdownButton
                             as={ButtonGroup}
                             key="down"
@@ -133,22 +135,21 @@ class NewWorkSpace extends React.Component {
                                 );
                             })}
                         </DropdownButton>
+                        <FieldError error={this.props.groupEmptyErr} field="group_key"/>
                     </Col>
                 </Form.Group>
 
                 <Form.Group as={Row} controlId="formPlaintextPassword">
-                    <Form.Label column sm="2">
+                    <Form.Label column sm="3" className="label">
                         <Translate content="newWorkSpace.member"/>
                     </Form.Label>
-                    <Col sm="10">
+                    <Col sm="9">
                         <Autocomplete
                             multiple
                             id="tags-filled"
                             onChange={this.props.autoHandler}
-                            // options={this.state.employees.map((employee) => employee.visa + ': ' + employee.fullName)}
                             options={this.state.employees.map((employee) => employee.visa)}
-                            className={this.props.memberEmptyErr ||
-                            this.props.errorMessageKey === 'CreateProject.Error.Msg.memberMustBeExist' ? "error" : ""}
+                            className={this.props.errorMessageKey === 'CreateProject.Error.Msg.memberMustBeExist' ? "error" : ""}
                             freeSolo
                             renderTags={(value, getTagProps) =>
                                 value.map((option, index) => (
@@ -163,17 +164,18 @@ class NewWorkSpace extends React.Component {
                                 <TextField {...params} variant="outlined" placeholder="Members"/>
                             )}
                         />
-                        <FieldError error={this.props.memberEmptyErr} field="Member"/>
+                        {/*<FieldError error={this.props.memberEmptyErr} field="member_key"/>*/}
                         <BackEndFieldError errorMessageKey={this.props.errorMessageKey}
                                            preferedKey='CreateProject.Error.Msg.memberMustBeExist'/>
                     </Col>
                 </Form.Group>
 
                 <Form.Group as={Row} controlId="formPlaintextPassword">
-                    <Form.Label column sm="2">
+                    <Form.Label column sm="3" className="label">
                         <Translate content="newWorkSpace.status"/>
+                        <span className="required">*</span>
                     </Form.Label>
-                    <Col sm="10">
+                    <Col sm="9">
                         <DropdownButton
                             as={ButtonGroup}
                             key="down"
@@ -192,28 +194,30 @@ class NewWorkSpace extends React.Component {
                 </Form.Group>
 
                 <Form.Group as={Row} controlId="formPlaintextPassword">
-                    <Form.Label column sm="2">
+                    <Form.Label column sm="3" className="label">
                         <Translate content="newWorkSpace.startDate"/>
+                        <span className="required">*</span>
                     </Form.Label>
-                    <Col sm="4">
+                    <Col sm="3">
                         <Form.Control name="start_date"
                                       className={this.props.startDateEmptyErr ||
                                       this.props.errorMessageKey === 'CreateProject.Error.Msg.deadlineMustNotBeGreaterThanProjectFinishingDate' ? "error" : ""}
                                       type="date"
                                       onChange={event => this.props.changeHandler(event)}/>
-                        <FieldError error={this.props.startDateEmptyErr} field="Start date"/>
+                        <FieldError error={this.props.startDateEmptyErr} field="start_date_key"/>
                     </Col>
 
-                    <Form.Label column sm="2">
+                    <Form.Label column sm="3" className="label">
                         <Translate content="newWorkSpace.endDate"/>
+                        <span className="required">*</span>
                     </Form.Label>
-                    <Col sm="4">
+                    <Col sm="3">
                         <Form.Control name="end_date"
                                       className={this.props.endDateEmptyErr ||
                                       this.props.errorMessageKey === 'CreateProject.Error.Msg.deadlineMustNotBeGreaterThanProjectFinishingDate' ? "error" : ""}
                                       type="date"
                                       onChange={event => this.props.changeHandler(event)}/>
-                        <FieldError error={this.props.endDateEmptyErr} field="End date"/>
+                        <FieldError error={this.props.endDateEmptyErr} field="end_date_key"/>
                     </Col>
                     <BackEndFieldError errorMessageKey={this.props.errorMessageKey}
                                        preferedKey='CreateProject.Error.Msg.deadlineMustNotBeGreaterThanProjectFinishingDate'/>

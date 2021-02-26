@@ -9,15 +9,20 @@
 .footer-button-a {
     margin-top: 25px;
     margin-right: 20px;
-    background-color: lightgrey !important;
-    color: black !important;
-    border-color: black !important;
+    background-color: #B9B9B9 !important;
+    height: 35px;
     width: 150px;
+    border-color: #666666 !important;
+    border-radius: 5px;
 }
 
 .footer-button-b {
     margin-top: 25px;
     margin-left: 20px;
+    background-color: #2F85FA !important;
     width: 150px;
+    height: 35px;
+    border-radius: 5px;
+    color: #FFFFFF;
 }
 
