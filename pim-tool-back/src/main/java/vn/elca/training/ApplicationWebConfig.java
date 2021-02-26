@@ -27,10 +27,4 @@ public class ApplicationWebConfig extends SpringBootServletInitializer {
         return builder.sources(ApplicationWebConfig.class);
     }
 
-//    @Bean
-//    public ServletRegistrationBean h2servletRegistration() {
-//        ServletRegistrationBean registrationBean = new ServletRegistrationBean(new WebServlet());
-//        registrationBean.addUrlMappings("/h2console/*");
-//        return registrationBean;
-//    }
 }

@@ -6,5 +6,5 @@ import java.util.List;
 
 public interface EmployeeRepositoryCustom {
     List<Employee> getListEmployee();
-    List<Employee> searchEmployeeByVisa(List<String> visas);
+    Long searchEmployeeByVisa(List<String> visas);
 }

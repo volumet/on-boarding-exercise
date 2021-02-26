@@ -13,11 +13,11 @@ import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/groups")
+@CrossOrigin
 public class GroupController extends AbstractApplicationController {
     @Autowired
     GroupService groupService;
 
-    @CrossOrigin
     @GetMapping("/load")
     public List<GroupDto> load() {
         return groupService.getListGroup()

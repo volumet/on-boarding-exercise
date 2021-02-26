@@ -1,5 +1,6 @@
 package vn.elca.training.model.entity;
 
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -8,13 +9,16 @@ import org.hibernate.annotations.NotFoundAction;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
+import java.time.LocalDate;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.Set;
 
 @Entity(name = "EMPLOYEE")
 @Getter
 @Setter
 @NoArgsConstructor
+@AllArgsConstructor
 public class Employee {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -39,6 +43,7 @@ public class Employee {
 
     @Column(name = "VERSION")
     @NotNull
+    @Version
     private Long version;
 
     @OneToOne(mappedBy = "leader", fetch = FetchType.LAZY)
@@ -52,5 +57,12 @@ public class Employee {
             inverseJoinColumns = @JoinColumn(name = "PROJECT_ID")
     )
     @NotFound(action = NotFoundAction.IGNORE)
-    private Set<Project> projects;
+    private Set<Project> projects = new HashSet<>();
+
+    public Employee(String visa, String firstName, String lastName, Date date) {
+        this.visa = visa;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.birthdate = date;
+    }
 }

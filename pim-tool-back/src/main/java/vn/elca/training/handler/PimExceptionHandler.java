@@ -1,5 +1,7 @@
 package vn.elca.training.handler;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -11,18 +13,11 @@ import vn.elca.training.model.exception.PimBusinessException;
 
 @ControllerAdvice
 public class PimExceptionHandler extends ResponseEntityExceptionHandler {
-    @ExceptionHandler(DataIntegrityViolationException.class)
-    public ResponseEntity<String> handleSQLServerException(DataIntegrityViolationException exception) {
-        return new ResponseEntity<>(exception.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
-    }
-
-    @ExceptionHandler(Exception.class)
-    public ResponseEntity<String> handleException(Exception exception) {
-        return new ResponseEntity<>(exception.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
-    }
+    private Log logger = LogFactory.getLog(getClass());
 
     @ExceptionHandler(PimBusinessException.class)
     public final ResponseEntity<PimErrorResponse> handlePimBusinessException(PimBusinessException exception) {
+        logger.error("Error occured", exception);
         return new ResponseEntity<>(PimErrorResponse.builder()
                 .errorCode(exception.getErrorMessageData().getErrorCode())
                 .errorMessageKey(exception.getErrorMessageData().getErrorMessageKey())

@@ -13,30 +13,24 @@ public class ProjectRepositoryImpl implements ProjectRepositoryCustom {
     EntityManager em;
 
     @Override
-    public List<Project> getListProject() {
-        return new JPAQuery<Project>(em)
-                .from(QProject.project)
-                .fetch();
-    }
-
-    @Override
     public List<Project> getProjectByNumber(Long proNum) {
         return new JPAQuery<Project>(em)
                 .from(QProject.project)
                 .join(QProject.project.group, QGroup.group)
                 .fetchJoin()
-                .join(QProject.project.employees, QEmployee.employee)
+                .leftJoin(QProject.project.employees, QEmployee.employee)
                 .fetchJoin()
                 .where(QProject.project.projectNumber.eq(proNum))
+                .distinct()
                 .fetch();
     }
 
     @Override
     public void deleteOneProject(Project project) {
-        em.remove(project);
         for (Employee employee : project.getEmployees()) {
             employee.getProjects().remove(project);
         }
+        em.remove(project);
     }
 
     @Override
@@ -45,7 +39,7 @@ public class ProjectRepositoryImpl implements ProjectRepositoryCustom {
                 .from(QProject.project)
                 .join(QProject.project.group, QGroup.group)
                 .fetchJoin()
-                .join(QProject.project.employees, QEmployee.employee)
+                .leftJoin(QProject.project.employees, QEmployee.employee)
                 .fetchJoin()
                 .where(QProject.project.projectNumber.eq(proNum)
                         .and(QProject.project.status.eq("NEW")))

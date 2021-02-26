@@ -1,6 +1,5 @@
 package vn.elca.training.web;
 
-import com.microsoft.sqlserver.jdbc.SQLServerException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import vn.elca.training.model.dto.DeleteProjectMapDto;
@@ -16,18 +15,20 @@ import java.util.stream.Collectors;
  */
 @RestController
 @RequestMapping("/projects")
+@CrossOrigin
 public class ProjectController extends AbstractApplicationController {
 
     @Autowired
     private ProjectService projectService;
 
-    @PostMapping("/new")
+
+    @PutMapping("/new")
     public String insert(@RequestBody ProjectReqDto projectReqDto) {
         projectService.createNewProject(projectReqDto);
         return "inserted";
     }
 
-    @PostMapping("/edit")
+    @PutMapping("/edit")
     public String edit(@RequestBody ProjectReqDto projectReqDto) {
         projectService.editProject(projectReqDto);
         return "edited";

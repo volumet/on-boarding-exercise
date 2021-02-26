@@ -6,6 +6,7 @@ import lombok.Setter;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
+import java.util.HashSet;
 import java.util.Set;
 
 @Entity(name = "GROUP")
@@ -20,6 +21,7 @@ public class Group {
 
     @Column(name = "VERSION")
     @NotNull
+    @Version
     private Long version;
 
     @OneToOne(fetch = FetchType.LAZY)
@@ -27,5 +29,6 @@ public class Group {
     private Employee leader;
 
     @OneToMany(mappedBy = "group", fetch = FetchType.LAZY)
-    private Set<Project> projects;
+    private Set<Project> projects = new HashSet<>();
+
 }

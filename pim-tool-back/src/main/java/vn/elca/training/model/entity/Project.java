@@ -2,7 +2,6 @@ package vn.elca.training.model.entity;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 import org.hibernate.annotations.NotFound;
 import org.hibernate.annotations.NotFoundAction;
@@ -10,6 +9,7 @@ import org.hibernate.annotations.NotFoundAction;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.time.LocalDate;
+import java.util.HashSet;
 import java.util.Set;
 
 /**
@@ -55,11 +55,11 @@ public class Project {
 
     @ManyToMany(mappedBy = "projects", fetch = FetchType.LAZY)
     @NotFound(action = NotFoundAction.IGNORE)
-    private Set<Employee> employees;
+    private Set<Employee> employees = new HashSet<>();
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "GROUP_ID")
-    Group group;
+    private Group group;
 
     public void setEmployees(Set<Employee> employees) {
         this.employees = employees;
@@ -68,8 +68,24 @@ public class Project {
         }
     }
 
+    public void clearEmployees() {
+        for (Employee employee : this.employees) {
+            employee.getProjects().remove(this);
+        }
+        this.employees.clear();
+    }
+
     public void setGroup(Group group) {
         this.group = group;
         group.getProjects().add(this);
+    }
+
+    public Project(Long projectNumber, String name, String customer, String status, LocalDate st, LocalDate en) {
+        this.projectNumber = projectNumber;
+        this.name = name;
+        this.customer = customer;
+        this.status = status;
+        this.startDate = st;
+        this.endDate = en;
     }
 }

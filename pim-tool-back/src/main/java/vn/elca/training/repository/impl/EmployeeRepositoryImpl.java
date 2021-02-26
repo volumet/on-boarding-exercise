@@ -7,7 +7,6 @@ import vn.elca.training.repository.EmployeeRepositoryCustom;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-import java.util.ArrayList;
 import java.util.List;
 
 public class EmployeeRepositoryImpl implements EmployeeRepositoryCustom {
@@ -22,17 +21,11 @@ public class EmployeeRepositoryImpl implements EmployeeRepositoryCustom {
     }
 
     @Override
-    public List<Employee> searchEmployeeByVisa(List<String> visas) {
-//        List<Employee> employees = new ArrayList<>();
-//        for (String visa : visas) {
+    public Long searchEmployeeByVisa(List<String> visas) {
             return new JPAQuery<Employee>(em)
                     .from(QEmployee.employee)
                     .where(QEmployee.employee.visa.in(visas))
-                    .fetch();
-//            if (!searchedList.isEmpty()) {
-//                employees.add(searchedList.get(0));
-//            }
-//        }
+                    .fetchCount();
 
     }
 }

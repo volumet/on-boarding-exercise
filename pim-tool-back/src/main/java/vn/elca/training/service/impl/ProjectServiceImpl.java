@@ -17,10 +17,7 @@ import vn.elca.training.repository.GroupRepository;
 import vn.elca.training.repository.ProjectRepository;
 import vn.elca.training.service.ProjectService;
 
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * @author vlp
@@ -42,7 +39,7 @@ public class ProjectServiceImpl extends AbstractService implements ProjectServic
 
     @Override
     public List<Project> getListProject() {
-        return projectRepository.getListProject();
+        return projectRepository.findAll();
     }
 
     public void validateNotNull(ProjectReqDto projectReqDto) {
@@ -72,12 +69,10 @@ public class ProjectServiceImpl extends AbstractService implements ProjectServic
 
     public void validateEmployeeExist(ProjectReqDto projectReqDto) {
         //All employee visas exist
-        // TODO replace with count query
         validator.validateTrue(
                 (employeeRepository
-                        .searchEmployeeByVisa(projectReqDto.getEmployeeVisa()).size()
-                        == projectReqDto.getEmployeeVisa().size())
-                        && (projectReqDto.getEmployeeVisa().size() > 0),
+                        .searchEmployeeByVisa(projectReqDto.getEmployeeVisa())
+                        == projectReqDto.getEmployeeVisa().size()),
                 ProjectServiceErrorMessage.MEMBER_MUST_BE_EXIST);
     }
 
@@ -125,19 +120,14 @@ public class ProjectServiceImpl extends AbstractService implements ProjectServic
         Project dummyProject = mapper.projectReqDtoToProject(projectReqDto);
         //TODO return Optional<Project> instead of List
         List<Project> projectFound = projectRepository.getProjectByNumber(dummyProject.getProjectNumber());
-        Project project  = projectFound.get(0);
-
-//        project.setName(projectReqDto.getProjectName());
-//        project.setCustomer(projectReqDto.getCustomer());
-//        project.setStatus(projectReqDto.getStatus());
-//        project.setStartDate(projectReqDto.getStartDate());
-//        project.setEndDate(projectReqDto.getEndDate());
+        Project project = projectFound.get(0);
         mapper.projectReqDtoToProjectForEdit(project, projectReqDto);
 
         Group group = groupRepository.getOne(projectReqDto.getGroupId());
         project.setGroup(group);
 
         List<Employee> employees = employeeRepository.findEmployeeByVisaIn(projectReqDto.getEmployeeVisa());
+        project.clearEmployees();
         project.setEmployees(new HashSet<>(employees));
 
         projectRepository.save(project);
@@ -149,7 +139,7 @@ public class ProjectServiceImpl extends AbstractService implements ProjectServic
 
         Project dummyProject = mapper.projectReqDtoToProject(projectReqDto);
         List<Project> projectFound = projectRepository.getProjectByNumber(dummyProject.getProjectNumber());
-        Project project  = projectFound.get(0);
+        Project project = projectFound.get(0);
         projectRepository.deleteOneProject(project);
     }
 

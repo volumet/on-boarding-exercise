@@ -10,11 +10,11 @@ import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/employees")
+@CrossOrigin
 public class EmployeeController extends AbstractApplicationController {
     @Autowired
     EmployeeService employeeService;
 
-    @CrossOrigin
     @GetMapping("/load")
     public List<EmployeeDto> loadEmployee() {
         return employeeService.getListEmployee()

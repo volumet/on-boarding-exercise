@@ -1,6 +1,7 @@
 package vn.elca.training.model.dto;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
 import java.time.LocalDate;
@@ -8,6 +9,7 @@ import java.util.List;
 
 @Getter
 @Setter
+@AllArgsConstructor
 public class ProjectReqDto {
     @JsonProperty("project_num")
     private Long projectNumber;
