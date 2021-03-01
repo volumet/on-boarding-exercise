@@ -17,3 +17,11 @@
     margin-left: 2px;
     color: #FF0000;
 }
+
+.drop-size {
+    width: 210px !important;
+}
+
+.mem-size {
+    /*height: 30px;*/
+}

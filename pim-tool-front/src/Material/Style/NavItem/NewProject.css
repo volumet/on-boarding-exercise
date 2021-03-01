@@ -1,5 +1,13 @@
 .label {
-    size: 14pt;
+    font-size: 14pt;
+    font-family: 'Segoe UI', Serif;
+    font-weight: 600;
+    color: #666666;
+}
+
+.label-large {
+    size: 50pt;
+    font-size: 17pt;
     font-family: 'Segoe UI', Serif;
     font-weight: 600;
     color: #666666;

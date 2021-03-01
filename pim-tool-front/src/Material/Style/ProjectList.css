@@ -4,7 +4,8 @@
 }
 
 th {
-    height: 32px;
+    height: 26px;
+    padding: 3px 5px 3px 5px !important;
 }
 
 .reset {
@@ -85,5 +86,11 @@ th {
 }
 
 .table-row {
-    height: 70px;
+    height: 50px;
+}
+
+.text-font {
+    font-family: "Segoe UI", Serif;
+    font-size: 14pt;
+    color: #666666;
 }

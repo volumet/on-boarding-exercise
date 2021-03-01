@@ -54,11 +54,9 @@ class NewProject extends React.Component {
             this.state.group === '' ||
             this.state.group === '' ||
             this.state.status === '' ||
-            this.state.start_date === '' ||
-            this.state.end_date === '') {
+            this.state.start_date === '') {
 
-            let proNumEmpErr, proNameEmpErr, cusEmpErr, groupEmpErr, startDateEmpErr,
-                endDateEmpErr = false;
+            let proNumEmpErr, proNameEmpErr, cusEmpErr, groupEmpErr, startDateEmpErr = false;
 
 
             proNumEmpErr = this.state.project_num === '';
@@ -66,7 +64,6 @@ class NewProject extends React.Component {
             cusEmpErr = this.state.customer === '';
             groupEmpErr = this.state.group === '';
             startDateEmpErr = this.state.start_date === '';
-            endDateEmpErr = this.state.end_date === '';
 
             this.setState({
                 form_valid: false,
@@ -75,13 +72,20 @@ class NewProject extends React.Component {
                 customerEmptyErr: cusEmpErr,
                 groupEmptyErr: groupEmpErr,
                 startDateEmptyErr: startDateEmpErr,
-                endDateEmptyErr: endDateEmpErr
             })
         } else {
             let postUrl = 'new'
             if (this.props.title === "editProject") {
                 postUrl = 'edit';
             }
+            this.setState({
+                form_valid: true,
+                proNumEmptyErr: '',
+                proNameEmptyErr: '',
+                customerEmptyErr: '',
+                groupEmptyErr: '',
+                startDateEmptyErr: '',
+            })
             let url = 'http://localhost:8080/projects/' + postUrl;
             axios.put(url, {
                 project_num: this.state.project_num,
@@ -148,7 +152,7 @@ class NewProject extends React.Component {
                     <FormError valid={this.state.form_valid}/>
                     <Row>
                         <Col>
-                            <Title name=<Translate content={"newProject." + this.props.title} className="label"/>/>
+                            <Title name=<Translate content={"newProject." + this.props.title} className="label-large"/>/>
                         </Col>
                     </Row>
 
@@ -171,7 +175,6 @@ class NewProject extends React.Component {
                                     groupEmptyErr={this.state.groupEmptyErr}
                                     memberEmptyErr={this.state.memberEmptyErr}
                                     startDateEmptyErr={this.state.startDateEmptyErr}
-                                    endDateEmptyErr={this.state.endDateEmptyErr}
                                     errorMessageKey={this.state.errorMessageKey}
                                 />
                             </Col>

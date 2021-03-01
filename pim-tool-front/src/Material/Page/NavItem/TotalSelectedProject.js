@@ -14,9 +14,11 @@ export default class TotalSelectedProject extends React.Component {
     handleSubmit = event => {
         event.preventDefault();
         let url = 'http://localhost:8080/projects/multipleDelete';
-        axios.post(url, {
-            project_num: Object.fromEntries(this.props.checkItems),
-        }, null)
+        axios.delete(url, {
+            data: {
+                project_num: Object.fromEntries(this.props.checkItems),
+            }
+        })
             .then(
                 response => {
                     window.location = "/";

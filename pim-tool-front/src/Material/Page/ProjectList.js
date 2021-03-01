@@ -1,5 +1,5 @@
 import React from 'react';
-import {Button, ButtonGroup, Col, Container, DropdownButton, Form, Row, Table} from "react-bootstrap";
+import {ButtonGroup, Col, Container, DropdownButton, Form, Row, Table} from "react-bootstrap";
 import axios from 'axios';
 import TotalSelectedProject from "./NavItem/TotalSelectedProject";
 import {Link} from "react-router-dom";
@@ -64,7 +64,7 @@ export default class ProjectList extends React.Component {
 
     deleteHandler = (event, projectNumber) => {
         let url = 'http://localhost:8080/projects/delete';
-        axios.post(url, {
+        axios.delete(url, {data: {
             project_num: projectNumber,
             project_name: '',
             customer: '',
@@ -73,12 +73,13 @@ export default class ProjectList extends React.Component {
             status: '',
             start_date: '',
             end_date: ''
-        }, null)
+        }})
             .then(
                 response => {
                     window.location = "/";
                 })
             .catch(error => {
+                // console.log(error.response)
                 window.location = "/error";
             });
     }
@@ -146,9 +147,9 @@ export default class ProjectList extends React.Component {
                         {project.projectNumber}
                     </Link>
                 </td>
-                <td className="table-text-left">{project.name}</td>
-                <td className="table-text-left">{project.status}</td>
-                <td className="table-text-left">{project.customer}</td>
+                <td className="table-text-left text-font">{project.name}</td>
+                <td className="table-text-left text-font">{project.status}</td>
+                <td className="table-text-left text-font">{project.customer}</td>
                 <td className="table-text-center">{project.startDate}</td>
                 <td className="table-button-right">
                     {this.deleteLayout(project)}
@@ -175,7 +176,9 @@ export default class ProjectList extends React.Component {
         sessionStorage.setItem('filterStatus', this.state.filterStatus);
         this.setState({
             filterBar: sessionStorage.getItem('filterBar'),
-            filterStatus: sessionStorage.getItem('filterStatus')
+            filterStatus: sessionStorage.getItem('filterStatus'),
+            checkItems: new Map(),
+            selectedRows: 0
         })
     }
 

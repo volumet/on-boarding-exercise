@@ -10,7 +10,7 @@ class ErrorScreen extends React.Component {
             <Container>
                 <Row>
                     <Col>
-                        <img src={Image} alt="error" className="error"/>
+                        <img src={Image} alt="error" className="error-page"/>
                     </Col>
                     <Col className="text-container">
                         <div>

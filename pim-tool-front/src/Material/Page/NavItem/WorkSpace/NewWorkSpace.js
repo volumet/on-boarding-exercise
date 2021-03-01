@@ -69,9 +69,11 @@ class NewWorkSpace extends React.Component {
                         <Form.Control
                             name="project_num"
                             className={this.props.proNumEmptyErr
-                            || this.props.errorMessageKey === 'CreateProject.Error.Msg.projectNumberMustNotBeDuplicate' ? "error" : ""}
+                            || this.props.errorMessageKey === 'CreateProject.Error.Msg.projectNumberMustNotBeDuplicate' ? "error drop-size" : "drop-size"}
                             type="number"
                             maxLength="4"
+                            min="0"
+                            max="10000"
                             value={this.state.project_num_title}
                             disabled={this.state.disable}
                             onChange={event => this.props.changeHandler(event)}/>
@@ -124,6 +126,7 @@ class NewWorkSpace extends React.Component {
                             drop="down"
                             title={this.props.groupTitle}
                             name="group"
+                            className="drop-size"
                             onSelect={this.props.selectGroupHandler}>
                             {this.state.group.map((group) => {
                                 return (
@@ -149,7 +152,7 @@ class NewWorkSpace extends React.Component {
                             id="tags-filled"
                             onChange={this.props.autoHandler}
                             options={this.state.employees.map((employee) => employee.visa)}
-                            className={this.props.errorMessageKey === 'CreateProject.Error.Msg.memberMustBeExist' ? "error" : ""}
+                            className={this.props.errorMessageKey === 'CreateProject.Error.Msg.memberMustBeExist mem-size' ? "error" : "mem-size"}
                             freeSolo
                             renderTags={(value, getTagProps) =>
                                 value.map((option, index) => (
@@ -182,6 +185,7 @@ class NewWorkSpace extends React.Component {
                             onSelect={this.props.selectStatusHandler}
                             id="dropdown-button-drop-down"
                             drop="down"
+                            className="drop-size"
                             title={this.props.statusTitle}>
                             <DropdownItem eventKey="New"><Translate content="newWorkSpace.status_new"/></DropdownItem>
                             <DropdownItem eventKey="Planned"><Translate
@@ -201,7 +205,8 @@ class NewWorkSpace extends React.Component {
                     <Col sm="3">
                         <Form.Control name="start_date"
                                       className={this.props.startDateEmptyErr ||
-                                      this.props.errorMessageKey === 'CreateProject.Error.Msg.deadlineMustNotBeGreaterThanProjectFinishingDate' ? "error" : ""}
+                                      this.props.errorMessageKey === 'CreateProject.Error.Msg.deadlineMustNotBeGreaterThanProjectFinishingDate'
+                                          ? "error drop-size" : "drop-size"}
                                       type="date"
                                       onChange={event => this.props.changeHandler(event)}/>
                         <FieldError error={this.props.startDateEmptyErr} field="start_date_key"/>
@@ -209,7 +214,6 @@ class NewWorkSpace extends React.Component {
 
                     <Form.Label column sm="3" className="label">
                         <Translate content="newWorkSpace.endDate"/>
-                        <span className="required">*</span>
                     </Form.Label>
                     <Col sm="3">
                         <Form.Control name="end_date"
@@ -217,7 +221,6 @@ class NewWorkSpace extends React.Component {
                                       this.props.errorMessageKey === 'CreateProject.Error.Msg.deadlineMustNotBeGreaterThanProjectFinishingDate' ? "error" : ""}
                                       type="date"
                                       onChange={event => this.props.changeHandler(event)}/>
-                        <FieldError error={this.props.endDateEmptyErr} field="end_date_key"/>
                     </Col>
                     <BackEndFieldError errorMessageKey={this.props.errorMessageKey}
                                        preferedKey='CreateProject.Error.Msg.deadlineMustNotBeGreaterThanProjectFinishingDate'/>
