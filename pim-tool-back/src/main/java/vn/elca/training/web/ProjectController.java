@@ -42,13 +42,13 @@ public class ProjectController extends AbstractApplicationController {
                 .collect(Collectors.toList());
     }
 
-    @PostMapping("/delete")
+    @DeleteMapping("/delete")
     public String delete(@RequestBody ProjectReqDto projectReqDto) {
         projectService.deleteOneProject(projectReqDto);
         return "deleted";
     }
 
-    @PostMapping("/multipleDelete")
+    @DeleteMapping("/multipleDelete")
     public String multipleDelete(@RequestBody DeleteProjectMapDto deleteProjectMapDto) {
         projectService.deleteMultipleProjects(deleteProjectMapDto);
         return "deleted";

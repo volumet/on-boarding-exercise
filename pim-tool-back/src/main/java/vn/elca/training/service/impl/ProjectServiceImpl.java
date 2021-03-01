@@ -62,9 +62,6 @@ public class ProjectServiceImpl extends AbstractService implements ProjectServic
         //Start date not null
         validator.validateNotNull(projectReqDto.getStartDate(), ProjectServiceErrorMessage.FIELD_MUST_NOT_BE_NULL);
 
-        //End date not null
-        validator.validateNotNull(projectReqDto.getEndDate(), ProjectServiceErrorMessage.FIELD_MUST_NOT_BE_NULL);
-
     }
 
     public void validateEmployeeExist(ProjectReqDto projectReqDto) {
@@ -78,20 +75,22 @@ public class ProjectServiceImpl extends AbstractService implements ProjectServic
 
     public void validateProjectNumDuplicate(ProjectReqDto projectReqDto) {
         //Project number created not duplicate
-        validator.validateFalse(!projectRepository.getProjectByNumber(projectReqDto.getProjectNumber()).isEmpty(),
+        validator.validateNull(projectRepository.getProjectByNumber(projectReqDto.getProjectNumber()),
                 ProjectServiceErrorMessage.PROJECT_NUMBER_MUST_NOT_BE_DUPLICATE);
     }
 
     public void validateProjectNumExist(ProjectReqDto projectReqDto) {
         //Project number edited exist
-        validator.validateTrue(!projectRepository.getProjectByNumber(projectReqDto.getProjectNumber()).isEmpty(),
+        validator.validateNotNull(projectRepository.getProjectByNumber(projectReqDto.getProjectNumber()),
                 ProjectServiceErrorMessage.PROJECT_NUMBER_MUST_BE_EXIST);
     }
 
     public void validateStartDateBeforeEndDate(ProjectReqDto projectReqDto) {
         //Start date must be before end date
-        validator.validateTrue(projectReqDto.getStartDate().isBefore(projectReqDto.getEndDate()),
-                ProjectServiceErrorMessage.DEADLINE_MUST_NOT_BE_GREATER_THAN_PROJECT_FINISHING_DATE);
+        if (projectReqDto.getEndDate() != null) {
+            validator.validateTrue(projectReqDto.getStartDate().isBefore(projectReqDto.getEndDate()),
+                    ProjectServiceErrorMessage.DEADLINE_MUST_NOT_BE_GREATER_THAN_PROJECT_FINISHING_DATE);
+        }
     }
 
     @Override
@@ -118,9 +117,7 @@ public class ProjectServiceImpl extends AbstractService implements ProjectServic
 
 
         Project dummyProject = mapper.projectReqDtoToProject(projectReqDto);
-        //TODO return Optional<Project> instead of List
-        List<Project> projectFound = projectRepository.getProjectByNumber(dummyProject.getProjectNumber());
-        Project project = projectFound.get(0);
+        Project project = projectRepository.getProjectByNumber(dummyProject.getProjectNumber());
         mapper.projectReqDtoToProjectForEdit(project, projectReqDto);
 
         Group group = groupRepository.getOne(projectReqDto.getGroupId());
@@ -138,8 +135,7 @@ public class ProjectServiceImpl extends AbstractService implements ProjectServic
         validateProjectNumExist(projectReqDto);
 
         Project dummyProject = mapper.projectReqDtoToProject(projectReqDto);
-        List<Project> projectFound = projectRepository.getProjectByNumber(dummyProject.getProjectNumber());
-        Project project = projectFound.get(0);
+        Project project = projectRepository.getProjectByNumber(dummyProject.getProjectNumber());
         projectRepository.deleteOneProject(project);
     }
 

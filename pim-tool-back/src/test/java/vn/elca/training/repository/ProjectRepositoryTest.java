@@ -47,7 +47,7 @@ public class ProjectRepositoryTest {
                 LocalDate.now(), LocalDate.now().plusDays(1));
         project.setGroup(group);
         projectRepository.save(project);
-        Assert.assertFalse(projectRepository.getProjectByNumber(1L).isEmpty());
+        Assert.assertNotNull(projectRepository.getProjectByNumber(1L));
     }
 
     @Test
@@ -67,7 +67,7 @@ public class ProjectRepositoryTest {
         project.setEmployees(employeeSet);
         projectRepository.save(project);
         projectRepository.deleteOneProject(project);
-        Assert.assertTrue(projectRepository.getProjectByNumber(1L).isEmpty());
+        Assert.assertNull(projectRepository.getProjectByNumber(1L));
     }
 
     @Test

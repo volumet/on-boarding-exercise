@@ -6,7 +6,7 @@ import java.util.List;
 
 
 public interface ProjectRepositoryCustom {
-    List<Project> getProjectByNumber(Long proNum);
+    Project getProjectByNumber(Long proNum);
     void deleteOneProject(Project proNum);
     Project getProjectBySingleNumber(Long proNum);
 }

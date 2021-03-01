@@ -6,14 +6,13 @@ import vn.elca.training.repository.ProjectRepositoryCustom;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-import java.util.List;
 
 public class ProjectRepositoryImpl implements ProjectRepositoryCustom {
     @PersistenceContext
     EntityManager em;
 
     @Override
-    public List<Project> getProjectByNumber(Long proNum) {
+    public Project getProjectByNumber(Long proNum) {
         return new JPAQuery<Project>(em)
                 .from(QProject.project)
                 .join(QProject.project.group, QGroup.group)
@@ -22,7 +21,7 @@ public class ProjectRepositoryImpl implements ProjectRepositoryCustom {
                 .fetchJoin()
                 .where(QProject.project.projectNumber.eq(proNum))
                 .distinct()
-                .fetch();
+                .fetchOne();
     }
 
     @Override
@@ -45,6 +44,4 @@ public class ProjectRepositoryImpl implements ProjectRepositoryCustom {
                         .and(QProject.project.status.eq("NEW")))
                 .fetchOne();
     }
-
-
 }
