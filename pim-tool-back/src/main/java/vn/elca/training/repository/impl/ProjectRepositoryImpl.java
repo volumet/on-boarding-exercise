@@ -2,6 +2,7 @@ package vn.elca.training.repository.impl;
 
 import com.querydsl.jpa.impl.JPAQuery;
 import vn.elca.training.model.entity.*;
+import vn.elca.training.model.enums.ProjectStatus;
 import vn.elca.training.repository.ProjectRepositoryCustom;
 
 import javax.persistence.EntityManager;
@@ -51,7 +52,7 @@ public class ProjectRepositoryImpl implements ProjectRepositoryCustom {
                 .leftJoin(QProject.project.employees, QEmployee.employee)
                 .fetchJoin()
                 .where(QProject.project.projectNumber.eq(proNum)
-                        .and(QProject.project.status.eq("NEW")))
+                        .and(QProject.project.status.eq(ProjectStatus.NEW)))
                 .fetchOne();
     }
 }

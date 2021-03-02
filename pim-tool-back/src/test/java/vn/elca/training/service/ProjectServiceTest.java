@@ -13,6 +13,7 @@ import vn.elca.training.model.dto.DeleteProjectMapDto;
 import vn.elca.training.model.dto.ProjectReqDto;
 import vn.elca.training.model.entity.Employee;
 import vn.elca.training.model.entity.Group;
+import vn.elca.training.model.enums.ProjectStatus;
 import vn.elca.training.model.exception.PimBusinessException;
 import vn.elca.training.repository.EmployeeRepository;
 import vn.elca.training.repository.GroupRepository;
@@ -48,7 +49,7 @@ public class ProjectServiceTest {
                 "Project 1",
                 "Anh A", 1L,
                 Arrays.asList("VNQ"),
-                "New",
+                ProjectStatus.NEW,
                 LocalDate.now(),
                 LocalDate.now().plusDays(1));
 
@@ -68,7 +69,7 @@ public class ProjectServiceTest {
                 "",
                 "Anh A", 1L,
                 Arrays.asList("VNQ"),
-                "New",
+                ProjectStatus.NEW,
                 LocalDate.now(),
                 LocalDate.now().plusDays(1));
 
@@ -87,7 +88,7 @@ public class ProjectServiceTest {
                 "Project 1",
                 "Anh A", 1L,
                 Arrays.asList("InvalidMember"),
-                "New",
+                ProjectStatus.NEW,
                 LocalDate.now(),
                 LocalDate.now().plusDays(1));
 
@@ -106,7 +107,7 @@ public class ProjectServiceTest {
                 "Project 1",
                 "Anh A", 1L,
                 Arrays.asList("VNQ"),
-                "New",
+                ProjectStatus.NEW,
                 LocalDate.now(),
                 LocalDate.now().plusDays(1));
 
@@ -116,7 +117,7 @@ public class ProjectServiceTest {
                 "Project 2",
                 "Anh A", 1L,
                 Arrays.asList("VNQ"),
-                "New",
+                ProjectStatus.NEW,
                 LocalDate.now(),
                 LocalDate.now().plusDays(1));
 
@@ -135,7 +136,7 @@ public class ProjectServiceTest {
                 "Project 1",
                 "Anh A", 1L,
                 Arrays.asList("VNQ"),
-                "New",
+                ProjectStatus.NEW,
                 LocalDate.now(),
                 LocalDate.now().minusDays(1));
 
@@ -154,7 +155,7 @@ public class ProjectServiceTest {
                 "Project 1",
                 "Anh A", 1L,
                 Arrays.asList("VNQ"),
-                "New",
+                ProjectStatus.NEW,
                 LocalDate.now(),
                 LocalDate.now().plusDays(1));
 
@@ -164,7 +165,7 @@ public class ProjectServiceTest {
                 "Project 2",
                 "Anh A", 1L,
                 Arrays.asList("VNQ"),
-                "New",
+                ProjectStatus.NEW,
                 LocalDate.now(),
                 LocalDate.now().plusDays(1));
         projectService.editProject(projectReqDto);
@@ -183,7 +184,7 @@ public class ProjectServiceTest {
                 "Project 1",
                 "Anh A", 1L,
                 Arrays.asList("VNQ"),
-                "New",
+                ProjectStatus.NEW,
                 LocalDate.now(),
                 LocalDate.now().plusDays(1));
 
@@ -193,7 +194,7 @@ public class ProjectServiceTest {
                 "Project 2",
                 "Anh A", 1L,
                 Arrays.asList("VNQ"),
-                "New",
+                ProjectStatus.NEW,
                 LocalDate.now(),
                 LocalDate.now().plusDays(1));
         projectService.editProject(projectReqDto);
@@ -211,20 +212,13 @@ public class ProjectServiceTest {
                 "Project 1",
                 "Anh A", 1L,
                 Arrays.asList("VNQ"),
-                "New",
+                ProjectStatus.NEW,
                 LocalDate.now(),
                 LocalDate.now().plusDays(1));
 
         projectService.createNewProject(projectReqDto);
 
-        projectReqDto = new ProjectReqDto(1L,
-                "Project 2",
-                "Anh A", 1L,
-                Arrays.asList("VNQ"),
-                "New",
-                LocalDate.now(),
-                LocalDate.now().plusDays(1));
-        projectService.deleteOneProject(projectReqDto);
+        projectService.deleteOneProject(1L);
 
         Assert.assertNull(projectRepository.getNewProjectByNumber(1L));
     }
@@ -241,7 +235,7 @@ public class ProjectServiceTest {
                 "Project 1",
                 "Anh A", 1L,
                 Arrays.asList("VNQ"),
-                "New",
+                ProjectStatus.NEW,
                 LocalDate.now(),
                 LocalDate.now().plusDays(1));
 
@@ -251,7 +245,7 @@ public class ProjectServiceTest {
                 "Project 2",
                 "Anh B", 1L,
                 Arrays.asList("VNQ"),
-                "New",
+                ProjectStatus.NEW,
                 LocalDate.now(),
                 LocalDate.now().plusDays(1));
 

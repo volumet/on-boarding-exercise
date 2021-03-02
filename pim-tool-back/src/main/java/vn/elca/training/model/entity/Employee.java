@@ -1,5 +1,6 @@
 package vn.elca.training.model.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -45,6 +46,7 @@ public class Employee {
     private Long version;
 
     @OneToOne(mappedBy = "leader", fetch = FetchType.LAZY)
+    @JsonIgnore
     private Group group;
 
 
@@ -55,6 +57,7 @@ public class Employee {
             inverseJoinColumns = @JoinColumn(name = "PROJECT_ID")
     )
     @NotFound(action = NotFoundAction.IGNORE)
+    @JsonIgnore
     private Set<Project> projects = new HashSet<>();
 
     public Employee(String visa, String firstName, String lastName, Date date) {

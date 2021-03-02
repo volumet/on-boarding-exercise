@@ -5,6 +5,7 @@ import org.springframework.web.bind.annotation.*;
 import vn.elca.training.model.dto.DeleteProjectMapDto;
 import vn.elca.training.model.dto.ProjectDto;
 import vn.elca.training.model.dto.ProjectReqDto;
+import vn.elca.training.model.entity.Project;
 import vn.elca.training.service.ProjectService;
 
 import java.util.List;
@@ -44,9 +45,9 @@ public class ProjectController extends AbstractApplicationController {
                 .collect(Collectors.toList());
     }
 
-    @DeleteMapping("/delete")
-    public String delete(@RequestBody ProjectReqDto projectReqDto) {
-        projectService.deleteOneProject(projectReqDto);
+    @DeleteMapping("/delete/{projectNumber}")
+    public String delete(@PathVariable("projectNumber") Long projectNumber) {
+        projectService.deleteOneProject(projectNumber);
         return "deleted";
     }
 
@@ -54,6 +55,11 @@ public class ProjectController extends AbstractApplicationController {
     public String multipleDelete(@RequestBody DeleteProjectMapDto deleteProjectMapDto) {
         projectService.deleteMultipleProjects(deleteProjectMapDto);
         return "deleted";
+    }
+
+    @PostMapping("/singleLoad")
+    public Project singleLoad(@RequestBody ProjectReqDto projectReqDto) {
+        return projectService.getAProject(projectReqDto);
     }
 }
 

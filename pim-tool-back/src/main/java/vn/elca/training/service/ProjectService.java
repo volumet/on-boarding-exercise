@@ -16,6 +16,7 @@ public interface ProjectService {
     List<Project> getListProject();
     void createNewProject(ProjectReqDto projectReqDto);
     void editProject(ProjectReqDto projectReqDto);
-    void deleteOneProject(ProjectReqDto projectReqDto);
+    void deleteOneProject(Long projectReqDto);
     void deleteMultipleProjects(DeleteProjectMapDto deleteProjectMapDto);
+    Project getAProject(ProjectReqDto projectReqDto);
 }

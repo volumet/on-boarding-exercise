@@ -12,6 +12,7 @@ import vn.elca.training.PimTestConfiguration;
 import vn.elca.training.model.entity.Employee;
 import vn.elca.training.model.entity.Group;
 import vn.elca.training.model.entity.Project;
+import vn.elca.training.model.enums.ProjectStatus;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -42,7 +43,7 @@ public class ProjectRepositoryTest {
         Group group = new Group();
         group.setLeader(employee);
         groupRepository.save(group);
-        Project project = new Project(1L, "Project A", "Anh A", "NEW",
+        Project project = new Project(1L, "Project A", "Anh A", ProjectStatus.NEW,
                 LocalDate.now(), LocalDate.now().plusDays(1));
         project.setGroup(group);
         projectRepository.save(project);
@@ -56,7 +57,7 @@ public class ProjectRepositoryTest {
         Group group = new Group();
         group.setLeader(employee);
         groupRepository.save(group);
-        Project project = new Project(1L, "Project A", "Anh A", "NEW",
+        Project project = new Project(1L, "Project A", "Anh A", ProjectStatus.NEW,
                 LocalDate.now(), LocalDate.now().plusDays(1));
         project.setGroup(group);
 
@@ -76,7 +77,7 @@ public class ProjectRepositoryTest {
         Group group = new Group();
         group.setLeader(employee);
         groupRepository.save(group);
-        Project project = new Project(1L, "Project A", "Anh A", "NEW",
+        Project project = new Project(1L, "Project A", "Anh A", ProjectStatus.NEW,
                 LocalDate.now(), LocalDate.now().plusDays(1));
         project.setGroup(group);
         projectRepository.save(project);
@@ -90,7 +91,7 @@ public class ProjectRepositoryTest {
         Group group = new Group();
         group.setLeader(employee);
         groupRepository.save(group);
-        Project project = new Project(1L, "Project A", "Anh A", "NEW",
+        Project project = new Project(1L, "Project A", "Anh A", ProjectStatus.NEW,
                 LocalDate.now(), LocalDate.now().plusDays(1));
         project.setGroup(group);
         projectRepository.save(project);

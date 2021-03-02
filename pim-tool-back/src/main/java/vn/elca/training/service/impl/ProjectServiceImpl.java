@@ -124,8 +124,8 @@ public class ProjectServiceImpl extends AbstractService implements ProjectServic
     }
 
     @Override
-    public void deleteOneProject(ProjectReqDto projectReqDto) {
-        Project project = projectRepository.getProjectByNumber(projectReqDto.getProjectNumber())
+    public void deleteOneProject(Long projectReqDto) {
+        Project project = projectRepository.getProjectByNumber(projectReqDto)
                 .orElseThrow(() -> new PimBusinessException(ProjectServiceErrorMessage.PROJECT_NUMBER_MUST_BE_EXIST));
         projectRepository.deleteOneProject(project);
     }
@@ -149,6 +149,13 @@ public class ProjectServiceImpl extends AbstractService implements ProjectServic
             projectRepository.deleteOneProject(projectRepository
                     .getNewProjectByNumber(projectNum));
         }
+    }
+
+    @Override
+    public Project getAProject(ProjectReqDto projectReqDto) {
+        Project project = projectRepository.getProjectByNumber(projectReqDto.getProjectNumber())
+                .orElseThrow(() -> new PimBusinessException(ProjectServiceErrorMessage.PROJECT_NUMBER_MUST_BE_EXIST));
+        return project;
     }
 
 

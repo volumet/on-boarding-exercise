@@ -1,5 +1,6 @@
 package vn.elca.training.model.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -26,9 +27,11 @@ public class Group {
 
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "GROUP_LEADER_ID")
+    @JsonIgnore
     private Employee leader;
 
     @OneToMany(mappedBy = "group", fetch = FetchType.LAZY)
+    @JsonIgnore
     private Set<Project> projects = new HashSet<>();
 
 }

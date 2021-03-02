@@ -5,6 +5,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.hibernate.annotations.NotFound;
 import org.hibernate.annotations.NotFoundAction;
+import vn.elca.training.model.enums.ProjectStatus;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
@@ -39,7 +40,8 @@ public class Project {
 
     @Column(name = "STATUS")
     @NotNull
-    private String status;
+    @Enumerated(EnumType.STRING)
+    private ProjectStatus status;
 
     @Column(name = "START_DATE")
     @NotNull
@@ -80,7 +82,7 @@ public class Project {
         group.getProjects().add(this);
     }
 
-    public Project(Long projectNumber, String name, String customer, String status, LocalDate st, LocalDate en) {
+    public Project(Long projectNumber, String name, String customer, ProjectStatus status, LocalDate st, LocalDate en) {
         this.projectNumber = projectNumber;
         this.name = name;
         this.customer = customer;
