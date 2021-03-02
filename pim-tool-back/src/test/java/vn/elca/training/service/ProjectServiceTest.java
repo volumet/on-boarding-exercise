@@ -226,7 +226,7 @@ public class ProjectServiceTest {
                 LocalDate.now().plusDays(1));
         projectService.deleteOneProject(projectReqDto);
 
-        Assert.assertNull(projectRepository.getProjectBySingleNumber(1L));
+        Assert.assertNull(projectRepository.getNewProjectByNumber(1L));
     }
 
     @Test
@@ -258,8 +258,8 @@ public class ProjectServiceTest {
         projectService.createNewProject(projectReqDto);
 
         DeleteProjectMapDto deleteProjectMapDto = new DeleteProjectMapDto();
-        deleteProjectMapDto.getListProjectNum().put(1L, true);
-        deleteProjectMapDto.getListProjectNum().put(2L, true);
+        deleteProjectMapDto.getListProjectNum().add(1L);
+        deleteProjectMapDto.getListProjectNum().add(2L);
 
         projectService.deleteMultipleProjects(deleteProjectMapDto);
 

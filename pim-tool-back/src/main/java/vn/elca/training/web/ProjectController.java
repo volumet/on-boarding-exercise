@@ -10,6 +10,8 @@ import vn.elca.training.service.ProjectService;
 import java.util.List;
 import java.util.stream.Collectors;
 
+
+
 /**
  * @author gtn
  */
@@ -54,3 +56,4 @@ public class ProjectController extends AbstractApplicationController {
         return "deleted";
     }
 }
+

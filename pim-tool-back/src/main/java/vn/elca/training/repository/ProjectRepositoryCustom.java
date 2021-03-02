@@ -2,11 +2,12 @@ package vn.elca.training.repository;
 
 import vn.elca.training.model.entity.Project;
 
-import java.util.List;
+import java.util.Optional;
 
 
 public interface ProjectRepositoryCustom {
-    Project getProjectByNumber(Long proNum);
+    Optional<Project> getProjectByNumber(Long proNum);
+    Long checkProjectNumberExist(Long proNum);
     void deleteOneProject(Project proNum);
-    Project getProjectBySingleNumber(Long proNum);
+    Project getNewProjectByNumber(Long proNum);
 }

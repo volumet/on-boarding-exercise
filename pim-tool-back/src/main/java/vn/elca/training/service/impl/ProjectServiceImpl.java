@@ -11,6 +11,7 @@ import vn.elca.training.model.entity.Employee;
 import vn.elca.training.model.entity.Group;
 import vn.elca.training.model.entity.Project;
 import vn.elca.training.model.error.ProjectServiceErrorMessage;
+import vn.elca.training.model.exception.PimBusinessException;
 import vn.elca.training.model.validator.PimValidator;
 import vn.elca.training.repository.EmployeeRepository;
 import vn.elca.training.repository.GroupRepository;
@@ -75,14 +76,8 @@ public class ProjectServiceImpl extends AbstractService implements ProjectServic
 
     public void validateProjectNumDuplicate(ProjectReqDto projectReqDto) {
         //Project number created not duplicate
-        validator.validateNull(projectRepository.getProjectByNumber(projectReqDto.getProjectNumber()),
+        validator.validateTrue(projectRepository.checkProjectNumberExist(projectReqDto.getProjectNumber()) <= 0,
                 ProjectServiceErrorMessage.PROJECT_NUMBER_MUST_NOT_BE_DUPLICATE);
-    }
-
-    public void validateProjectNumExist(ProjectReqDto projectReqDto) {
-        //Project number edited exist
-        validator.validateNotNull(projectRepository.getProjectByNumber(projectReqDto.getProjectNumber()),
-                ProjectServiceErrorMessage.PROJECT_NUMBER_MUST_BE_EXIST);
     }
 
     public void validateStartDateBeforeEndDate(ProjectReqDto projectReqDto) {
@@ -111,13 +106,11 @@ public class ProjectServiceImpl extends AbstractService implements ProjectServic
     @Override
     public void editProject(ProjectReqDto projectReqDto) {
         validateNotNull(projectReqDto);
-        validateProjectNumExist(projectReqDto);
         validateEmployeeExist(projectReqDto);
         validateStartDateBeforeEndDate(projectReqDto);
 
-
-        Project dummyProject = mapper.projectReqDtoToProject(projectReqDto);
-        Project project = projectRepository.getProjectByNumber(dummyProject.getProjectNumber());
+        Project project = projectRepository.getProjectByNumber(projectReqDto.getProjectNumber())
+                .orElseThrow(() -> new PimBusinessException(ProjectServiceErrorMessage.PROJECT_NUMBER_MUST_BE_EXIST));
         mapper.projectReqDtoToProjectForEdit(project, projectReqDto);
 
         Group group = groupRepository.getOne(projectReqDto.getGroupId());
@@ -132,33 +125,29 @@ public class ProjectServiceImpl extends AbstractService implements ProjectServic
 
     @Override
     public void deleteOneProject(ProjectReqDto projectReqDto) {
-        validateProjectNumExist(projectReqDto);
-
-        Project dummyProject = mapper.projectReqDtoToProject(projectReqDto);
-        Project project = projectRepository.getProjectByNumber(dummyProject.getProjectNumber());
+        Project project = projectRepository.getProjectByNumber(projectReqDto.getProjectNumber())
+                .orElseThrow(() -> new PimBusinessException(ProjectServiceErrorMessage.PROJECT_NUMBER_MUST_BE_EXIST));
         projectRepository.deleteOneProject(project);
     }
 
     public void validateProjectNumExistForMultiProjects(Long projectNum) {
         //Project number edited exist
-        validator.validateTrue(projectRepository.getProjectBySingleNumber(projectNum) != null,
+        validator.validateTrue(projectRepository.getNewProjectByNumber(projectNum) != null,
                 ProjectServiceErrorMessage.PROJECT_NUMBER_MUST_BE_EXIST);
     }
 
     @Override
     public void deleteMultipleProjects(DeleteProjectMapDto deleteProjectMapDto) {
-        List<Long> listProjectNumber = new ArrayList<>();
-        for (Map.Entry<Long, Boolean> project : deleteProjectMapDto.getListProjectNum().entrySet()) {
-            if (project.getValue()) {
-                listProjectNumber.add(project.getKey());
-            }
-        }
+        List<Long> listProjectNumber = deleteProjectMapDto.getListProjectNum();
+
         for (Long projectNum : listProjectNumber) {
             validateProjectNumExistForMultiProjects(projectNum);
         }
+
+        //TODO Delete in
         for (Long projectNum : listProjectNumber) {
             projectRepository.deleteOneProject(projectRepository
-                    .getProjectBySingleNumber(projectNum));
+                    .getNewProjectByNumber(projectNum));
         }
     }
 

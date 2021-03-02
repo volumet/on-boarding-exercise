@@ -14,13 +14,6 @@ public class EmployeeRepositoryImpl implements EmployeeRepositoryCustom {
     EntityManager em;
 
     @Override
-    public List<Employee> getListEmployee() {
-        return new JPAQuery<Employee>(em)
-                .from(QEmployee.employee)
-                .fetch();
-    }
-
-    @Override
     public Long searchEmployeeByVisa(List<String> visas) {
             return new JPAQuery<Employee>(em)
                     .from(QEmployee.employee)

@@ -30,7 +30,7 @@ public class EmployeeRepositoryTest {
     public void testGetListEmployee() {
         Employee employee = new Employee("VNQ", "Vinh", "Nguyen", Date.valueOf(LocalDate.now()));
         employeeRepository.save(employee);
-        Assert.assertTrue(!employeeRepository.getListEmployee().isEmpty());
+        Assert.assertTrue(!employeeRepository.findAll().isEmpty());
     }
 
     @Test

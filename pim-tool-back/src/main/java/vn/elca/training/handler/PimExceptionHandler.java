@@ -2,10 +2,12 @@ package vn.elca.training.handler;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
+import vn.elca.training.model.dto.InternalErrorResponse;
 import vn.elca.training.model.dto.PimErrorResponse;
 import vn.elca.training.model.exception.PimBusinessException;
 
@@ -24,5 +26,13 @@ public class PimExceptionHandler extends ResponseEntityExceptionHandler {
                 exception.getErrorMessageData().getStatusCode());
     }
 
+    @ExceptionHandler(Exception.class)
+    public final ResponseEntity<InternalErrorResponse> handlePimBusinessException(Exception exception) {
+        logger.error("Error occured", exception);
+        return new ResponseEntity<>(InternalErrorResponse.builder()
+                .errorMessageKey(exception.getMessage())
+                .build(),
+                HttpStatus.INTERNAL_SERVER_ERROR);
+    }
 
 }
