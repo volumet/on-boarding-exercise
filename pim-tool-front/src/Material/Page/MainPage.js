@@ -6,15 +6,36 @@ import Navigation from './Navigation';
 import ErrorScreen from './ErrorScreen';
 import NewProject from "./NavItem/NewProject";
 import ProjectList from "./ProjectList";
+import counterpart from "counterpart";
+import en from "../lang/en";
+
+
+counterpart.registerTranslations('en', en);
 
 class MainPage extends React.Component {
+
+    componentDidMount() {
+        if (sessionStorage.getItem('lang') !== null) {
+            counterpart.setLocale(sessionStorage.getItem('lang'))
+        }
+    }
+
+    handleClickVI = event => {
+        sessionStorage.setItem('lang', 'vi');
+        counterpart.setLocale('vi')
+    }
+    handleClickEN = event => {
+        sessionStorage.setItem('lang', 'en');
+        counterpart.setLocale('en')
+    }
+
     render() {
         return (
             <div className="main">
                 <Container fluid>
                     <Row>
-                        <Col>
-                            <Header/>
+                        <Col xl={12}>
+                            <Header langVI={this.handleClickVI} langEN={this.handleClickEN}/>
                         </Col>
                     </Row>
                     <BrowserRouter>

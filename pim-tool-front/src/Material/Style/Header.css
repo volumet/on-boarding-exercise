@@ -21,3 +21,17 @@
     padding: 0 !important;
 }
 
+.languageButton {
+    margin-top: 25px;
+    margin-left: 5px;
+    width: 20px;
+    height: 20px;
+    background-color: #FFFFFF !important;
+    color: #2F85FA !important;
+    border: none !important;
+}
+
+.btn:focus {
+    outline: 0 !important;
+}
+

@@ -25,10 +25,12 @@ export default {
         status : 'Status',
         startDate : 'Start date',
         endDate : 'End date',
-        status_new : 'New',
-        status_planned : 'Planned',
-        status_in_progress : 'In Progress',
-        status_finish : 'Finished',
+        projectStatus: {
+            NEW : 'New',
+            PLA : 'Planned',
+            INP : 'In Progress',
+            FIN : 'Finished'
+        },
         default_group_title : 'Choose a group'
     },
     footer : {
@@ -49,22 +51,25 @@ export default {
         memberMustBeExist: 'Member Must Be Exist'
     },
     projectList : {
-        status_new : 'New',
-        status_planned : 'Planned',
-        status_in_progress : 'In Progress',
-        status_finish : 'Finished',
+        projectStatus: {
+            NEW : 'New',
+            PLA : 'Planned',
+            INP : 'In Progress',
+            FIN : 'Finished',
+            ALL : 'All'
+        },
         search : 'Search',
+        reset : 'Reset',
         number : 'Number',
         name : 'Name',
         status : 'Status',
         customer : 'Customer',
         start_date : 'Start Date',
         delete : 'Delete',
-        reset : 'Reset',
-        status_all : 'All'
     },
     totalSelectedProject : {
-        deleteLine : 'delete selected items'
+        deleteLine : 'delete selected items',
+        selected : 'project(s) selected!'
     },
     fieldError : {
         project_num_key : 'Project number ',

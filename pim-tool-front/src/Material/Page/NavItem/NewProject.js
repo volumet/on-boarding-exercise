@@ -18,8 +18,7 @@ class NewProject extends React.Component {
             group: '',
             group_title: <Translate content="newWorkSpace.default_group_title"/>,
             member: [],
-            status: 'New',
-            status_title: <Translate content="newWorkSpace.status_new"/>,
+            status: 'NEW',
             start_date: '',
             end_date: '',
             form_valid: true,
@@ -39,15 +38,25 @@ class NewProject extends React.Component {
 
     componentDidMount() {
         if (this.props.location) {
-            this.setState({
+            axios.post('http://localhost:8080/projects/singleLoad', {
                 project_num: this.props.location.state.proNum
-            })
+            }, null)
+                .then((response) => {
+                    this.setState({
+                        project_num: this.props.location.state.proNum,
+                        project_name: response.data.name,
+                        customer: response.data.customer
+                    })
+                })
+                .catch(error => {
+                    window.location = '/error';
+                });
         }
     }
 
     handleSubmit = (event) => {
         event.preventDefault();
-
+        console.log(this.state.status)
         if (this.state.project_num === '' ||
             this.state.project_name === '' ||
             this.state.customer === '' ||
@@ -130,14 +139,14 @@ class NewProject extends React.Component {
 
     handleStatusSelect = (event) => {
         this.setState({
-            status: event,
-            status_title: event
+            status: event
         });
     }
 
 
     handleAutoChange = (event, value) => {
-        this.setState({member: value});
+        let memList = value.map(person => person.substring(0, person.indexOf(":", 1)))
+        this.setState({member: memList});
     }
 
     render() {
@@ -161,13 +170,15 @@ class NewProject extends React.Component {
                             <Col xl={12}>
                                 <NewWorkSpace
                                     projectNum={this.state.project_num}
+                                    proName={this.state.project_name}
+                                    customer={this.state.customer}
                                     changeHandler={this.handleChange}
                                     selectGroupHandler={this.handleGroupSelect}
                                     autoHandler={this.handleAutoChange}
                                     groupTitle={this.state.group_title}
                                     selectStatusHandler={this.handleStatusSelect}
-                                    statusTitle={this.state.status_title}
                                     workTitle={this.props.title}
+                                    status={this.state.status}
                                     proNum={proNum}
                                     proNumEmptyErr={this.state.proNumEmptyErr}
                                     proNameEmptyErr={this.state.proNameEmptyErr}

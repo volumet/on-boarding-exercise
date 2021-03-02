@@ -1,7 +1,7 @@
 import React from 'react';
 import Translate from "react-translate-component";
 import counterpart from "counterpart";
-import en from "../../lang/en";
+import vi from "../../lang/vi";
 import {Form} from "react-bootstrap";
 import axios from "axios";
 import DeleteIcon from '@material-ui/icons/Delete';
@@ -9,7 +9,7 @@ import IconButton from '@material-ui/core/IconButton';
 import {classes} from "istanbul-lib-coverage";
 import "../../Style/NavItem/TotalSelectedProject.css"
 
-counterpart.registerTranslations('en', en);
+counterpart.registerTranslations('vi', vi);
 export default class TotalSelectedProject extends React.Component {
     handleSubmit = event => {
         event.preventDefault();
@@ -17,7 +17,7 @@ export default class TotalSelectedProject extends React.Component {
         let object = Object.fromEntries(this.props.checkItems);
         axios.delete(url, {
             data: {
-                project_num: Object.keys(object).filter(key => object[key] === true),
+                project_num: Object.keys(object).filter(key => object[key] === true)
             }
         })
             .then(
@@ -35,7 +35,7 @@ export default class TotalSelectedProject extends React.Component {
                 <div className="flex-box">
                     <Form className="form" onSubmit={this.handleSubmit}>
                         <div className="selected-announce">
-                            {this.props.total} project(s) selected!
+                            {this.props.total} <Translate content={"totalSelectedProject.selected"} />
                         </div>
                         <div className="delete-group">
                             <IconButton aria-label="delete" type="submit" className={classes.margin}

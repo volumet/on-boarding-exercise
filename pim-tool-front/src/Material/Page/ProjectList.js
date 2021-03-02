@@ -7,12 +7,9 @@ import DropdownItem from "react-bootstrap/DropdownItem";
 import Translate from "react-translate-component";
 import DeleteIcon from '@material-ui/icons/Delete';
 import IconButton from '@material-ui/core/IconButton';
-import counterpart from "counterpart";
-import en from "../lang/en";
 import "../Style/ProjectList.css"
 import {classes} from "istanbul-lib-coverage";
 
-counterpart.registerTranslations('en', en);
 
 export default class ProjectList extends React.Component {
     constructor(props) {
@@ -22,8 +19,7 @@ export default class ProjectList extends React.Component {
             checkItems: new Map(),
             selectedRows: 0,
             filterBar: '',
-            // filterStatus: <Translate content="projectList.status_new"/>,
-            filterStatus: 'All',
+            filterStatus: 'ALL',
             submit: false
         }
     }
@@ -63,28 +59,20 @@ export default class ProjectList extends React.Component {
     }
 
     deleteHandler = (event, projectNumber) => {
-        let url = 'http://localhost:8080/projects/delete';
-        axios.delete(url, {data: {
-            project_num: projectNumber,
-            project_name: '',
-            customer: '',
-            group: '',
-            member: [],
-            status: '',
-            start_date: '',
-            end_date: ''
-        }})
+        let url = `http://localhost:8080/projects/delete/${projectNumber}`;
+        axios.delete(url)
             .then(
                 response => {
                     window.location = "/";
                 })
             .catch(error => {
-                window.location = "/error";
+                console.log(error.message)
+                // window.location = "/error";
             });
     }
 
     deleteLayout(project) {
-        let newProject = 'New';
+        let newProject = 'NEW';
         if (project.status === newProject) {
             return (
                     <IconButton aria-label="delete" className={classes.margin}
@@ -119,7 +107,7 @@ export default class ProjectList extends React.Component {
     }
 
     disableControl(status) {
-        return status !== 'New';
+        return status !== 'NEW';
     }
 
     checkControl(projectNumber) {
@@ -147,7 +135,7 @@ export default class ProjectList extends React.Component {
                     </Link>
                 </td>
                 <td className="table-text-left text-font">{project.name}</td>
-                <td className="table-text-left text-font">{project.status}</td>
+                <td className="table-text-left text-font"><Translate content={`projectList.projectStatus.${project.status}`} /></td>
                 <td className="table-text-left text-font">{project.customer}</td>
                 <td className="table-text-center">{project.startDate}</td>
                 <td className="table-button-right">
@@ -186,7 +174,7 @@ export default class ProjectList extends React.Component {
         sessionStorage.setItem('filterStatus', '');
         this.setState({
             filterBar: '',
-            filterStatus: 'All',
+            filterStatus: 'ALL',
             checkItems: new Map(),
             selectedRows: 0
         })
@@ -196,7 +184,7 @@ export default class ProjectList extends React.Component {
         const filteredProjects = this.state.projects.filter(project => {
             let filterBarVar = sessionStorage.getItem('filterBar');
             let filterStatusVar = sessionStorage.getItem('filterStatus');
-            if (filterStatusVar === 'All') {
+            if (filterStatusVar === 'ALL') {
                 filterStatusVar = '';
             }
 
@@ -230,17 +218,17 @@ export default class ProjectList extends React.Component {
                                             id="dropdown-button-drop-down"
                                             drop="down"
                                             className="dropdown-button"
-                                            title={this.state.filterStatus}>
-                                            <DropdownItem eventKey="All"><Translate
-                                                content="projectList.status_all"/></DropdownItem>
-                                            <DropdownItem eventKey="New"><Translate
-                                                content="projectList.status_new"/></DropdownItem>
-                                            <DropdownItem eventKey="Planned"><Translate
-                                                content="projectList.status_planned"/></DropdownItem>
-                                            <DropdownItem eventKey="In Progress"><Translate
-                                                content="projectList.status_in_progress"/></DropdownItem>
-                                            <DropdownItem eventKey="Finished"><Translate
-                                                content="projectList.status_finish"/></DropdownItem>
+                                            title={<Translate content={`projectList.projectStatus.${this.state.filterStatus}`}/>}>
+                                            <DropdownItem eventKey="ALL"><Translate
+                                                content="projectList.projectStatus.ALL"/></DropdownItem>
+                                            <DropdownItem eventKey="NEW"><Translate
+                                                content="projectList.projectStatus.NEW"/></DropdownItem>
+                                            <DropdownItem eventKey="PLA"><Translate
+                                                content="projectList.projectStatus.PLA"/></DropdownItem>
+                                            <DropdownItem eventKey="INP"><Translate
+                                                content="projectList.projectStatus.INP"/></DropdownItem>
+                                            <DropdownItem eventKey="FIN"><Translate
+                                                content="projectList.projectStatus.FIN"/></DropdownItem>
                                         </DropdownButton>
                                     </Col>
                                     <Col sm="2">

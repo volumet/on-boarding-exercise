@@ -6,20 +6,17 @@ import Chip from "@material-ui/core/Chip";
 import TextField from "@material-ui/core/TextField";
 import axios from 'axios';
 import DropdownItem from "react-bootstrap/DropdownItem";
-import en from '../../../lang/en';
 import Translate from 'react-translate-component';
-import counterpart from "counterpart";
 import BackEndFieldError from "./BackEndFieldError";
 import FieldError from "./FieldError";
 
-counterpart.registerTranslations('en', en);
 
 class NewWorkSpace extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
             employees: [],
-            group: [],
+            group: []
         }
     }
 
@@ -74,7 +71,7 @@ class NewWorkSpace extends React.Component {
                             maxLength="4"
                             min="0"
                             max="10000"
-                            value={this.state.project_num_title}
+                            defaultValue={this.state.project_num_title}
                             disabled={this.state.disable}
                             onChange={event => this.props.changeHandler(event)}/>
                         <FieldError error={this.props.proNumEmptyErr} field="project_num_key"/>
@@ -94,6 +91,7 @@ class NewWorkSpace extends React.Component {
                         <Form.Control name="project_name"
                                       className={this.props.proNameEmptyErr ? "error" : ""}
                                       type="text"
+                                      defaultValue = {this.props.proName}
                                       onChange={event => this.props.changeHandler(event)}/>
                         <FieldError error={this.props.proNameEmptyErr} field="project_name_key"/>
                     </Col>
@@ -108,6 +106,7 @@ class NewWorkSpace extends React.Component {
                         <Form.Control name="customer"
                                       className={this.props.customerEmptyErr ? "error" : ""}
                                       type="text"
+                                      defaultValue = {this.props.customer}
                                       onChange={event => this.props.changeHandler(event)}/>
                         <FieldError error={this.props.customerEmptyErr} field="customer_key"/>
                     </Col>
@@ -151,7 +150,7 @@ class NewWorkSpace extends React.Component {
                             multiple
                             id="tags-filled"
                             onChange={this.props.autoHandler}
-                            options={this.state.employees.map((employee) => employee.visa)}
+                            options={this.state.employees.map((employee) => employee.visa + ": " + employee.fullName)}
                             className={this.props.errorMessageKey === 'CreateProject.Error.Msg.memberMustBeExist mem-size' ? "error" : "mem-size"}
                             freeSolo
                             renderTags={(value, getTagProps) =>
@@ -164,10 +163,9 @@ class NewWorkSpace extends React.Component {
                                 ))
                             }
                             renderInput={(params) => (
-                                <TextField {...params} variant="outlined" placeholder="Members"/>
+                                <TextField {...params} variant="outlined" />
                             )}
                         />
-                        {/*<FieldError error={this.props.memberEmptyErr} field="member_key"/>*/}
                         <BackEndFieldError errorMessageKey={this.props.errorMessageKey}
                                            preferedKey='CreateProject.Error.Msg.memberMustBeExist'/>
                     </Col>
@@ -186,13 +184,13 @@ class NewWorkSpace extends React.Component {
                             id="dropdown-button-drop-down"
                             drop="down"
                             className="drop-size"
-                            title={this.props.statusTitle}>
-                            <DropdownItem eventKey="New"><Translate content="newWorkSpace.status_new"/></DropdownItem>
-                            <DropdownItem eventKey="Planned"><Translate
-                                content="newWorkSpace.status_planned"/></DropdownItem>
-                            <DropdownItem eventKey="In Progress"><Translate content="newWorkSpace.status_in_progress"/></DropdownItem>
-                            <DropdownItem eventKey="Finished"><Translate
-                                content="newWorkSpace.status_finish"/></DropdownItem>
+                            title={<Translate content={`newWorkSpace.projectStatus.${this.props.status}`}/>} >
+                            <DropdownItem eventKey="NEW"><Translate content="newWorkSpace.projectStatus.NEW"/></DropdownItem>
+                            <DropdownItem eventKey="PLA"><Translate
+                                content="newWorkSpace.projectStatus.PLA"/></DropdownItem>
+                            <DropdownItem eventKey="INP"><Translate content="newWorkSpace.projectStatus.INP"/></DropdownItem>
+                            <DropdownItem eventKey="FIN"><Translate
+                                content="newWorkSpace.projectStatus.FIN"/></DropdownItem>
                         </DropdownButton>
                     </Col>
                 </Form.Group>

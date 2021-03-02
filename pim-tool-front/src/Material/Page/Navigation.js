@@ -2,10 +2,6 @@ import React from 'react';
 import Translate from 'react-translate-component';
 import {Row, Col, Nav, Navbar} from 'react-bootstrap';
 import '../Style/Navigation.css';
-import counterpart from 'counterpart';
-import en from '../lang/en';
-
-counterpart.registerTranslations('en', en);
 
 class Navigation extends React.Component {
     render() {

@@ -1,14 +1,12 @@
 import React from 'react';
 import Translate from 'react-translate-component';
-import {Col, Container, Row} from 'react-bootstrap';
+import {Button, Col, Container, Row} from 'react-bootstrap';
 import '../Style/Header.css';
 import logo from '../Images/logo_elca.png';
-import counterpart from 'counterpart';
-import en from '../lang/en';
 
-counterpart.registerTranslations('en', en);
 
 class Header extends React.Component {
+
     render() {
         return (
             <div className="content">
@@ -23,6 +21,10 @@ class Header extends React.Component {
                             <p className="name">
                                 <Translate content="header.name"/>
                             </p>
+                        </Col>
+                        <Col xl={4}>
+                            <Button bsPrefix className="languageButton" onClick={this.props.langVI}>VI</Button>
+                            <Button bsPrefix className="languageButton" onClick={this.props.langEN}>EN</Button>
                         </Col>
                     </Row>
                 </Container>

@@ -1,10 +1,6 @@
 import React from 'react';
 import '../../Style/NavItem/Footer.css';
-import counterpart from "counterpart";
-import en from "../../lang/en";
 import Translate from "react-translate-component";
-
-counterpart.registerTranslations('en', en);
 
 class Footer extends React.Component {
     cancelHandler() {
