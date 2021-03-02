@@ -3,6 +3,10 @@
     height: 15px;
 }
 
+.check-col {
+    vertical-align: middle !important;
+}
+
 th {
     height: 26px;
     padding: 3px 5px 3px 5px !important;
@@ -39,14 +43,17 @@ th {
 
 .table-text-left {
     text-align: left;
+    vertical-align: middle !important;
 }
 
 .table-text-right {
     text-align: right;
+    vertical-align: middle !important;
 }
 
 .table-text-center {
     text-align: center;
+    vertical-align: middle !important;
 }
 
 .table-button-right {
@@ -86,7 +93,7 @@ th {
 }
 
 .table-row {
-    height: 50px;
+    height: 30px;
 }
 
 .text-font {

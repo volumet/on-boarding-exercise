@@ -79,7 +79,6 @@ export default class ProjectList extends React.Component {
                     window.location = "/";
                 })
             .catch(error => {
-                // console.log(error.response)
                 window.location = "/error";
             });
     }
@@ -130,7 +129,7 @@ export default class ProjectList extends React.Component {
     projectMapper(project) {
         return (
             <tr key={project.id} className="table-row">
-                <td className="table-button-right">
+                <td className="table-button-right check-col">
                     <Form.Check onChange={this.selectHandler}
                                 value={project.projectNumber}
                                 checked={this.checkControl(project.projectNumber)}
@@ -258,7 +257,7 @@ export default class ProjectList extends React.Component {
                             </Col>
                         </Row>
                     </Form>
-                    <Table bordered responsive>
+                    <Table responsive bordered>
                         <thead>
                         <tr>
                             <th className="table-check"></th>
