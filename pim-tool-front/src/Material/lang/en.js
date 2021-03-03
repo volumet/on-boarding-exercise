@@ -31,7 +31,8 @@ export default {
             INP : 'In Progress',
             FIN : 'Finished'
         },
-        default_group_title : 'Choose a group'
+        default_group_title : 'Choose a group',
+        member_holder: 'Members'
     },
     footer : {
         submit : 'Submit',

@@ -150,6 +150,7 @@ class NewWorkSpace extends React.Component {
                             multiple
                             id="tags-filled"
                             onChange={this.props.autoHandler}
+                            value={this.props.employee}
                             options={this.state.employees.map((employee) => employee.visa + ": " + employee.fullName)}
                             className={this.props.errorMessageKey === 'CreateProject.Error.Msg.memberMustBeExist mem-size' ? "error" : "mem-size"}
                             freeSolo
@@ -163,7 +164,7 @@ class NewWorkSpace extends React.Component {
                                 ))
                             }
                             renderInput={(params) => (
-                                <TextField {...params} variant="outlined" />
+                                <TextField {...params} variant="outlined" label={<Translate content="newWorkSpace.member_holder"/> } />
                             )}
                         />
                         <BackEndFieldError errorMessageKey={this.props.errorMessageKey}
@@ -206,6 +207,7 @@ class NewWorkSpace extends React.Component {
                                       this.props.errorMessageKey === 'CreateProject.Error.Msg.deadlineMustNotBeGreaterThanProjectFinishingDate'
                                           ? "error drop-size" : "drop-size"}
                                       type="date"
+                                      value={this.props.startDate}
                                       onChange={event => this.props.changeHandler(event)}/>
                         <FieldError error={this.props.startDateEmptyErr} field="start_date_key"/>
                     </Col>
@@ -218,6 +220,7 @@ class NewWorkSpace extends React.Component {
                                       className={this.props.endDateEmptyErr ||
                                       this.props.errorMessageKey === 'CreateProject.Error.Msg.deadlineMustNotBeGreaterThanProjectFinishingDate' ? "error" : ""}
                                       type="date"
+                                      value={this.props.endDate !== null ? this.props.endDate : ''}
                                       onChange={event => this.props.changeHandler(event)}/>
                     </Col>
                     <BackEndFieldError errorMessageKey={this.props.errorMessageKey}

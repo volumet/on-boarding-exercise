@@ -10,7 +10,6 @@ import IconButton from '@material-ui/core/IconButton';
 import "../Style/ProjectList.css"
 import {classes} from "istanbul-lib-coverage";
 
-
 export default class ProjectList extends React.Component {
     constructor(props) {
         super(props);
@@ -66,8 +65,7 @@ export default class ProjectList extends React.Component {
                     window.location = "/";
                 })
             .catch(error => {
-                console.log(error.message)
-                // window.location = "/error";
+                window.location = "/error";
             });
     }
 

@@ -15,9 +15,9 @@ class NewProject extends React.Component {
             project_num: '',
             project_name: '',
             customer: '',
-            group: '',
-            group_title: <Translate content="newWorkSpace.default_group_title"/>,
-            member: [],
+            group: <Translate content="newWorkSpace.default_group_title"/>,
+            member: [], //This will contain only visa in order to send to backend
+            employee: [], //This will contain full information of an employee to send to NewWorkSpace
             status: 'NEW',
             start_date: '',
             end_date: '',
@@ -45,7 +45,13 @@ class NewProject extends React.Component {
                     this.setState({
                         project_num: this.props.location.state.proNum,
                         project_name: response.data.name,
-                        customer: response.data.customer
+                        customer: response.data.customer,
+                        group: response.data.group.id,
+                        member: response.data.employees.map(person => person.visa),
+                        employee: response.data.employees.map(person => person.visa + ": " + person.firstName + " " + person.lastName),
+                        status: response.data.status,
+                        start_date: response.data.startDate,
+                        end_date: response.data.endDate
                     })
                 })
                 .catch(error => {
@@ -56,7 +62,6 @@ class NewProject extends React.Component {
 
     handleSubmit = (event) => {
         event.preventDefault();
-        console.log(this.state.status)
         if (this.state.project_num === '' ||
             this.state.project_name === '' ||
             this.state.customer === '' ||
@@ -132,8 +137,7 @@ class NewProject extends React.Component {
 
     handleGroupSelect = (event) => {
         this.setState({
-            group: event,
-            group_title: event
+            group: event
         });
     }
 
@@ -146,7 +150,7 @@ class NewProject extends React.Component {
 
     handleAutoChange = (event, value) => {
         let memList = value.map(person => person.substring(0, person.indexOf(":", 1)))
-        this.setState({member: memList});
+        this.setState({member: memList, employee: value});
     }
 
     render() {
@@ -172,10 +176,14 @@ class NewProject extends React.Component {
                                     projectNum={this.state.project_num}
                                     proName={this.state.project_name}
                                     customer={this.state.customer}
+                                    member={this.state.member}
+                                    employee={this.state.employee}
+                                    startDate={this.state.start_date}
+                                    endDate={this.state.end_date}
                                     changeHandler={this.handleChange}
                                     selectGroupHandler={this.handleGroupSelect}
                                     autoHandler={this.handleAutoChange}
-                                    groupTitle={this.state.group_title}
+                                    groupTitle={this.state.group}
                                     selectStatusHandler={this.handleStatusSelect}
                                     workTitle={this.props.title}
                                     status={this.state.status}
