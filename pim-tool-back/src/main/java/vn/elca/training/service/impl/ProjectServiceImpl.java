@@ -144,7 +144,6 @@ public class ProjectServiceImpl extends AbstractService implements ProjectServic
             validateProjectNumExistForMultiProjects(projectNum);
         }
 
-        //TODO Delete in
         for (Long projectNum : listProjectNumber) {
             projectRepository.deleteOneProject(projectRepository
                     .getNewProjectByNumber(projectNum));
@@ -153,9 +152,8 @@ public class ProjectServiceImpl extends AbstractService implements ProjectServic
 
     @Override
     public Project getAProject(ProjectReqDto projectReqDto) {
-        Project project = projectRepository.getProjectByNumber(projectReqDto.getProjectNumber())
+        return projectRepository.getProjectByNumber(projectReqDto.getProjectNumber())
                 .orElseThrow(() -> new PimBusinessException(ProjectServiceErrorMessage.PROJECT_NUMBER_MUST_BE_EXIST));
-        return project;
     }
 
 
