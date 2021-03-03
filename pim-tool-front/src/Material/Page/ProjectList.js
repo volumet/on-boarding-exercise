@@ -54,8 +54,6 @@ export default class ProjectList extends React.Component {
             })
     }
 
-    componentDidUpdate(prevProps, prevState, snapshot) {
-    }
 
     deleteHandler = (event, projectNumber) => {
         let url = `http://localhost:8080/projects/delete/${projectNumber}`;
