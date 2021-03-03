@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringRunner;
+import org.springframework.transaction.annotation.Transactional;
 import vn.elca.training.PimTestConfiguration;
 import vn.elca.training.model.entity.Employee;
 
@@ -20,6 +21,7 @@ import java.util.List;
 @ActiveProfiles({"dev", "unit-test"})
 @ContextConfiguration(classes = {PimTestConfiguration.class})
 @RunWith(value = SpringRunner.class)
+@Transactional
 public class EmployeeRepositoryTest {
     @PersistenceContext
     private EntityManager em;
