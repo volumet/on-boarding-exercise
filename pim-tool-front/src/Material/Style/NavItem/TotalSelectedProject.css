@@ -6,13 +6,15 @@
 }
 
 .delete-group {
-    display: flex;
-    justify-content: flex-end;
     width: 900px;
 }
 
 .delete-button {
     color: coral;
+}
+
+.announce {
+    padding-top: 20px;
 }
 
 .delete-group-smaller:hover {

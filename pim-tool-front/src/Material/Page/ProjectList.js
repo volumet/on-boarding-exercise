@@ -202,6 +202,7 @@ export default class ProjectList extends React.Component {
                                 <Form.Group as={Row} controlId="formPlaintextEmail">
                                     <Col sm="5">
                                         <Form.Control
+                                            className="search-bar"
                                             name="project_num"
                                             type="text"
                                             value={this.state.filterBar}

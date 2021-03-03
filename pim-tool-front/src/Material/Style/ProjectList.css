@@ -19,6 +19,7 @@ th {
     height: 38px;
     width: 100px;
     margin-left: 25px;
+    margin-top: 10px;
 }
 
 .search {
@@ -30,6 +31,7 @@ th {
     color: #FFFFFF;
     margin-left: 25px;
     margin-right: 25px;
+    margin-top: 10px;
 }
 
 .delete-button {
@@ -39,6 +41,11 @@ th {
 .dropdown-button {
     width: 120px;
     margin-right: 25px;
+    margin-top: 10px;
+}
+
+.search-bar {
+    margin-top: 10px;
 }
 
 .table-text-left {

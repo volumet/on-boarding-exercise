@@ -2,7 +2,7 @@ import React from 'react';
 import Translate from "react-translate-component";
 import counterpart from "counterpart";
 import vi from "../../lang/vi";
-import {Form} from "react-bootstrap";
+import {Col, Form, Row} from "react-bootstrap";
 import axios from "axios";
 import DeleteIcon from '@material-ui/icons/Delete';
 import IconButton from '@material-ui/core/IconButton';
@@ -32,20 +32,25 @@ export default class TotalSelectedProject extends React.Component {
     counting() {
         if (this.props.total > 0) {
             return (
-                <div className="flex-box">
-                    <Form className="form" onSubmit={this.handleSubmit}>
-                        <div className="selected-announce">
-                            {this.props.total} <Translate content={"totalSelectedProject.selected"} />
-                        </div>
-                        <div className="delete-group">
-                            <IconButton aria-label="delete" type="submit" className={classes.margin}
-                                        className="delete-group-smaller">
-                                <Translate component="button" as="input" className="delete-line"
-                                           content={"totalSelectedProject.deleteLine"}/>
-                                <DeleteIcon fontSize="large" className="delete-button"/>
-                            </IconButton>
-                        </div>
-
+                <div>
+                    <Form onSubmit={this.handleSubmit}>
+                        <Row>
+                            <Col xl={7}>
+                                <div className="announce">
+                                    {this.props.total} <Translate content={"totalSelectedProject.selected"} />
+                                </div>
+                            </Col>
+                            <Col xl={3}>
+                                <div className="delete-group">
+                                    <IconButton aria-label="delete" type="submit" className={classes.margin}
+                                                className="delete-group-smaller">
+                                        <Translate as="input" className="delete-line"
+                                                   content={"totalSelectedProject.deleteLine"}/>
+                                        <DeleteIcon fontSize="large" className="delete-button"/>
+                                    </IconButton>
+                                </div>
+                            </Col>
+                        </Row>
                     </Form>
                 </div>
             );
