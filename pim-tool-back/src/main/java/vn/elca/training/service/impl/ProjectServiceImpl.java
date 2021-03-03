@@ -3,6 +3,7 @@ package vn.elca.training.service.impl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Primary;
 import org.springframework.context.annotation.Profile;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import vn.elca.training.model.dto.DeleteProjectMapDto;
@@ -10,6 +11,7 @@ import vn.elca.training.model.dto.ProjectReqDto;
 import vn.elca.training.model.entity.Employee;
 import vn.elca.training.model.entity.Group;
 import vn.elca.training.model.entity.Project;
+import vn.elca.training.model.enums.ProjectStatus;
 import vn.elca.training.model.error.ProjectServiceErrorMessage;
 import vn.elca.training.model.exception.PimBusinessException;
 import vn.elca.training.model.validator.PimValidator;
@@ -127,27 +129,29 @@ public class ProjectServiceImpl extends AbstractService implements ProjectServic
     public void deleteOneProject(Long projectReqDto) {
         Project project = projectRepository.getProjectByNumber(projectReqDto)
                 .orElseThrow(() -> new PimBusinessException(ProjectServiceErrorMessage.PROJECT_NUMBER_MUST_BE_EXIST));
-        projectRepository.deleteOneProject(project);
+        projectRepository.delete(project);
     }
 
-    public void validateProjectNumExistForMultiProjects(Long projectNum) {
+    public void validateProjectNumExistForMultiProjects(int foundSize, int requestSize) {
         //Project number edited exist
-        validator.validateTrue(projectRepository.getNewProjectByNumber(projectNum) != null,
+        validator.validateTrue(foundSize == requestSize,
                 ProjectServiceErrorMessage.PROJECT_NUMBER_MUST_BE_EXIST);
+    }
+
+    public void validateProjectStatusNew(Project project) {
+        validator.validateTrue(project.getStatus().equals(ProjectStatus.NEW),
+                ProjectServiceErrorMessage.PROJECT_STATUS_MUST_BE_NEW);
     }
 
     @Override
     public void deleteMultipleProjects(DeleteProjectMapDto deleteProjectMapDto) {
-        List<Long> listProjectNumber = deleteProjectMapDto.getListProjectNum();
+        List<Project> toBeDeletedList = projectRepository
+                .getProjectByProjectNumberIn(deleteProjectMapDto.getListProjectNum());
+        validateProjectNumExistForMultiProjects(toBeDeletedList.size(),
+                deleteProjectMapDto.getListProjectNum().size());
+        toBeDeletedList.forEach(this::validateProjectStatusNew);
 
-        for (Long projectNum : listProjectNumber) {
-            validateProjectNumExistForMultiProjects(projectNum);
-        }
-
-        for (Long projectNum : listProjectNumber) {
-            projectRepository.deleteOneProject(projectRepository
-                    .getNewProjectByNumber(projectNum));
-        }
+        projectRepository.deleteAll(toBeDeletedList);
     }
 
     @Override

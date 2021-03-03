@@ -36,14 +36,6 @@ public class ProjectRepositoryImpl implements ProjectRepositoryCustom {
     }
 
     @Override
-    public void deleteOneProject(Project project) {
-        for (Employee employee : project.getEmployees()) {
-            employee.getProjects().remove(project);
-        }
-        em.remove(project);
-    }
-
-    @Override
     public Project getNewProjectByNumber(Long proNum) {
         return new JPAQuery<Project>(em)
                 .from(QProject.project)

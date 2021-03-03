@@ -70,6 +70,13 @@ public class Project {
         }
     }
 
+    @PreRemove
+    private void unlinkUponProjectRemove() {
+        for (Employee employee : this.getEmployees()) {
+            employee.getProjects().remove(this);
+        }
+    }
+
     public void clearEmployees() {
         for (Employee employee : this.employees) {
             employee.getProjects().remove(this);

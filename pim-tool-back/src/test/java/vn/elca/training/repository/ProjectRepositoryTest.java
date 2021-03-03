@@ -51,26 +51,6 @@ public class ProjectRepositoryTest {
     }
 
     @Test
-    public void testDeleteOneProject() {
-        Employee employee = new Employee("VNQ", "Vinh", "Nguyen", Date.valueOf(LocalDate.now()));
-        employeeRepository.save(employee);
-        Group group = new Group();
-        group.setLeader(employee);
-        groupRepository.save(group);
-        Project project = new Project(1L, "Project A", "Anh A", ProjectStatus.NEW,
-                LocalDate.now(), LocalDate.now().plusDays(1));
-        project.setGroup(group);
-
-        Set<Employee> employeeSet = new HashSet<>();
-        employeeSet.add(employee);
-
-        project.setEmployees(employeeSet);
-        projectRepository.save(project);
-        projectRepository.deleteOneProject(project);
-        Assert.assertNull(projectRepository.getProjectByNumber(1L));
-    }
-
-    @Test
     public void testGetProjectBySingleNumber() {
         Employee employee = new Employee("VNQ", "Vinh", "Nguyen", Date.valueOf(LocalDate.now()));
         employeeRepository.save(employee);

@@ -8,6 +8,5 @@ import java.util.Optional;
 public interface ProjectRepositoryCustom {
     Optional<Project> getProjectByNumber(Long proNum);
     Long checkProjectNumberExist(Long proNum);
-    void deleteOneProject(Project proNum);
     Project getNewProjectByNumber(Long proNum);
 }
