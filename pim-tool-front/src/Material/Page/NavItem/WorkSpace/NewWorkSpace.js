@@ -123,7 +123,9 @@ class NewWorkSpace extends React.Component {
                             key="down"
                             id="dropdown-button-drop-down"
                             drop="down"
-                            title={this.props.groupTitle}
+                            title={this.props.groupTitle === 'newWorkSpace.default_group_title'
+                                ? <Translate content="newWorkSpace.default_group_title" />
+                                : this.props.groupTitle }
                             name="group"
                             className="drop-size"
                             onSelect={this.props.selectGroupHandler}>

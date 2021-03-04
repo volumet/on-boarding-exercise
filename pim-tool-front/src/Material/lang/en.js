@@ -49,7 +49,10 @@ export default {
         projectNumberMustNotBeDuplicate: 'Project Number Must Not Be Duplicate',
         deadlineMustNotBeGreaterThanProjectFinishingDate: 'Deadline Must Not Be Greater Than Project Finishing Date',
         projectNumberMustBeExist: 'Project Number Must Be Exist',
-        memberMustBeExist: 'Member Must Be Exist'
+        memberMustBeExist: 'Member Must Be Exist',
+        versionMustBeNewest: 'Someone changed this project!',
+        returnToHomePage: 'Back To Home Page',
+        ok: 'OK'
     },
     projectList : {
         projectStatus: {

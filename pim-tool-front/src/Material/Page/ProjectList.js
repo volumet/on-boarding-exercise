@@ -28,11 +28,14 @@ export default class ProjectList extends React.Component {
             sessionStorage.setItem('filterBar', '');
 
         if (sessionStorage.getItem('filterStatus') === null)
-            sessionStorage.setItem('filterStatus', '');
+            sessionStorage.setItem('filterStatus', 'ALL');
 
 
-        let url = 'http://localhost:8080/projects/load';
-        axios.get(url)
+        let url = 'http://localhost:8080/projects/search';
+        axios.post(url, {
+            searchValue: sessionStorage.getItem('filterBar'),
+            statusValue: sessionStorage.getItem('filterStatus')
+        }, null)
             .then((response) => {
                 this.setState({projects: response.data});
             })
@@ -42,16 +45,18 @@ export default class ProjectList extends React.Component {
 
         const prevFilter = sessionStorage.getItem('filterBar');
         const prevStatusTitle = sessionStorage.getItem('filterStatus');
-        if (sessionStorage.getItem('filterStatus') !== '')
+        if (sessionStorage.getItem('filterStatus') !== 'ALL') {
             this.setState({
                 filterBar: prevFilter,
                 filterStatus: prevStatusTitle
             })
-        if (sessionStorage.getItem('filterBar') !== '' && sessionStorage.getItem('filterStatus') === '')
+        }
+        if (sessionStorage.getItem('filterBar') !== '' && sessionStorage.getItem('filterStatus') === 'ALL') {
             this.setState({
                 filterBar: prevFilter,
                 filterStatus: <Translate content="projectList.status_new"/>
             })
+        }
     }
 
 
@@ -157,43 +162,56 @@ export default class ProjectList extends React.Component {
         event.preventDefault();
         sessionStorage.setItem('filterBar', this.state.filterBar);
         sessionStorage.setItem('filterStatus', this.state.filterStatus);
-        this.setState({
-            filterBar: sessionStorage.getItem('filterBar'),
-            filterStatus: sessionStorage.getItem('filterStatus'),
-            checkItems: new Map(),
-            selectedRows: 0
-        })
+
+        let url = 'http://localhost:8080/projects/search';
+        axios.post(url, {
+            search_value : sessionStorage.getItem('filterBar'),
+            status_value : sessionStorage.getItem('filterStatus')
+        }, null)
+            .then((response) => {
+                this.setState({
+                    filterBar: sessionStorage.getItem('filterBar'),
+                    filterStatus: sessionStorage.getItem('filterStatus'),
+                    checkItems: new Map(),
+                    selectedRows: 0,
+                    projects: response.data
+                })
+            })
+            .catch(error => {
+                window.location = "/error";
+            });
     }
 
     handleReset = event => {
         sessionStorage.setItem('filterBar', '');
-        sessionStorage.setItem('filterStatus', '');
-        this.setState({
-            filterBar: '',
-            filterStatus: 'ALL',
-            checkItems: new Map(),
-            selectedRows: 0
-        })
+        sessionStorage.setItem('filterStatus', 'ALL');
+
+        let url = 'http://localhost:8080/projects/search';
+        axios.post(url, {
+            search_value : sessionStorage.getItem('filterBar'),
+            status_value : sessionStorage.getItem('filterStatus')
+        }, null)
+            .then((response) => {
+                this.setState({
+                    filterBar: '',
+                    filterStatus: 'ALL',
+                    checkItems: new Map(),
+                    selectedRows: 0,
+                    projects: response.data
+                })
+            })
+            .catch(error => {
+                window.location = "/error";
+            });
     }
 
     render() {
-        const filteredProjects = this.state.projects.filter(project => {
-            let filterBarVar = sessionStorage.getItem('filterBar');
-            let filterStatusVar = sessionStorage.getItem('filterStatus');
-            if (filterStatusVar === 'ALL') {
-                filterStatusVar = '';
-            }
-
-            return ((project.projectNumber.toString().toLowerCase().includes(filterBarVar.toLowerCase()) ||
-                project.name.toString().toLowerCase().includes(filterBarVar.toLowerCase()) ||
-                project.customer.toString().toLowerCase().includes(filterBarVar.toLowerCase())) &&
-                project.status.toString().toLowerCase().includes(filterStatusVar.toLowerCase()));
-        })
 
 
         return (
             <div className="main">
                 <Container fluid>
+
                     <Form className="form form-me" onSubmit={this.handleSubmit}>
                         <Row>
                             <Col xl={12}>
@@ -256,10 +274,11 @@ export default class ProjectList extends React.Component {
                         </thead>
                         <tbody>
 
-                        {filteredProjects
-                            .sort((project_a, project_b) => (project_a.projectNumber > project_b.projectNumber) ? 1 : -1)
-                            .slice(0, 300)
-                            .map(project => this.projectMapper(project))}
+                        {/*{filteredProjects*/}
+                        {/*    .sort((project_a, project_b) => (project_a.projectNumber > project_b.projectNumber) ? 1 : -1)*/}
+                        {/*    .slice(0, 300)*/}
+                        {/*    .map(project => this.projectMapper(project))}*/}
+                        {this.state.projects.map(project => this.projectMapper(project))}
                         </tbody>
                     </Table>
                     <TotalSelectedProject total={this.state.selectedRows} checkItems={this.state.checkItems}/>

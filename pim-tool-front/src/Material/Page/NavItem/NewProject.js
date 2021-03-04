@@ -7,6 +7,7 @@ import axios from 'axios';
 import Translate from "react-translate-component";
 import FormError from "./FormError";
 import "../../Style/NavItem/NewProject.css"
+import Alert from "../Alert";
 
 class NewProject extends React.Component {
     constructor(props) {
@@ -15,7 +16,7 @@ class NewProject extends React.Component {
             project_num: '',
             project_name: '',
             customer: '',
-            group: <Translate content="newWorkSpace.default_group_title"/>,
+            group: 'newWorkSpace.default_group_title',
             member: [], //This will contain only visa in order to send to backend
             employee: [], //This will contain full information of an employee to send to NewWorkSpace
             status: 'NEW',
@@ -30,13 +31,16 @@ class NewProject extends React.Component {
             startDateEmptyErr: false,
             endDateEmptyErr: false,
             errorCode: 200,
-            errorMessageKey: ''
+            errorMessageKey: '',
+            version: '',
+            errorShow: false
         };
         this.handleSubmit = this.handleSubmit.bind(this);
         this.handleChange = this.handleChange.bind(this);
     }
 
     componentDidMount() {
+        console.log('did mount')
         if (this.props.location) {
             axios.post('http://localhost:8080/projects/singleLoad', {
                 project_num: this.props.location.state.proNum
@@ -51,7 +55,8 @@ class NewProject extends React.Component {
                         employee: response.data.employees.map(person => person.visa + ": " + person.firstName + " " + person.lastName),
                         status: response.data.status,
                         start_date: response.data.startDate,
-                        end_date: response.data.endDate
+                        end_date: response.data.endDate,
+                        version: response.data.version
                     })
                 })
                 .catch(error => {
@@ -62,11 +67,11 @@ class NewProject extends React.Component {
 
     handleSubmit = (event) => {
         event.preventDefault();
+        console.log('submit')
         if (this.state.project_num === '' ||
             this.state.project_name === '' ||
             this.state.customer === '' ||
-            this.state.group === '' ||
-            this.state.group === '' ||
+            this.state.group === 'newWorkSpace.default_group_title' ||
             this.state.status === '' ||
             this.state.start_date === '') {
 
@@ -76,7 +81,7 @@ class NewProject extends React.Component {
             proNumEmpErr = this.state.project_num === '';
             proNameEmpErr = this.state.project_name === '';
             cusEmpErr = this.state.customer === '';
-            groupEmpErr = this.state.group === '';
+            groupEmpErr = this.state.group === 'newWorkSpace.default_group_title';
             startDateEmpErr = this.state.start_date === '';
 
             this.setState({
@@ -86,6 +91,7 @@ class NewProject extends React.Component {
                 customerEmptyErr: cusEmpErr,
                 groupEmptyErr: groupEmpErr,
                 startDateEmptyErr: startDateEmpErr,
+                errorShow: true
             })
         } else {
             let postUrl = 'new'
@@ -109,7 +115,8 @@ class NewProject extends React.Component {
                 member: this.state.member,
                 status: this.state.status,
                 start_date: this.state.start_date,
-                end_date: this.state.end_date
+                end_date: this.state.end_date,
+                version: this.state.version
             }, null)
                 .then(
                     response => {
@@ -153,6 +160,12 @@ class NewProject extends React.Component {
         this.setState({member: memList, employee: value});
     }
 
+    handleErrorClose = event => {
+        this.setState({
+            errorShow: false
+        })
+    }
+
     render() {
         let proNum;
 
@@ -162,7 +175,8 @@ class NewProject extends React.Component {
         return (
             <div className="new-project">
                 <Container fluid>
-                    <FormError valid={this.state.form_valid}/>
+                    <FormError valid={this.state.form_valid} show={this.state.errorShow} handleClose={this.handleErrorClose} />
+                    <Alert errorMessageKey={this.state.errorMessageKey} />
                     <Row>
                         <Col>
                             <Title name=<Translate content={"newProject." + this.props.title} className="label-large"/>/>

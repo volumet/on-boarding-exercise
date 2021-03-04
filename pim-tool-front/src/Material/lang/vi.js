@@ -49,7 +49,10 @@ export default {
         projectNumberMustNotBeDuplicate: 'Mã Dự Án Không Được Trùng',
         deadlineMustNotBeGreaterThanProjectFinishingDate: 'Ngày Bắt Đầu Không Được Lớn Hơn Ngày Kết Thúc',
         projectNumberMustBeExist: 'Mã Dự Án Phải Hợp Lệ',
-        memberMustBeExist: 'Thành Viên Phải Hợp Lệ'
+        memberMustBeExist: 'Thành Viên Phải Hợp Lệ',
+        versionMustBeNewest: 'Ai Đó Vừa Thay Đổi Dự Án Này!',
+        returnToHomePage: 'Quay Trở Về Trang Chủ',
+        ok: 'Đồng ý'
     },
     projectList : {
         projectStatus: {
