@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import vn.elca.training.model.dto.DeleteProjectMapDto;
 import vn.elca.training.model.dto.ProjectReqDto;
+import vn.elca.training.model.dto.SearchDto;
 import vn.elca.training.model.entity.Employee;
 import vn.elca.training.model.entity.Group;
 import vn.elca.training.model.entity.Project;
@@ -20,7 +21,10 @@ import vn.elca.training.repository.GroupRepository;
 import vn.elca.training.repository.ProjectRepository;
 import vn.elca.training.service.ProjectService;
 
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
 import java.util.*;
+import java.util.stream.Collectors;
 
 /**
  * @author vlp
@@ -39,10 +43,12 @@ public class ProjectServiceImpl extends AbstractService implements ProjectServic
     private GroupRepository groupRepository;
     @Autowired
     private PimValidator validator;
+    @PersistenceContext
+    private EntityManager em;
 
     @Override
     public List<Project> getListProject() {
-        return projectRepository.findAll();
+        return projectRepository.findAll().stream().sorted(Comparator.comparing(Project::getProjectNumber)).collect(Collectors.toList());
     }
 
     public void validateNotNull(ProjectReqDto projectReqDto) {
@@ -113,6 +119,7 @@ public class ProjectServiceImpl extends AbstractService implements ProjectServic
 
         Project project = projectRepository.getProjectByNumber(projectReqDto.getProjectNumber())
                 .orElseThrow(() -> new PimBusinessException(ProjectServiceErrorMessage.PROJECT_NUMBER_MUST_BE_EXIST));
+        em.detach(project);
         mapper.projectReqDtoToProjectForEdit(project, projectReqDto);
 
         Group group = groupRepository.getOne(projectReqDto.getGroupId());
@@ -122,6 +129,7 @@ public class ProjectServiceImpl extends AbstractService implements ProjectServic
         project.clearEmployees();
         project.setEmployees(new HashSet<>(employees));
 
+        project.setVersion(projectReqDto.getVersion());
         projectRepository.save(project);
     }
 
@@ -158,5 +166,13 @@ public class ProjectServiceImpl extends AbstractService implements ProjectServic
     public Project getAProject(ProjectReqDto projectReqDto) {
         return projectRepository.getProjectByNumber(projectReqDto.getProjectNumber())
                 .orElseThrow(() -> new PimBusinessException(ProjectServiceErrorMessage.PROJECT_NUMBER_MUST_BE_EXIST));
+    }
+
+    @Override
+    public List<Project> searchListProject(SearchDto searchDto) {
+        return projectRepository.searchProject(searchDto)
+                .stream()
+                .sorted(Comparator.comparing(Project::getProjectNumber))
+                .collect(Collectors.toList());
     }
 }

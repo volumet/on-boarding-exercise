@@ -36,4 +36,7 @@ public class ProjectReqDto {
 
     @JsonProperty("end_date")
     private LocalDate endDate;
+
+    @JsonProperty("version")
+    private Long version;
 }

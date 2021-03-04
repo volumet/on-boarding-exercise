@@ -28,8 +28,11 @@ public enum ProjectServiceErrorMessage implements PimErrorMessageInterface {
             HttpStatus.NOT_FOUND),
     PROJECT_STATUS_MUST_BE_NEW("BE-01-06",
             "CreateProject.Error.Msg.projectStatusMustBeNew",
+            HttpStatus.BAD_REQUEST),
+    VERSION_MUST_BE_NEWEST("BE-01-07",
+            "CreateProject.Error.Msg.versionMustBeNewest",
             HttpStatus.BAD_REQUEST);
-    private String errorCode;
-    private String errorMessageKey;
-    private HttpStatus statusCode;
+    private final String errorCode;
+    private final String errorMessageKey;
+    private final HttpStatus statusCode;
 }

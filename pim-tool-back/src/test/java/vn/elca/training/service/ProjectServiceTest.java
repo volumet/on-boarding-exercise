@@ -51,7 +51,7 @@ public class ProjectServiceTest {
                 Arrays.asList("VNQ"),
                 ProjectStatus.NEW,
                 LocalDate.now(),
-                LocalDate.now().plusDays(1));
+                LocalDate.now().plusDays(1), 1L);
 
         projectService.createNewProject(projectReqDto);
         Assert.assertTrue(!projectRepository.findAll().isEmpty());
@@ -71,7 +71,7 @@ public class ProjectServiceTest {
                 Arrays.asList("VNQ"),
                 ProjectStatus.NEW,
                 LocalDate.now(),
-                LocalDate.now().plusDays(1));
+                LocalDate.now().plusDays(1), 1L);
 
         projectService.createNewProject(projectReqDto);
     }
@@ -90,7 +90,7 @@ public class ProjectServiceTest {
                 Arrays.asList("InvalidMember"),
                 ProjectStatus.NEW,
                 LocalDate.now(),
-                LocalDate.now().plusDays(1));
+                LocalDate.now().plusDays(1), 1L);
 
         projectService.createNewProject(projectReqDto);
     }
@@ -109,7 +109,7 @@ public class ProjectServiceTest {
                 Arrays.asList("VNQ"),
                 ProjectStatus.NEW,
                 LocalDate.now(),
-                LocalDate.now().plusDays(1));
+                LocalDate.now().plusDays(1), 1L);
 
         projectService.createNewProject(projectReqDto);
 
@@ -119,7 +119,7 @@ public class ProjectServiceTest {
                 Arrays.asList("VNQ"),
                 ProjectStatus.NEW,
                 LocalDate.now(),
-                LocalDate.now().plusDays(1));
+                LocalDate.now().plusDays(1), 1L);
 
         projectService.createNewProject(projectReqDto);
     }
@@ -138,7 +138,7 @@ public class ProjectServiceTest {
                 Arrays.asList("VNQ"),
                 ProjectStatus.NEW,
                 LocalDate.now(),
-                LocalDate.now().minusDays(1));
+                LocalDate.now().minusDays(1), 1L);
 
         projectService.createNewProject(projectReqDto);
     }
@@ -157,7 +157,7 @@ public class ProjectServiceTest {
                 Arrays.asList("VNQ"),
                 ProjectStatus.NEW,
                 LocalDate.now(),
-                LocalDate.now().plusDays(1));
+                LocalDate.now().plusDays(1), 1L);
 
         projectService.createNewProject(projectReqDto);
 
@@ -167,7 +167,7 @@ public class ProjectServiceTest {
                 Arrays.asList("VNQ"),
                 ProjectStatus.NEW,
                 LocalDate.now(),
-                LocalDate.now().plusDays(1));
+                LocalDate.now().plusDays(1), 1L);
         projectService.editProject(projectReqDto);
         Assert.assertEquals(projectRepository.getOne(1L).getName(), "Project 2");
     }
@@ -186,7 +186,7 @@ public class ProjectServiceTest {
                 Arrays.asList("VNQ"),
                 ProjectStatus.NEW,
                 LocalDate.now(),
-                LocalDate.now().plusDays(1));
+                LocalDate.now().plusDays(1), 1L);
 
         projectService.createNewProject(projectReqDto);
 
@@ -196,7 +196,7 @@ public class ProjectServiceTest {
                 Arrays.asList("VNQ"),
                 ProjectStatus.NEW,
                 LocalDate.now(),
-                LocalDate.now().plusDays(1));
+                LocalDate.now().plusDays(1), 1L);
         projectService.editProject(projectReqDto);
     }
 
@@ -214,7 +214,7 @@ public class ProjectServiceTest {
                 Arrays.asList("VNQ"),
                 ProjectStatus.NEW,
                 LocalDate.now(),
-                LocalDate.now().plusDays(1));
+                LocalDate.now().plusDays(1), 1L);
 
         projectService.createNewProject(projectReqDto);
 
@@ -237,7 +237,7 @@ public class ProjectServiceTest {
                 Arrays.asList("VNQ"),
                 ProjectStatus.NEW,
                 LocalDate.now(),
-                LocalDate.now().plusDays(1));
+                LocalDate.now().plusDays(1), 1L);
 
         projectService.createNewProject(projectReqDto);
 
@@ -247,7 +247,7 @@ public class ProjectServiceTest {
                 Arrays.asList("VNQ"),
                 ProjectStatus.NEW,
                 LocalDate.now(),
-                LocalDate.now().plusDays(1));
+                LocalDate.now().plusDays(1), 1L);
 
         projectService.createNewProject(projectReqDto);
 

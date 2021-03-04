@@ -5,6 +5,7 @@ import org.springframework.web.bind.annotation.*;
 import vn.elca.training.model.dto.DeleteProjectMapDto;
 import vn.elca.training.model.dto.ProjectDto;
 import vn.elca.training.model.dto.ProjectReqDto;
+import vn.elca.training.model.dto.SearchDto;
 import vn.elca.training.model.entity.Project;
 import vn.elca.training.service.ProjectService;
 
@@ -41,6 +42,7 @@ public class ProjectController extends AbstractApplicationController {
     public List<ProjectDto> load() {
         return projectService.getListProject()
                 .stream()
+                .limit(300)
                 .map(mapper::projectToProjectDto)
                 .collect(Collectors.toList());
     }
@@ -60,6 +62,15 @@ public class ProjectController extends AbstractApplicationController {
     @PostMapping("/singleLoad")
     public Project singleLoad(@RequestBody ProjectReqDto projectReqDto) {
         return projectService.getAProject(projectReqDto);
+    }
+
+    @PostMapping("/search")
+    public List<ProjectDto> search(@RequestBody SearchDto searchDto) {
+        return projectService.searchListProject(searchDto)
+                .stream()
+                .limit(300)
+                .map(mapper::projectToProjectDto)
+                .collect(Collectors.toList());
     }
 }
 
